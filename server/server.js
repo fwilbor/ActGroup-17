@@ -14,6 +14,8 @@ import dotenv from "dotenv";
 //express app
 const app = express()
 
+const PORT = process.env.PORT || 3000
+
 //middleware
 app.use((req, res, next) => {
     console.log(req.path, req.method)
@@ -25,7 +27,7 @@ app.get("/", (req, res)=> {
     res.json({msg: "Welcome to KidzSnap Backend Database Support"});
 })
 
-//listen for requests
+//listen for requests *make change to .env file*
 app.listen(3000, () => {
     console.log("listening on port 3000")
 })
