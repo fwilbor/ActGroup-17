@@ -3,6 +3,9 @@ import bodyParser from "body-parser";
 import mongoose from "mongoose";
 import cors from "cors";
 import dotenv from "dotenv";
+import {createRequire} from "module";
+
+const require = createRequire(import.meta.url);
 
 
 // import { createRequire } from 'module';
@@ -16,9 +19,9 @@ dotenv.config()
 
 // ***Old method const express = require("express")*****
 
+// const messageRoutes = require("./routes/messages.js")
 
 
-// const messageRoutes = require("./routes/messages")
 
 
 //express app
