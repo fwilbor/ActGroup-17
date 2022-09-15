@@ -4,12 +4,13 @@ import mongoose from "mongoose";
 import cors from "cors";
 import dotenv from "dotenv";
 
+
 // import { createRequire } from 'module';
 
 
 //(**NOTE hide environment variable in .env file) require("dotenv").config()
 
-dotenv.config();
+dotenv.config()
 
 
 
@@ -23,7 +24,7 @@ dotenv.config();
 //express app
 const app = express()
 
-const PORT = process.env.PORT
+const PORT = process.env.PORT 
 
 //middleware
 // app.use(express.json())
@@ -40,7 +41,7 @@ app.get("/", (req, res)=> {
 // app.use("/api/messages", messageRoutes)
 
 //listen for requests *make change to .env file*
-app.listen(3000, () => {
+app.listen(PORT, () => {
     console.log("listening on port " , process.env.PORT)
 })
 
