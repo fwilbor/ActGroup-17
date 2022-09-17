@@ -3,15 +3,9 @@ import bodyParser from "body-parser";
 import mongoose from "mongoose";
 import cors from "cors";
 import dotenv from "dotenv";
-import {createRequire} from "module";
 
-const require = createRequire(import.meta.url);
+import router from "./routes/messages";
 
-
-// import { createRequire } from 'module';
-
-
-//(**NOTE hide environment variable in .env file) require("dotenv").config()
 
 dotenv.config()
 
@@ -19,9 +13,9 @@ dotenv.config()
 
 // ***Old method const express = require("express")*****
 
-// const messageRoutes = require("./routes/messages.js")
 
 
+const CONNECTION_URL = process.env.MONGO_URI
 
 
 //express app
@@ -29,8 +23,15 @@ const app = express()
 
 const PORT = process.env.PORT 
 
+//connect to DB - using MongoDB-Atlas
+mongoose.connect(process.env.MONGO_URI, {useNewUrlParser: true, useUnifiedTopology: true})
+.then(() => app.listen(PORT, () => console.log(`Server running on port: ${PORT}`)))
+.catch((error) => console.log(error.message));
+
+// mongoose.set("useFindAndModify", false); FIND FIX 
+
 //middleware
-// app.use(express.json())
+app.use(express.json())
 app.use((req, res, next) => {
     console.log(req.path, req.method)
     next()
@@ -41,12 +42,13 @@ app.get("/", (req, res)=> {
     res.json({msg: "Welcome to KidzSnap Backend Database Support"});
 })
 
-// app.use("/api/messages", messageRoutes)
+app.use("/api/messages", router)
+
 
 //listen for requests *make change to .env file*
-app.listen(PORT, () => {
-    console.log("listening on port " , process.env.PORT)
-})
+// app.listen(PORT, () => {
+//     console.log("listening on port " , process.env.PORT)
+// })
 
 
 
