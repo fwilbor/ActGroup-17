@@ -4,9 +4,13 @@ import mongoose from "mongoose";
 // get all messages
 const getMessages = async (req, res) => {
 
-    const messages = await PostMessage.find({}).sort({createdAt: -1})
-
-    res.status(200).json(messages)
+    try{
+        const messages = await PostMessage.find({}).sort({createdAt: -1})
+        res.status(200).json(messages)
+} catch (error){
+    res.status(404).json({ message: error.message});
+}
+    
 }
 
 

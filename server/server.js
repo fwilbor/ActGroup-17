@@ -13,6 +13,7 @@ dotenv.config()
 
 // ***Old method const express = require("express")*****
 
+// const messageRoutes = require("./routes/messages.js")
 
 
 const CONNECTION_URL = process.env.MONGO_URI
@@ -23,7 +24,7 @@ const app = express()
 
 const PORT = process.env.PORT 
 
-//connect to DB - using MongoDB-Atlas
+
 mongoose.connect(process.env.MONGO_URI, {useNewUrlParser: true, useUnifiedTopology: true})
 .then(() => app.listen(PORT, () => console.log(`Server running on port: ${PORT}`)))
 .catch((error) => console.log(error.message));
