@@ -1,43 +1,52 @@
+<<<<<<< HEAD
 import express from 'express';
+import { createMessage, getMessages, getMessage, deleteMessage, updateMessage } from '../Controllers/MessageController.js';
 import PostMessage from "../models/Messages.js";
+
 
 const router = express.Router()
 
 // GET all messages
-router.get('/', (req, res) => {
-    //res.json({mssg: 'GET all messages'})
-    res.send('THIS WORKS');
-  });
+router.get('/', getMessages)
 
 // GET a single message
-router.get('/:id', (req, res) => {
-  res.json({mssg: 'GET a single message'})
-})
+router.get('/:id', getMessage)
 
 // POST a new message
-router.post('/', async (req, res) => {
-  const { title, message, creator } = req.body;
-  //const { title, message, creator } = req.body;
-
-  //const newPostMessage = new PostMessage({ title, message, creator })
-
-  try {
-    const newmessage = await PostMessage.create({title, message, creator})
-    res.status(200).json(newmessage)
-  } catch (error) {
-    res.status(400).json({error: error.message})
-
-  }
-})
+router.post('/', createMessage)
 
 // DELETE a message
-router.delete('/:id', (req, res) => {
-  res.json({mssg: 'DELETE a message'})
-})
+router.delete('/:id', deleteMessage)
 
 // UPDATE a message
-router.patch('/:id', (req, res) => {
-  res.json({mssg: 'UPDATE a message'})
-})
+router.patch('/:id', updateMessage)
   
 export default router;
+=======
+import express from "express";
+import {createMessage, getMessage, getMessages, deleteMessage, updateMessage} from "../controllers/messageController";
+
+const router = express.Router()
+
+import PostMessage from "../models/messageModel"
+
+// GET all messages
+router.get("/", getMessages)
+
+// GET a single message
+router.get("/:id", getMessage)
+
+
+// POST a new message
+    router.post("/", createMessage)
+    
+    
+// DELETE a message
+router.delete("/:id", deleteMessage)
+
+
+// UPDATE a message
+router.patch("/:id", updateMessage)
+
+export default router
+>>>>>>> franklinbranch
