@@ -17,7 +17,7 @@ const MessageForm = () => {
       body: JSON.stringify(message),
       headers: {
         'Content-Type': 'application/json'
-     }
+      }
     })
     const json = await response.json()
 
