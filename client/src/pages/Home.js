@@ -3,6 +3,7 @@ import { useEffect, useState} from "react"
 
 // components
 import MessageDetails from "../components/MessageDetails"
+import MessageForm from "../components/MessageForm"
 
 const Home = () => {
 
@@ -33,7 +34,10 @@ const Home = () => {
             ))}
 
            </div>
+           <MessageForm />
         </div>
+
+
     )
 }
 
