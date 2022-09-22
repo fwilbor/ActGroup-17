@@ -4,6 +4,10 @@
 /node_modules
 /.pnp
 .pnp.js
+<<<<<<< HEAD
+=======
+node_modules
+>>>>>>> franklinbranch
 
 # testing
 /coverage
@@ -17,6 +21,10 @@
 .env.development.local
 .env.test.local
 .env.production.local
+<<<<<<< HEAD
+=======
+.env
+>>>>>>> franklinbranch
 
 npm-debug.log*
 yarn-debug.log*
