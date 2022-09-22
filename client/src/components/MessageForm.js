@@ -8,6 +8,7 @@ const MessageForm = () => {
     const handleSubmit = async (e) => {
         e.preventDefault()
 
+        // eslint-disable-next-line
         const message = {title, message, creator}
 
         const response = await fetch("/api/messages", {
@@ -70,6 +71,7 @@ const MessageForm = () => {
         />
 
         <button>Add Message</button>
+        {error && <div className="error">{error}</div>}
 
        </form>
     )
