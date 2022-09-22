@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 import React from "react";
 
 const App = () => {
@@ -9,8 +9,7 @@ const App = () => {
     );
 }
 
-export default App;
-=======
+
 import { BrowserRouter, Routes, Route } from "react-router-dom"
 
 
@@ -51,4 +50,4 @@ function App() {
 }
 
 export default App;
->>>>>>> franklinbranch
+
