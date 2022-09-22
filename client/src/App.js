@@ -1,18 +1,4 @@
-
-import React from "react";
-
-const App = () => {
-    return (
-    <div>
-        <h1>"Cool React Components Go Here!!!"</h1>
-    </div>
-    );
-}
-
-
-import { BrowserRouter, Routes, Route } from "react-router-dom"
-
-
+ import { BrowserRouter, Routes, Route } from "react-router-dom"
 
 // pages & components
 
@@ -32,9 +18,7 @@ function App() {
             path = "/"
             element = {<Home />}
       
-            
-            
-            />
+             />
 
           </Routes>
 
