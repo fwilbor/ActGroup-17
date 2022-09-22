@@ -23,7 +23,7 @@ const Home = () => {
 
         fetchMessages()
 
-    }, [])
+    }, [messages])
     
     return (
         <div className="home">

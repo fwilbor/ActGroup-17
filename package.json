@@ -5,12 +5,7 @@
   "main": "server.js",
   "type": "module",
   "scripts": {
-<<<<<<< HEAD
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js",
-=======
     "start": "nodemon server.js",
->>>>>>> franklinbranch
     "dev": "nodemon server.js"
   },
   "repository": {

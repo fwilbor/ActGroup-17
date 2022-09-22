@@ -9,11 +9,11 @@ const MessageForm = () => {
         e.preventDefault()
 
         // eslint-disable-next-line
-        var message = {title, message, creator}
+        var messages = {title, message, creator}
 
         const response = await fetch("/api/messages", {
             method: "POST",
-            body: JSON.stringify(message),
+            body: JSON.stringify(messages),
             headers: {
                 "Content-Type": "application/json"
             }

@@ -97,3 +97,67 @@ div.error {
   border-radius: 4px;
   margin: 20px 0;
 }
+
+.main {
+  width: 390px;
+  height: 809px;
+  flex-grow: 0;
+  margin: 22px 0 0;
+  padding: 225px 42px 35px 46px;
+  border-radius: 12px;
+  background-color: #fff;
+}
+
+.Kidzsnap-Logo-1 {
+  width: 233px;
+  height: 233px;
+  margin: 0 36px 280px 33px;
+}
+
+.login-button {
+  width: 128px;
+  height: 36px;
+  margin: 280px 46px 0 0;
+  padding: 6px 30px 6px 39px;
+  border-radius: 20px;
+  background-color: #fff;
+}
+
+.Log-In {
+  width: 59px;
+  height: 24px;
+  font-family: Inter;
+  font-size: 20px;
+  font-weight: 500;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  text-align: left;
+  color: #000;
+}
+
+.sign-up-button {
+  width: 128px;
+  height: 36px;
+  margin: 280px 0 0 46px;
+  padding: 6px 26px 6px 27px;
+  border-radius: 20px;
+  background-color: #3d64c3;
+
+}
+
+.Sign-Up {
+  width: 75px;
+  height: 24px;
+  font-family: Inter;
+  font-size: 20px;
+  font-weight: 500;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  text-align: left;
+  color: #fff;
+}
+
