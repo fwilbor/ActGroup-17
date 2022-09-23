@@ -54,6 +54,7 @@ const MessageForm = () => {
         type="text"
         onChange={(e) => setTitle(e.target.value)}
         value={title}
+        required
         />
 
 <label>Message: </label>
@@ -61,6 +62,7 @@ const MessageForm = () => {
         type="text"
         onChange={(e) => setMessage(e.target.value)}
         value={message}
+        required
         />
 
 <label>Message Creator: </label>
@@ -68,6 +70,7 @@ const MessageForm = () => {
         type="text"
         onChange={(e) => setCreator(e.target.value)}
         value={creator}
+        required
         />
 
         <button>Add Message</button>
