@@ -1,0 +1,163 @@
+/* google font */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;800&family=VT323&display=swap');
+
+/* layout */
+:root {
+  --primary: #1aac83;
+  --error: #e7195a;
+}
+body {
+  background: #f1f1f1;
+  margin: 0;
+  font-family: "Poppins";
+}
+header {
+  background: #fff;
+}
+header .container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+header a {
+  color: #333;
+  text-decoration: none;
+}
+.pages{
+  max-width: 1400px;
+  padding: 20px;
+  margin: 0 auto;
+}
+
+/* homepage */
+.home {
+  display: grid;
+  grid-template-columns: 3fr 1fr;
+  gap: 100px;
+}
+.message-details {
+  background: #fff;
+  border-radius: 4px;
+  margin: 20px auto;
+  padding: 20px;
+  position: relative;
+  box-shadow: 2px 2px 5px rgba(0,0,0,0.05);
+}
+.message-details h4 {
+  margin: 0 0 10px 0;
+  font-size: 1.2em;
+  color: var(--primary);
+}
+.message-details p {
+  margin: 0;
+  font-size: 0.9em;
+  color: #555;
+}
+.message-details span {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  cursor: pointer;
+  background: #f1f1f1;
+  padding: 6px;
+  border-radius: 50%;
+  color: #333;
+}
+
+/* new workout form */
+label, input {
+  display: block;
+}
+input {
+  padding: 10px;
+  margin-top: 10px;
+  margin-bottom: 20px;
+  width: 100%;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+form button {
+  background: var(--primary);
+  border: 0;
+  color: #fff;
+  padding: 10px;
+  font-family: "Poppins";
+  border-radius: 4px;
+  cursor: pointer;
+}
+div.error {
+  padding: 10px;
+  background: #ffefef;
+  border: 1px solid var(--error);
+  color: var(--error);
+  border-radius: 4px;
+  margin: 20px 0;
+}
+
+.main {
+  width: 390px;
+  height: 809px;
+  flex-grow: 0;
+  margin: 22px 0 0;
+  padding: 225px 42px 35px 46px;
+  border-radius: 12px;
+  background-color: #fff;
+}
+
+.Kidzsnap-Logo-1 {
+  width: 233px;
+  height: 233px;
+  margin: 0 36px 280px 33px;
+}
+
+.login-button {
+  width: 128px;
+  height: 36px;
+  margin: 280px 46px 0 0;
+  padding: 6px 30px 6px 39px;
+  border-radius: 20px;
+  background-color: #fff;
+}
+
+.Log-In {
+  width: 59px;
+  height: 24px;
+  font-family: Inter;
+  font-size: 20px;
+  font-weight: 500;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  text-align: left;
+  color: #000;
+}
+
+.sign-up-button {
+  width: 128px;
+  height: 36px;
+  margin: 280px 0 0 46px;
+  padding: 6px 26px 6px 27px;
+  border-radius: 20px;
+  background-color: #3d64c3;
+
+}
+
+.Sign-Up {
+  width: 75px;
+  height: 24px;
+  font-family: Inter;
+  font-size: 20px;
+  font-weight: 500;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  text-align: left;
+  color: #fff;
+}
+
