@@ -26,7 +26,7 @@ const Home = () => {
         }
 
         fetchMessages()
-
+// eslint-disable-next-line
     }, [])
     
     return (
