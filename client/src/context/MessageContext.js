@@ -12,7 +12,11 @@ switch(action.type) {
         return {
             messages: [action.payload, ...state.messages]
         }  
-    
+    case "DELETE_MESSAGE":
+        return {
+            messages: state.messages.filter((m) => m._id !== action.payload._id)
+        }
+        
         default:
             return state
         
