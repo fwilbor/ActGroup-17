@@ -1,5 +1,8 @@
 // fetching data from back-end api to front-end using useEffect()
-import { useEffect, useState} from "react"
+import { useEffect } from "react"
+
+// importing useContext to keep global state of Messages
+import { useMessagesContext } from "../hooks/useMessagesContext"
 
 // components
 import MessageDetails from "../components/MessageDetails"
@@ -7,7 +10,8 @@ import MessageForm from "../components/MessageForm"
 
 const Home = () => {
 
-    const [messages, setMessages] = useState(null)
+    const {messages, dispatch} = useMessagesContext()
+
 
     // useEffect hook only fires once and returns object 
     useEffect(() => {
@@ -16,14 +20,14 @@ const Home = () => {
             const json = await response.json()
 
             if (response.ok) {
-                setMessages(json)
+                dispatch({type:"SET_MESSAGES", payload: json})
 
             }
         }
 
         fetchMessages()
 
-    }, [messages])
+    }, [])
     
     return (
         <div className="home">
