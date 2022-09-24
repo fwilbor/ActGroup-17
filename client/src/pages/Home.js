@@ -26,8 +26,8 @@ const Home = () => {
         }
 
         fetchMessages()
-// eslint-disable-next-line
-    }, [])
+
+    }, [dispatch])
     
     return (
         <div className="home">
