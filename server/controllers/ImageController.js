@@ -4,11 +4,11 @@ import PostImage from "../models/Images"
 
 // Step 4 - set up EJS
   
-app.use(bodyParser.urlencoded({ extended: false }))
-app.use(bodyParser.json())
+//app.use(bodyParser.urlencoded({ extended: false }))
+//app.use(bodyParser.json())
   
 // Set EJS as templating engine 
-app.set("view engine", "ejs");
+//app.set("view engine", "ejs");
 
 // Step 5 - set up multer for storing uploaded files
   
