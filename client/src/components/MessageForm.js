@@ -54,8 +54,9 @@ const MessageForm = () => {
         const data_array = data.data
         const children = data_array.values();
         for (const name of children) {
-          console.log(name.username)
-          console.log(name.avatarImage)
+          //console.log(name.username)
+          //console.log(name.avatarImage)
+          //console.log(name)
         }
 
 

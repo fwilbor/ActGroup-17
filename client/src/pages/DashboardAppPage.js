@@ -7,7 +7,8 @@ import { useTheme } from '@mui/material/styles';
 import { Grid, Container, Typography } from '@mui/material';
 import { getAllChildren, getChildMessages, getSessionTime, getAllFriends } from 'src/utils/APIRoutes';
 import MessageForm from '../components/MessageForm';
-import GetAllMsgs from "../components/GetAllMsgs.js"
+import GetPieChart from "../components/GetPieChart.js"
+import GetRecentMessages from "../components/GetRecentMessages.js"
 import axios from 'axios';
 import React from 'react';
 import { toast } from "react-toastify";
@@ -28,11 +29,10 @@ export default function DashboardAppPage() {
   const navigate = useNavigate();
   const [currentUser, setCurrentUser] = useState("");
   var [childUser, setChildUser] = useState("");
-  const [CurID, setCurID] = useState("");
-  const [CurUser, setCurUser] = useState(0);
   const [children, setChildren] = useState([]);
   const [selectedUser, setSelectedUser] = React.useState(null);
-
+  const [childId, setChildId] = useState("");
+  
   const toastOptions = {
     position: "top-center",
     autoClose: 8000,
@@ -44,7 +44,10 @@ export default function DashboardAppPage() {
   const parent_id = JSON.parse(
     localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)
   )._id;
-  console.log(parent_id)
+  //console.log(parent_id)
+  const parent_username = JSON.parse(
+    localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)
+  ).username;
 
   const handleClick = async (user) => {
     setSelectedUser(user);
@@ -58,6 +61,7 @@ export default function DashboardAppPage() {
     }
 
     // Get all child messages
+    setChildId(user._id);
     const response = await fetch(`${getChildMessages.replace(':id', user._id)}`);
     const messages = await response.json();
     if (Array.isArray(messages) && messages.length === 0) {
@@ -68,50 +72,32 @@ export default function DashboardAppPage() {
     console.log(messages);
 
     // Get child session time
+    
+    //console.log(user);
     const session = await fetch(`${getSessionTime.replace(':id', user._id)}`);
     const data = await session.json();
     const sessionTimeInSeconds = data.sessionTime;
-
     const days = Math.floor(sessionTimeInSeconds / (24 * 3600));
     const hours = Math.floor((sessionTimeInSeconds % (24 * 3600)) / 3600);
     const minutes = Math.floor((sessionTimeInSeconds % 3600) / 60);
     const seconds = Math.floor(sessionTimeInSeconds % 60);
-
     const formattedSessionTime = `${days}d ${hours}h ${minutes}m ${seconds}s`;
-
-    console.log(formattedSessionTime);
-
-            
+    //console.log(formattedSessionTime);
   };
 
   useEffect(() => {
-  const fetchData=async()=>{
-    const parent_data = await JSON.parse(
-      localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)
-    );
-    setCurID(parent_data._id)
-  setCurUser(parent_data.username)
-  setChildUser(parent_data.parentChildLink)
-    const parentLink = parent_data._id
-        const data = await axios.get(`${getAllChildren}/${parentLink}`);
-        const data_array = data.data
-        setChildren(Array.from(data_array));
-        console.log(parentLink)
-  }
-   
-  
-   
-
-fetchData();
-}, []);
-
-//console.log(currentUser)
-//console.log(childUser)
-
-//console.log(currentUser)
-
-//const cfrs = currentUser.friends
-//console.log(cfrs) 
+    const fetchData = async () => {
+      const parent_data = await JSON.parse(
+        localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)
+      );
+      setChildUser(parent_data.parentChildLink)
+      const parentLink = parent_data._id
+      const data = await axios.get(`${getAllChildren}/${parentLink}`);
+      const data_array = data.data
+      setChildren(Array.from(data_array));
+    }
+    fetchData();
+  }, []);
 
   const theme = useTheme();
   return (
@@ -119,31 +105,25 @@ fetchData();
       <Helmet>
         <title> Dashboard | KidsSnap.com </title>
       </Helmet>
-
       <Container maxWidth="xl">
         <Typography variant="h4" sx={{ mb: 5 }}>
-        Hi {CurUser}, Welcome back <br />
-        {
-        //Hi {CurUser.toUpperCase()}, Welcome back<br />
-        }
-          { CurID }<br />
-          
+          Hi {parent_username.toUpperCase()}, Welcome back<br />
+          {/* { parent_id }<br /> */}
         </Typography>
+
         <Grid container spacing={3}>
-        {children.map((child, index) => (
-  
-  <React.Fragment key={index}>
-    
-      <Grid item xs={12} sm={6} md={3}>
-        <AppWidgetSummary username={child.username} avatarimage={`data:image/svg+xml;base64,${child.avatarImage}`} onClick={() => handleClick(child)} />
-      </Grid>
-    
-    {index !== children.length - 1 && <br />}
-  </React.Fragment>
-))}
-
-
-  
+          {children.map((child, index) => (
+            <React.Fragment key={index}>
+              <Grid item xs={12} sm={6} md={3}>
+                <AppWidgetSummary username={child.username} avatarimage={`data:image/svg+xml;base64,${child.avatarImage}`} onClick={() => handleClick(child)} />
+              </Grid>
+              {index !== children.length - 1 && <br />}
+            </React.Fragment>
+            
+          ))}
+          
+          <GetRecentMessages p_id={parent_id} c_id={childId} />
+          <GetPieChart p_id={parent_id} c_id={childId} />
           
           <Grid item xs={12} md={6} lg={8}>
             <AppWebsiteVisits
@@ -185,8 +165,8 @@ fetchData();
             />
           </Grid>
           
-          { GetAllMsgs('currentUser._id') }
           
+
           <Grid item xs={12} md={6} lg={8}>
             <AppConversionRates
               title="Friends List"
@@ -206,25 +186,13 @@ fetchData();
             />
           </Grid>
 
-          <Grid item xs={12} md={6} lg={8}>
-            <AppNewsUpdate
-              title="Recent Activity"
-              list={[...Array(5)].map((_, index) => ({
-                id: faker.datatype.uuid(),
-                title: faker.name.jobTitle(),
-                description: faker.name.jobTitle(),
-                image: `/assets/images/covers/cover_${index + 1}.jpg`,
-                postedAt: faker.date.recent(),
-              }))}
-            />
-            </Grid>
-            </Grid>    
-        <div>
-        <MessageForm />
-        </div>
           
 
-        
+
+        </Grid>
+        <div>
+          <MessageForm />
+        </div>
       </Container>
     </>
   );

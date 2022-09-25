@@ -67,8 +67,8 @@ export default function AppWidgetSummary({ title, username, avatarimage, onClick
       <Typography variant="subtitle2" sx={{ opacity: 0.72 }}>
         {title}
       </Typography>
-      <button style={{ width: '50px', height: '25px' }} onClick={onClick}>
-      Click me
+      <button style={{ width: '75px', height: '35px' }} onClick={onClick}>
+      Details
     </button>
     </Card>
   );
