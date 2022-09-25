@@ -3,6 +3,7 @@ import bodyParser from "body-parser";
 import mongoose from "mongoose";
 import cors from "cors";
 import dotenv from "dotenv";
+import userRouter from "./routes/uploadimage";
 
 import router from "./routes/messages";
 
@@ -44,6 +45,7 @@ app.get("/", (req, res)=> {
 })
 
 app.use("/api/messages", router)
+app.use("/api/images", userRouter)
 
 
 //listen for requests *make change to .env file*
