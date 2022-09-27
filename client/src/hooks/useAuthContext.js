@@ -1,11 +1,11 @@
-import { useAuthContext } from "../context/MessageContext";
+import { AuthContext, useAuthContext } from "../context/AuthContext";
 import { useContext } from "react";
 
-export const useMessagesContext = () => {
-    const context = useContext(MessagesContext)
+export const useAuthContext = () => {
+    const context = useContext(AuthContext)
 
     if (!context) {
-        throw Error("useMessagesContext must be used inside a MessagesContextProvider")
+        throw Error("useAuthContext must be used inside a AuthContextProvider")
     }
 
     return context
