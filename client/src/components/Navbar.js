@@ -8,6 +8,14 @@ const Navbar = () => {
 
                     <h2>KidzSnap</h2>
                 </Link>
+                <nav>
+                    <div>
+                        <Link to="/login">Login</Link>
+                        <Link to="/signup">Signup</Link>
+
+                    </div>
+
+                </nav>
 
             </div>
 
