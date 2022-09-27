@@ -7,16 +7,20 @@ const createToken = (_id) => {
 
 // login user 
 const loginUser = async (req, res) => {
-    res.json({msg: "login user"})
-//     const {email, password} = req.body
-// // *adds existing user  to data-base
-//     try {
-//         const existingUser = await userModel.create({email, password})
-//         res.status(200).json(existingUser)
-//     } catch (error) {
-//         res.status(400).json({error: error.message})
+    
+    const {email, password} = req.body
 
-//     }
+    try {
+        const user = await userModel.login(email, password)
+        
+        // create a token
+        const token = createToken(user._id)
+        // passing back token and not _id here
+        res.status(200).json({email, token})
+    } catch (error) {
+        res.status(400).json({error: error.message})
+    }
+
 }
 
 
