@@ -3,7 +3,6 @@ import {createMessage, getMessage, getMessages, deleteMessage, updateMessage} fr
 
 const router = express.Router()
 
-import PostMessage from "../models/messageModel"
 
 // GET all messages
 router.get("/", getMessages)
