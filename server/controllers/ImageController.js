@@ -30,17 +30,51 @@ const app = express()
 // }).single('imgUpload')
 // Youtube test code
 
-// Step 5 - set up multer for storing uploaded files
-const Storage = multer.diskStorage({
-     destination: "uploads",
-     filename: (req, file, cb) => {
-         cb(null, file.originalname);
-     },     
+// Step 5 - set up multer for storing uploaded files diskStorage
+const Storage = multer.GridFsStorage({
+     destination: process.env.MONGO_URI,
+     file: (req, file) => {
+        return new Promise((resolve, reject) => {
+          crypto.randomBytes(16, (err, buf) => {
+            if (err) {
+              return reject(err);
+            }
+            const filename = file.originalname;
+            const fileInfo = {
+              filename: filename,
+              bucketName: "uploads"
+            };
+            resolve(fileInfo);
+          });
+        });
+      },     
  });
   
 const upload = multer({
     storage:Storage
 }).single('testImage')
+
+// Create storage engine
+// const storage = new GridFsStorage({
+//     url: mongoURI,
+//     file: (req, file) => {
+//       return new Promise((resolve, reject) => {
+//         crypto.randomBytes(16, (err, buf) => {
+//           if (err) {
+//             return reject(err);
+//           }
+//           const filename = file.originalname;
+//           const fileInfo = {
+//             filename: filename,
+//             bucketName: "uploads"
+//           };
+//           resolve(fileInfo);
+//         });
+//       });
+//     }
+//   });
+  
+//   const upload = multer({ storage });
 
 // get all images
 // const getImage = app.get('/', (req, res) => {
@@ -115,22 +149,27 @@ const getImage = async (req, res) => {
 
 // Youtube test video
 
+// app.post("/", upload.single("img"), (req, res, err) => {
+//     res.send(req.files);
+//   });
+
 const createImage = app.post = async (req, res) => {
     upload(req, res, (err) => {
         if (err) {
             console.log(err);
         } else {
-            const newImage = new PostImage({
-                name: req.body.name,
-                image: {
-                    data:req.file.filename,
-                    contentType: "image/png",
-                },
-            });
-            newImage
-                .save()
-                .then(() => res.send("successfully uploaded"))
-                .catch((err) => console.log(err));
+            res.send(req.files);
+            // const newImage = new PostImage({
+            //     name: req.body.name,
+            //     image: {
+            //         data:req.file.filename,
+            //         contentType: "image/png",
+            //     },
+            // });
+            // newImage
+            //     .save()
+            //     .then(() => res.send("successfully uploaded"))
+            //     .catch((err) => console.log(err));
         }
     });
 };
