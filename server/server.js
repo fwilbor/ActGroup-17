@@ -45,7 +45,7 @@ app.get("/", (req, res)=> {
 })
 
 app.use("/api/messages", router)
-app.use("/api/images", userRouter)
+app.use("/api/uploads", userRouter)
 
 
 //listen for requests *make change to .env file*
