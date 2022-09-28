@@ -1,15 +1,22 @@
 import { useState } from 'react'
 import { useMessagesContext } from "../hooks/useMessagesContext"
-
+import { useAuthContext } from '../hooks/useAuthContext'
 const MessageForm = () => {
     const { dispatch } = useMessagesContext()
-  const [title, setTitle] = useState('')
-  const [message, setMessage] = useState('')
-  const [creator, setCreator] = useState('')
-  const [error, setError] = useState(null)
+    const { user } = useAuthContext()
+  
+    const [title, setTitle] = useState('')
+    const [message, setMessage] = useState('')
+    const [creator, setCreator] = useState('')
+    const [error, setError] = useState(null)
 
   const handleSubmit = async (e) => {
     e.preventDefault()
+
+    if (!user) {
+        setError("You must be logged in")
+        return
+    }
     
     // eslint-disable-next-line
     var messages = {title, message, creator}
@@ -18,7 +25,8 @@ const MessageForm = () => {
       method: 'POST',
       body: JSON.stringify(messages),
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        "Authorization": `Bearer ${user.token}`
       }
     })
     const json = await response.json()

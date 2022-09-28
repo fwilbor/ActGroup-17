@@ -1,4 +1,5 @@
 import { useMessagesContext } from "../hooks/useMessagesContext"
+import { useAuthContext } from "../hooks/useAuthContext"
 
 // using date-fns
 import formatDistanceToNow from "date-fns/formatDistanceToNow"
@@ -6,11 +7,17 @@ import formatDistanceToNow from "date-fns/formatDistanceToNow"
 const MessageDetails = ({message}) => {
 
     const { dispatch } = useMessagesContext()
-
+    const { user } = useAuthContext()
+    
     const handleClick = async () => {
-
+        if (!user) {
+            return
+        }
         const response = await fetch("api/messages/" + message._id, {
-            method: "DELETE"
+            method: "DELETE",
+            headers: {
+                "Authorization": `Bearer ${user.token}`
+            }
 
         })
         const json = await response.json()
