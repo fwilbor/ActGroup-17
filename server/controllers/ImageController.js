@@ -162,7 +162,7 @@ const createImage = app.post = async (req, res) => {
             console.log(err);
         } else {
             res.send(req.files);
-            res.send("successfully uploaded")
+            //res.send("successfully uploaded")
             // const newImage = new PostImage({
             //     name: req.body.name,
             //     image: {
