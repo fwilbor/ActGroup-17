@@ -9,8 +9,6 @@ dotenv.config()
 
 const app = express()
 
-// Step 4 - set up EJS
-  
 //app.use(bodyParser.urlencoded({ extended: false }))
 //app.use(bodyParser.json())
   
