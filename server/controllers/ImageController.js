@@ -34,6 +34,8 @@ const app = express()
 // Step 5 - set up multer for storing uploaded files diskStorage
 const Storage = multer.diskStorage({
      destination: process.env.MONGO_URI,
+    //  filename: (req, file, cb) => {
+    //     cb(null, file.originalname);
      file: (req, file) => {
         return new Promise((resolve, reject) => {
           crypto.randomBytes(16, (err, buf) => {
