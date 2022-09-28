@@ -124,13 +124,13 @@ const createImage = app.post('./uploads', (req,res) => {
                 name: req.body.name,
                 image: {
                     data:req.file.filename,
-                    contentType:'image/png',
+                    contentType: "image/png",
                 },
             });
             newImage
-            .save()
-            .then(() => res.send("successfully uploaded"))
-            .catch((err) => console.log(err));
+                .save()
+                .then(() => res.send("successfully uploaded"))
+                .catch((err) => console.log(err));
         }
     });
 });
