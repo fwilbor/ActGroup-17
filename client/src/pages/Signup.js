@@ -8,7 +8,7 @@ const Signup = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault()
-
+lo
         await signup(email, password)
     }
 
