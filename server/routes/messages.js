@@ -1,9 +1,10 @@
 import express from "express";
 import {createMessage, getMessage, getMessages, deleteMessage, updateMessage} from "../controllers/messageController";
+import requireAuth from "../middleware/requireauth";
 
 const router = express.Router()
 
-
+router.use(requireAuth)
 // GET all messages
 router.get("/", getMessages)
 
