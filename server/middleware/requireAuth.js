@@ -1,6 +1,6 @@
 import jsonwebtoken from "jsonwebtoken"
 import userModel from "../models/userModel"
-const  requireAuth = (req, res, next) => {
+const  requireAuth = async (req, res, next) => {
 
     // verify user authentication
     const { authorization } = req.headers
