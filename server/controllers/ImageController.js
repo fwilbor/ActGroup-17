@@ -115,7 +115,7 @@ const getImage = async (req, res) => {
 
 // Youtube test video
 
-const createImage = app.post('../uploads', (req,res) => {
+const createImage = app.post = async (req, res) => {
     upload(req, res, (err) => {
         if (err) {
             console.log(err);
@@ -133,7 +133,7 @@ const createImage = app.post('../uploads', (req,res) => {
                 .catch((err) => console.log(err));
         }
     });
-});
+};
 //}
 
 // GeekbyGeek tutorial
