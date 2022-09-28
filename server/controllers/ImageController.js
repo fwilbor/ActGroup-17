@@ -1,6 +1,12 @@
 import mongoose from "mongoose";
 import multer from "multer";
 import PostImage from "../models/Images"
+import express from "express";
+//import bodyParser from "body-parser";
+import path from "path";
+//import ejs from "ejs";
+
+const app = express()
 
 // Step 4 - set up EJS
   
@@ -10,22 +16,34 @@ import PostImage from "../models/Images"
 // Set EJS as templating engine 
 //app.set("view engine", "ejs");
 
-// Step 5 - set up multer for storing uploaded files
-  
-// var storage = multer.diskStorage({
-//     destination: (req, file, cb) => {
-//         cb(null, 'uploads')
-//     },
+
+// Youtube test code
+// const Storage = multer.diskStorage({
+//     destination: "uploads",
 //     filename: (req, file, cb) => {
-//         cb(null, file.fieldname + '-' + Date.now())
-//     }
+//         cb(null, file.originalname);
+//     },
 // });
+
+// const upload = multer({
+//     storage:Storage
+// }).single('imgUpload')
+// Youtube test code
+
+// Step 5 - set up multer for storing uploaded files
+const Storage = multer.diskStorage({
+     destination: "uploads",
+     filename: (req, file, cb) => {
+         cb(null, file.filename);
+     },
+     
+ });
   
-// var upload = multer({ storage: storage })
+const upload = multer({ storage: Storage }).single('testImage')
 
 // get all images
-// app.get('/', (req, res) => {
-//     imgModel.find({}, (err, items) => {
+// const getImage = app.get('/', (req, res) => {
+//     PostImage.find({}, (err, items) => {
 //         if (err) {
 //             console.log(err);
 //             res.status(500).send('An error occurred', err);
@@ -38,26 +56,7 @@ import PostImage from "../models/Images"
 
 // Step 8 - the POST handler for processing the uploaded file
   
-// app.post('/', upload.single('image'), (req, res, next) => {
-  
-//     var obj = {
-//         name: req.body.name,
-//         desc: req.body.desc,
-//         img: {
-//             data: fs.readFileSync(path.join(__dirname + '/uploads/' + req.file.filename)),
-//             contentType: 'image/png'
-//         }
-//     }
-//     imgModel.create(obj, (err, item) => {
-//         if (err) {
-//             console.log(err);
-//         }
-//         else {
-//             // item.save();
-//             res.redirect('/');
-//         }
-//     });
-// });
+
 
 
 // get a single message
@@ -91,30 +90,101 @@ const getImage = async (req, res) => {
 
 // create a new message
 
-const createImage = async (req, res) => {
-    //res.json({msg: "Get Image route"})
+// Youtube test video
+// const createImage = app.post('/api/images',(req,res)=> {
+//     upload(req,res,(err)=>{
+//         if(err){
+//             console.log(err)
+//         }
+//         else{
+//             const imageUpload = new PostImage({
+//                 title: req.body.title,
+//                 image:{
+//                     data:req.file.filename,
+//                     contentType:'image/png'
+//                 }
+//             })
+//             imageUpload
+//             .save()
+//             .then(()=>res.send("successful image upload"))
+//             .catch((err) => console.log(err));
+//         }
+//     })
+// })
 
-    const {title, creator} = req.body
+// Youtube test video
+
+const createImage = app.post('./uploads', (req,res)=> {
+    upload(req, res, (err) => {
+        if (err) {
+            console.log(err)
+        } else {
+            const newImage = new PostImage({
+                name: req.body.name,
+                image: {
+                    data:req.file.filename,
+                    contentType:'image/png',
+                },
+            });
+            newImage
+            .save()
+            .then(() => res.send("successfully uploaded"))
+            .catch((err) => console.log(err));
+        }
+    });
+});
+//}
+
+// GeekbyGeek tutorial
+// const createImage = async (req, res) => {
+//     app.post('/uploads', upload.single('image'), (req, res, next) => {
+//         res.send("Image Upload");
+  
+//         const obj = {
+//             name: req.body.name,
+//             desc: req.body.desc,
+//             img: {
+//                 data: fs.readFileSync(path.join(__dirname + '/uploads/' + req.file.filename)),
+//                 contentType: 'image/png'
+//             }
+//         }
+//         PostImage.create(obj, (err, item) => {
+//             if (err) {
+//                 console.log(err);
+//                 res.status(404).json({ message: "It mess up here"});
+//             }
+//             else {
+//                 // item.save();
+//                 res.redirect('/');
+//             }
+//         });
+//     });
+// }
+//GeekbyBeek tutorial
+
+//     const {title, creator, img, selectedFile} = req.body
+// // *adds message to data-base
+//     try {
+//         const newMessage = await PostImage.create({title, creator, img, selectedFile})
+//         res.status(200).json(newMessage)
+//     } catch (error) {
+//         res.status(400).json({error: error.message})
+
+//     }
+
+
+// This works POST connection
+//const createImage = async (req, res) => {
+    //const {title, creator} = req.body
 // *adds message to data-base
-    try {
-        const newMessage = await PostImage.create({title, creator})
-        res.status(200).json(newMessage)
-    } catch (error) {
-        res.status(400).json({error: error.message})
+//     try {
+//         const newMessage = await PostImage.create({title, creator})
+//         res.status(200).json(newMessage)
+//     } catch (error) {
+//         res.status(400).json({error: error.message})
 
-    }
-
-
-    //const {id, title, creator} = req.body
-// *adds message to data-base
-    // try {
-    //     const newMessage = await PostImage.create({id, title, creator})
-    //     res.status(200).json(newMessage)
-    // } catch (error) {
-    //     res.status(400).json({error: error.message})
-
-    // }
-}
+//     }
+// }
 
 // delete a message
 

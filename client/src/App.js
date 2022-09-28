@@ -20,6 +20,13 @@ function App() {
       
              />
 
+            <Route  
+            
+            path = "/uploads"
+            element = {<FileUpload />}
+      
+             />
+
           </Routes>
 
 
