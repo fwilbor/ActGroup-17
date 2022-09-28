@@ -3,8 +3,9 @@ import {createMessage, getMessage, getMessages, deleteMessage, updateMessage} fr
 import requireAuth from "../middleware/requireauth";
 
 const router = express.Router()
-
+// require Authorization for all message routes
 router.use(requireAuth)
+
 // GET all messages
 router.get("/", getMessages)
 
