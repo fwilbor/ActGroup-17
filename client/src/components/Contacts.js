@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import Logo from "../assets/logo.png";
 
+
 export default function Contacts({ contacts, changeChat }) {
   const [currentUserName, setCurrentUserName] = useState(undefined);
   const [currentUserImage, setCurrentUserImage] = useState(undefined);
@@ -62,6 +63,8 @@ export default function Contacts({ contacts, changeChat }) {
               <h2>{currentUserName}</h2>
             </div>
           </div>
+
+
         </Container>
       )}
     </>
