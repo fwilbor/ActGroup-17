@@ -3,7 +3,7 @@ import multer from "multer";
 import PostImage from "../models/Images"
 import express from "express";
 //import bodyParser from "body-parser";
-import path from "path";
+//import path from "path";
 //import ejs from "ejs";
 
 const app = express()
@@ -115,7 +115,7 @@ const getImage = async (req, res) => {
 
 // Youtube test video
 
-const createImage = app.post('./uploads', (req,res) => {
+const createImage = app.post('/uploads', (req,res) => {
     upload(req, res, (err) => {
         if (err) {
             console.log(err);
