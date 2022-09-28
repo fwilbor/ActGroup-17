@@ -5,6 +5,7 @@ import express from "express";
 //import bodyParser from "body-parser";
 //import path from "path";
 //import ejs from "ejs";
+import GridFsStorage from "multer-gridfs-storage";
 
 const app = express()
 
@@ -31,7 +32,7 @@ const app = express()
 // Youtube test code
 
 // Step 5 - set up multer for storing uploaded files diskStorage
-const Storage = multer.GridFsStorage({
+const Storage = multer.diskStorage({
      destination: process.env.MONGO_URI,
      file: (req, file) => {
         return new Promise((resolve, reject) => {
