@@ -115,10 +115,10 @@ const getImage = async (req, res) => {
 
 // Youtube test video
 
-const createImage = app.post('./uploads', (req,res)=>{
-    upload(req, res, (err)=>{
-        if (err){
-            console.log(err)
+const createImage = app.post('./uploads', (req,res) => {
+    upload(req, res, (err) => {
+        if (err) {
+            console.log(err);
         } else {
             const newImage = new PostImage({
                 name: req.body.name,
