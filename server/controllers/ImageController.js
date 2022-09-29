@@ -6,9 +6,6 @@ import express from "express";
 //import path from "path";
 //import ejs from "ejs";
 import GridFsStorage from "multer-gridfs-storage";
-import dotenv from "dotenv";
-
-dotenv.config()
 
 const app = express()
 
