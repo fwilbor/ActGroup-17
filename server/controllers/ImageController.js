@@ -6,6 +6,9 @@ import express from "express";
 //import path from "path";
 //import ejs from "ejs";
 import GridFsStorage from "multer-gridfs-storage";
+import dotenv from "dotenv";
+
+dotenv.config()
 
 const app = express()
 
@@ -33,8 +36,8 @@ const app = express()
 
 // Step 5 - set up multer for storing uploaded files diskStorage
 const Storage = multer.diskStorage({
-     //destination: process.env.MONGO_URI,
-     destination: "uploads",
+     destination: process.env.MONGO_URI,
+     //destination: "uploads",
      filename: (req, file, cb) => {
         cb(null, file.originalname);
     //  file: (req, file) => {
