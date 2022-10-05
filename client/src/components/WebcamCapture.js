@@ -1,21 +1,16 @@
 //no longer needed but we'll keep for clarity
 import React, {useRef,useEffect, useState} from 'react';
-import Webcam from "react-webcam";
 
 
-const videoConstraints = {
-    width: 250,
-    height: 400,
-    facingMode: "user",
-};
+
 
 
 
 function WebcamCapture() {
     const webcamRef = useRef(null);
-    const photoRef = useRef(null);
+    // const photoRef = useRef(null);
 
-    const [hasPhoto, setHasPhoto] = useState(false);
+    const [hasPhoto] = useState(false);
 
     const getVideo = () => {
         navigator.mediaDevices.getUserMedia({video: {width: 1920, height: 1080}})
