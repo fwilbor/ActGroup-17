@@ -9,6 +9,7 @@ import { useAuthContext } from "../hooks/useAuthContext"
 // components
 import MessageDetails from "../components/MessageDetails"
 import MessageForm from "../components/MessageForm"
+import WebcamCapture from "../components/WebcamCapture"
 
 
 const Home = () => {
@@ -50,6 +51,7 @@ const Home = () => {
             ))}
 
            </div>
+           <WebcamCapture />
            <MessageForm />
         
         </div>

@@ -24,7 +24,14 @@ function WebcamCapture() {
             video.srcObject = stream;
             video.play();
         })
+        .catch(error => {
+            console.log(error);
+        })
     }
+
+    useEffect(()=> {
+        getVideo();
+    }, [webcamRef])
 
   return (
     <div className='WebcamCapture'>
