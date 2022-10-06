@@ -59,7 +59,7 @@ return (
         );
         console.log(base64String)
         console.log(uniqueKey)
-        return <img key = {uniqueKey} src={`data:image/png;base64,${base64String}`} alt="" height={300} width={500}/>
+        return <img key = {uniqueKey} src={`data:image/png base64,${base64String}`} alt="" height={300} width={500}/>
         //return <img src="img_girl.jpg" alt="Girl in a jacket" width="500" height="600"></img>
       })}
     </div>
