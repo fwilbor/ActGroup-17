@@ -7,15 +7,16 @@ import React, {useRef,useEffect, useState} from 'react';
 
 
 function WebcamCapture() {
-    const webcamRef = useRef(null);
-    // const photoRef = useRef(null);
+    
+    const videoRef = useRef(null);
+    const photoRef = useRef(null);
 
-    const [hasPhoto] = useState(false);
+    const [hasPhoto, setHasPhoto] = useState(false);
 
     const getVideo = () => {
         navigator.mediaDevices.getUserMedia({video: {width: 1920, height: 1080}})
         .then(stream => {
-            let video = webcamRef.current;
+            let video = videoRef.current;
             video.srcObject = stream;
             video.play();
         })
@@ -24,30 +25,45 @@ function WebcamCapture() {
         })
     }
 
+    const takePhoto = () => {
+        const width = 414;
+        const height = width / (16/9);
+
+        let video = videoRef.current;
+        let photo = photoRef.current;
+
+        photo.width = width;
+        photo.height = height;
+
+        let ctx = photo.getContext("2d");
+        ctx.drawImage(video, 0, 0, width, height);
+        setHasPhoto(true);
+    }
+
+    const closePhoto = () => {
+        let photo = photoRef.current;
+        let ctx = photo.getContext("2d");
+        ctx.clearRect(0, 0, photo.width, photo.height);
+        setHasPhoto(false);
+    }
+
     useEffect(()=> {
         getVideo();
-    }, [webcamRef])
+    }, [videoRef])
 
   return (
     <div className='WebcamCapture'>
-    <div className='camera'>
-    {/* <Webcam 
-    audio={false}
-    height={videoConstraints.height}
-    ref={webcamRef}
-    screenshotFormat="image/jpeg"
-    width={videoConstraints.width}
-    videoConstraints={videoConstraints}
-    />     */}
-    <video ref={webcamRef}></video>
-    <button>SNAP!</button>
+        <div className='camera'>
+    <video ref={videoRef}></video>
+    <button onClick={takePhoto}>SNAP!</button><br></br>
+   
     </div>
-    <div className={"result" + (hasPhoto? "hasPhoto" : "")}>
-        <canvas ref={webcamRef}></canvas>
-        <button>Close</button>
+        <div className={"result " + (hasPhoto ? "hasPhoto" : "")}>
+            <canvas ref={photoRef}></canvas>
+            <button onClick={closePhoto}>CLOSE</button>
+        </div>
     </div>
-    </div>
-  )
+  );
 }
 
 export default WebcamCapture
