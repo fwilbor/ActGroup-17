@@ -2,7 +2,6 @@ import mongoose from "mongoose";
 import multer from "multer";
 import PostImage from "../models/Images"
 import express from "express";
-import axios from "axios";
 //import bodyParser from "body-parser";
 //import path from "path";
 //import ejs from "ejs";
@@ -96,39 +95,21 @@ const upload = multer({
 
 // get image from name
 const getImage = async (req, res) => {
-    const {name} = req.params
+    // const {name} = req.params
 
-    if (!mongoose.Types.ObjectId.isValid(name)) {
-        return res.status(404).json({error: "invalid username"})
+    // if (!mongoose.Types.ObjectId.isValid(name)) {
+    //     return res.status(404).json({error: "invalid username"})
 
-    }
+    // }
 
-    const message = await PostImage.findById(name)
+    // const message = await PostImage.findById(name)
 
-    if (!message) {
-        return res.status(404).json({error: "Message not found"})
-    }
+    // if (!message) {
+    //     return res.status(404).json({error: "Message not found"})
+    // }
 
     const imageData = await PostImage.find()
     res.json(imageData)
-
-  // const [data, setData] = useState([]);
-  // useEffect(() => {
-  //   axios
-  //     .get("http://localhost:5000")
-  //     .then((res) => setData(res.data))
-  //     .catch((err) => console.log(err, "it has an error"));
-  // });
-  // return (
-  //   <div className="App">
-  //     <h1>Image uploading react</h1>
-  //     {data.map((singleData) => {
-  //       const base64String = Buffer.from(String.fromCharCode(...new Uint8Array(singleData.img.data.data)).toString('base64')
-  //       );
-  //       return <img src={`data:image/png;base64,${base64String}`} width="300"/>
-  //     })}
-  //   </div>
-  // );
 
 }
   

@@ -4,6 +4,7 @@
 
 import Home from "./pages/Home"
 import  Navbar from "./components/Navbar"
+import FileUpload from "./components/FileUpload";
 
 function App() {
   return (
