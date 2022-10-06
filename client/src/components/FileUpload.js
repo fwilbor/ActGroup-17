@@ -39,6 +39,7 @@ useEffect(() => {
         if (response.ok) {
             setData(json)
             
+            
 
         }
     }
@@ -51,11 +52,15 @@ return (
     <div className="FileUpload">
       <h1>Image uploading react</h1>
       {data.map((singleData) => {
+        const uniqueKey = singleData._id
         console.log(singleData.image.data.data)
         const base64String = Buffer.from(String.fromCharCode(...new Uint8Array(singleData.image.data.data)).toString('base64')
-        //const base64String = btoa(String.fromCharCode(...new Uint8Array(singleData.image.data.data))
+          
         );
-        return <img key = "{image}" src={`data:image/png;base64,${base64String}`} alt=""/>
+        console.log(base64String)
+        console.log(uniqueKey)
+        return <img key = {uniqueKey} src={`data:image/png;base64,${base64String}`} alt="" height={300} width={500}/>
+        //return <img src="img_girl.jpg" alt="Girl in a jacket" width="500" height="600"></img>
       })}
     </div>
   );
