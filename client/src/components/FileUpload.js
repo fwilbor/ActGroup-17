@@ -53,15 +53,15 @@ return (
       <h1>Image uploading react</h1>
       {data.map((singleData) => {
         const uniqueKey = singleData._id
-        //console.log(singleData.image.data.data)
+        console.log(singleData.image.data.data)
         //const base64String = Buffer.from(String.fromCharCode(...new Uint8Array(singleData.image.data.data)).toString('base64')
         const buffer = Buffer.from(singleData.image.data.data);
         const base64String = buffer.toString('base64');
                   
         //);
-        console.log(base64String);
+        console.log(base64String)
         //console.log(uniqueKey)
-        return <img key = {uniqueKey} src={`data:image/jpeg;base64,${base64String}`} alt="" height={300} width={500}/>
+        return <img key = {uniqueKey} src={`data:image/png base64,${base64String}`} alt="" height={300} width={500}/>
         //return <img src="img_girl.jpg" alt="Girl in a jacket" width="500" height="600"></img>
       })}
     </div>
