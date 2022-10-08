@@ -55,7 +55,7 @@ return (
         const uniqueKey = singleData._id
         //console.log(singleData.image.data.data)
         //const base64String = Buffer.from(String.fromCharCode(...new Uint8Array(singleData.image.data.data)).toString('base64')
-        const buffer = Buffer.from(singleData.image.data.data);
+        const buffer = Buffer.from(singleData.image.data);
         const base64String = buffer.toString('base64');
                   
         //);
