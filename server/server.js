@@ -4,7 +4,7 @@ import mongoose from "mongoose";
 import cors from "cors";
 import dotenv from "dotenv";
 import userRouter from "./routes/uploadimage";
-import Grid from "gridfs-stream";
+// import Grid from "gridfs-stream";
 
 import router from "./routes/messages";
 import multer from "multer";
