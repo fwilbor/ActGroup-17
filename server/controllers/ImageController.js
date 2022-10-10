@@ -19,20 +19,20 @@ const app = express()
 
 
 // Youtube test code
-const Storage = multer.diskStorage({
-    destination: "uploads",
-    filename: (req, file, cb) => {
-        cb(null, file.originalname);
-    },
-});
+// const Storage = multer.diskStorage({
+//     destination: "uploads",
+//     filename: (req, file, cb) => {
+//         cb(null, file.originalname);
+//     },
+// });
 
-const upload = multer({
-    storage:Storage
-}).single('imgUpload')
-// Youtube test code
+// const upload = multer({
+//     storage:Storage
+// }).single('imgUpload')
+// // Youtube test code
 
 // Step 5 - set up multer for storing uploaded files diskStorage
-const Storage = multer.diskStorage({
+const Storage = multer.memoryStorage({
      destination: process.env.MONGO_URI,
      //destination: "uploads",
      filename: (req, file, cb) => {
@@ -185,6 +185,7 @@ const createImage = app.post = async (req, res) => {
                 name: req.body.name,
                 image: {
                     data:req.file.filename,
+                    data:req.file.buffer,
                     contentType: "image/png",
                 },
             });
