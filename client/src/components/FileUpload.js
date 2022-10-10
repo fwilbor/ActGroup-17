@@ -30,6 +30,7 @@ function FileUpload() {
     // const [error, setError] = useEffect(null)
     
     const [data, setData] = useState([]);
+    //console.log(data)
 
 useEffect(() => {
     const fetchImages = async () => {
@@ -52,6 +53,7 @@ return (
     <div className="FileUpload">
       <h1>Image uploading react</h1>
       {data.map((singleData) => {
+        //console.log(data)
         const uniqueKey = singleData._id
         console.log(singleData.image.data.data)
         //const base64String = Buffer.from(String.fromCharCode(...new Uint8Array(singleData.image.data.data)).toString('base64')
@@ -59,9 +61,8 @@ return (
         const base64String = buffer.toString('base64');
                   
         //);
-        console.log(base64String)
-        //console.log(uniqueKey)
-        return <img key = {uniqueKey} src={`data:image/png base64,${base64String}`} alt="" height={300} width={500}/>
+        //console.log(base64String)
+        return <img key = {uniqueKey} src={`data:image/png;base64,${base64String}`} alt="" height={300} width={500}/>
         //return <img src="img_girl.jpg" alt="Girl in a jacket" width="500" height="600"></img>
       })}
     </div>
