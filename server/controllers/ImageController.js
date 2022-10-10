@@ -19,16 +19,16 @@ const app = express()
 
 
 // Youtube test code
-// const Storage = multer.diskStorage({
-//     destination: "uploads",
-//     filename: (req, file, cb) => {
-//         cb(null, file.originalname);
-//     },
-// });
+const Storage = multer.diskStorage({
+    destination: "uploads",
+    filename: (req, file, cb) => {
+        cb(null, file.originalname);
+    },
+});
 
-// const upload = multer({
-//     storage:Storage
-// }).single('imgUpload')
+const upload = multer({
+    storage:Storage
+}).single('imgUpload')
 // Youtube test code
 
 // Step 5 - set up multer for storing uploaded files diskStorage
