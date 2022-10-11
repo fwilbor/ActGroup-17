@@ -8,6 +8,7 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import  Navbar from "./components/Navbar";
+import Messenger from "./pages/messenger/Messenger";
 
 
 function App() {
@@ -36,10 +37,18 @@ function App() {
             
             />
 
-<Route 
+            <Route 
             
             path="/signup"
             element={!user ? <Signup /> : <Navigate to = "/" />}
+            
+            
+            />
+
+<Route 
+            
+            path="/messenger"
+            element={!user ? <Navigate to = "/" />: <Messenger /> }
             
             
             />

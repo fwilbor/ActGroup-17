@@ -18,11 +18,18 @@ function WebcamCapture() {
         .then(stream => {
             let video = videoRef.current;
             video.srcObject = stream;
-            video.play();
-        })
-        .catch(error => {
+            var playPromise =video.play();
+
+            if (playPromise !== undefined) {
+                playPromise.then(_=>{
+
+                })
+                 .catch(error => {
             console.log(error);
         })
+            }
+        })
+       
     }
 
     const takePhoto = () => {
