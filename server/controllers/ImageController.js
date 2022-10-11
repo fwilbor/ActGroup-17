@@ -2,11 +2,13 @@ import mongoose from "mongoose";
 import multer from "multer";
 import PostImage from "../models/Images"
 import express from "express";
+import dotenv from "dotenv";
 //import bodyParser from "body-parser";
 //import path from "path";
 //import ejs from "ejs";
 import GridFsStorage from "multer-gridfs-storage";
 
+dotenv.config()
 const app = express()
 
 // Step 4 - set up EJS
@@ -31,28 +33,10 @@ const app = express()
 // }).single('imgUpload')
 // Youtube test code
 
-// Step 5 - set up multer for storing uploaded files diskStorage
-const Storage = multer.diskStorage({
-     destination: process.env.MONGO_URI,
-     //destination: "uploads",
-     filename: (req, file, cb) => {
-        cb(null, file.originalname);
-    //  file: (req, file) => {
-    //     return new Promise((resolve, reject) => {
-    //       crypto.randomBytes(16, (err, buf) => {
-    //         if (err) {
-    //           return reject(err);
-    //         }
-    //         const filename = file.originalname;
-    //         const fileInfo = {
-    //           filename: filename,
-    //           bucketName: "uploads"
-    //         };
-    //         resolve(fileInfo);
-    //       });
-    //     });
-      },     
- });
+// Set up multer for storing uploaded files diskStorage
+mongoose.connect(process.env.MONGO_URI)
+
+const Storage = multer.memoryStorage();
   
 const upload = multer({
     storage:Storage
@@ -184,7 +168,7 @@ const createImage = app.post = async (req, res) => {
             const newImage = new PostImage({
                 name: req.body.name,
                 image: {
-                    data:req.file.filename,
+                    data:req.file.buffer,
                     contentType: "image/png",
                 },
             });
