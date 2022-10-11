@@ -12,6 +12,8 @@ import router from "./routes/messages";
 
 import urouter from "./routes/user";
 
+import mrouter from "./routes/messengerTest";
+
 
 //express app
 const app = express()
@@ -45,6 +47,7 @@ app.get("/", (req, res)=> {
 
 app.use("/api/messages", router )
 app.use("/api/user", urouter)
+app.use("/messenger", mrouter)
 
 
 
