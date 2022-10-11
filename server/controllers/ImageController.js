@@ -31,13 +31,14 @@ const app = express()
 // const upload = multer({
 //     storage:Storage
 // }).single('imgUpload')
-// Youtube test code
+// // Youtube test code
 
 // Set up multer for storing uploaded files diskStorage
 mongoose.connect(process.env.MONGO_URI)
 
 const Storage = multer.memoryStorage();
-  
+
+
 const upload = multer({
     storage:Storage
 }).single('testImage')
