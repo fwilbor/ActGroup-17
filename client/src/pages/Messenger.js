@@ -1,9 +1,10 @@
 import React from 'react'
+import Topbar from '../components/topbar/Topbar'
 
 
  function Messenger() {
   return (
-    <div>Messenger</div>
+    <Topbar />
   )
 }
 

@@ -11,12 +11,16 @@ import  Navbar from "./components/Navbar";
 import Messenger from "./pages/Messenger";
 
 
+
+
+
 function App() {
   const { user } = useAuthContext()
   return (
     <div className="App">
       <BrowserRouter>
       <Navbar /> 
+    
         <div className="pages">
           <Routes>
 
@@ -50,7 +54,7 @@ function App() {
             path="/messenger"
             // element={!user ? <Navigate to = "/" />: <Messenger /> }
             element= {<Messenger />}
-            
+                      
             
             />
 

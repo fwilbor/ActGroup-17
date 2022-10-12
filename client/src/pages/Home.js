@@ -13,6 +13,7 @@ import MessageForm from "../components/MessageForm"
 
 
 
+
 const Home = () => {
 
     const {messages, dispatch} = useMessagesContext()
@@ -54,6 +55,7 @@ const Home = () => {
            </div>
            {/* <WebcamCapture /> */}
            <MessageForm />
+          
 
         
         </div>
