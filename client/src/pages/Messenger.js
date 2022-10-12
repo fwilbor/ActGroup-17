@@ -1,5 +1,5 @@
 import React from 'react'
-import "../messenger/messenger.css"
+
 
  function Messenger() {
   return (
@@ -8,4 +8,3 @@ import "../messenger/messenger.css"
 }
 
 export default Messenger
-

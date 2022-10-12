@@ -8,7 +8,7 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import  Navbar from "./components/Navbar";
-import Messenger from "./pages/messenger/Messenger";
+import Messenger from "./pages/Messenger";
 
 
 function App() {
@@ -48,7 +48,8 @@ function App() {
 <Route 
             
             path="/messenger"
-            element={!user ? <Navigate to = "/" />: <Messenger /> }
+            // element={!user ? <Navigate to = "/" />: <Messenger /> }
+            element= {<Messenger />}
             
             
             />

@@ -47,7 +47,7 @@ app.get("/", (req, res)=> {
 
 app.use("/api/messages", router )
 app.use("/api/user", urouter)
-app.use("/messenger", mrouter)
+app.use("/api/messenger", mrouter)
 
 
 

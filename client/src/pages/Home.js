@@ -9,7 +9,7 @@ import { useAuthContext } from "../hooks/useAuthContext"
 // components
 import MessageDetails from "../components/MessageDetails"
 import MessageForm from "../components/MessageForm"
-import WebcamCapture from "../components/WebcamCapture"
+// import WebcamCapture from "../components/WebcamCapture"
 
 
 
