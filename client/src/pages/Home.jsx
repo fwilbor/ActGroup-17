@@ -40,13 +40,7 @@ const Home = () => {
             fetchMessages()
         }
 
-<<<<<<< HEAD:client/src/pages/Home.jsx
-    }, [messages])
-=======
-       
-
     }, [dispatch, user])
->>>>>>> franklinbranch:client/src/pages/Home.js
     
     return (
         <div className="home">

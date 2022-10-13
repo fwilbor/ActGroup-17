@@ -1,8 +1,5 @@
 import { Link } from "react-router-dom"
-<<<<<<< HEAD
 
-const Navbar = () => {
-=======
 import { useLogout } from "../hooks/useLogout"
 import { useAuthContext } from "../hooks/useAuthContext"
 
@@ -12,7 +9,7 @@ const Navbar = () => {
     const handleClick = () => {
         logout()
     }
->>>>>>> franklinbranch
+
     return (
         <header>
             <div className="container">
@@ -20,8 +17,7 @@ const Navbar = () => {
 
                     <h2>KidzSnap</h2>
                 </Link>
-<<<<<<< HEAD
-=======
+
                 <nav>
                     {user && (
                         <div>
@@ -37,7 +33,7 @@ const Navbar = () => {
                     )}
 
                 </nav>
->>>>>>> franklinbranch
+
 
             </div>
 

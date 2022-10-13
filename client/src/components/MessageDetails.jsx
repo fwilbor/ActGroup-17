@@ -1,6 +1,4 @@
-<<<<<<< HEAD
-const MessageDetails = ({message}) => {
-=======
+
 import { useMessagesContext } from "../hooks/useMessagesContext"
 import { useAuthContext } from "../hooks/useAuthContext"
 
@@ -34,19 +32,17 @@ const MessageDetails = ({message}) => {
 
 
 
->>>>>>> franklinbranch
     return (
         <div className="message-details">
             <h4> {message.title} </h4>
             <p><strong>Message: </strong>{message.message}</p>
             <p><strong>Creator: </strong>{message.creator}</p>
-<<<<<<< HEAD
+
             <p>{message.createdAt}</p>
-=======
+
             <p>{formatDistanceToNow(new Date(message.createdAt), {addSuffix: true})}</p>
             <span className="material-symbols-outlined" onClick={handleClick}>delete</span>
 
->>>>>>> franklinbranch
         </div>
     )
 }
