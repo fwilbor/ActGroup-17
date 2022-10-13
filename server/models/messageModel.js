@@ -7,6 +7,10 @@ const messageSchema = mongoose.Schema({
    title: String,
    message: String,
    creator: String,
+   user_id: {
+      type: String,
+      required: true
+   }
 //    tags: [String],
 //    selectedFile: String,
 //    likeCount: {

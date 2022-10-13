@@ -1,3 +1,7 @@
+// code for hiding global variables in .env file
+dotenv.config()
+
+
 import express from "express";
 import bodyParser from "body-parser";
 import mongoose from "mongoose";
@@ -6,21 +10,19 @@ import dotenv from "dotenv";
 
 import router from "./routes/messages";
 
+import urouter from "./routes/user";
 
-dotenv.config()
-
-
-
-// ***Old method const express = require("express")*****
-
-// const messageRoutes = require("./routes/messages.js")
-
-
-const CONNECTION_URL = process.env.MONGO_URI
+import mrouter from "./routes/messengerTest";
 
 
 //express app
 const app = express()
+
+
+
+
+const CONNECTION_URL = process.env.MONGO_URI
+
 
 const PORT = process.env.PORT 
 
@@ -43,10 +45,13 @@ app.get("/", (req, res)=> {
     res.json({msg: "Welcome to KidzSnap Backend Database Support"});
 })
 
-app.use("/api/messages", router)
+app.use("/api/messages", router )
+app.use("/api/user", urouter)
+app.use("/api/messenger", mrouter)
 
 
-//listen for requests *make change to .env file*
+
+//listen for requests 
 // app.listen(PORT, () => {
 //     console.log("listening on port " , process.env.PORT)
 // })
