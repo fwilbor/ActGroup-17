@@ -36,8 +36,8 @@ export default function Topbar() {
             <span className="topbarIconBadge">3</span>
           </div>
         </div>
-        <img src="/Users/franklin-wilborn/ACT-GROUP17/kidzsnap/client/assets/spongebobProfile.jpeg" alt="" className="topbarImg" />
+        <img src="/assets/dullstretch5.jpeg" alt="Incredible1" className="topbarImg" />
        </div>
     </div>
-  )
+  );
 }
