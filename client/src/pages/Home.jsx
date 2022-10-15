@@ -43,6 +43,8 @@ const Home = () => {
     }, [dispatch, user])
     
     return (
+
+        <>
         <div className="home">
            <div className="messages">
             
@@ -57,6 +59,7 @@ const Home = () => {
 
         
         </div>
+        </>
         
 
 
