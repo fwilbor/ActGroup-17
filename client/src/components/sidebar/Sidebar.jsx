@@ -2,7 +2,7 @@ import "./sidebar.css";
 import {
   RssFeed,
   Chat,
-  PlayCircleFilledOutlined,
+  Image,
   Group,
   Event,
   School,
@@ -22,8 +22,8 @@ export default function Sidebar() {
             <span className="sidebarListItemText">Chats</span>
           </li>
           <li className="sidebarListItem">
-            <PlayCircleFilledOutlined className="sidebarIcon" />
-            <span className="sidebarListItemText">Videos</span>
+            <Image className="sidebarIcon" />
+            <span className="sidebarListItemText">Images</span>
           </li>
           <li className="sidebarListItem">
             <Group className="sidebarIcon" />
