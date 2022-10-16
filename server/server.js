@@ -7,7 +7,6 @@ import mongoose from "mongoose";
 import cors from "cors";
 import dotenv from "dotenv";
 import userRouter from "./routes/uploadimage";
-// import Grid from "gridfs-stream";
 
 import router from "./routes/messages";
 import multer from "multer";
@@ -50,11 +49,7 @@ app.get("/", (req, res)=> {
     res.json({msg: "Welcome to KidzSnap Backend Database Support"});
 })
 
-app.use("/api/uploads", userRouter)
-app.use("/api/messages", router )
-app.use("/api/user", urouter)
-app.use("/api/messenger", mrouter)
-
+app.use("/api/messages", router)
 
 
 //listen for requests 

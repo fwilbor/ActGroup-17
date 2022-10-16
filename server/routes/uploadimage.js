@@ -1,6 +1,6 @@
 import express from "express";
 // Controller functions
-import { getImage, createImage} from "../Controllers/ImageController"
+import { getImage, createImage} from "../Controllers/ImageController";
 
 const userRouter = express.Router()
 
