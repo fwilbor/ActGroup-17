@@ -40,7 +40,8 @@ mongoose.connect(process.env.MONGO_URI, {useNewUrlParser: true, useUnifiedTopolo
 //middleware
 app.use(express.json())
 app.use((req, res, next) => {
-    console.log(req.path, req.method)
+    //console.log("asad test")
+    //console.log(req.path, req.method)
     next()
 })
 

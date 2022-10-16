@@ -20,7 +20,7 @@ export default function Topbar() {
       <div className="topbarRight">
         <div className="topbarLinks">
           <span className="topbarLink">Homepage</span>
-          <span className="topbarLink">Timeline</span>
+          <span className="topbarLink">Dashboard</span>
         </div>
         <div className="topbarIcons">
           <div className="topbarIconItem">

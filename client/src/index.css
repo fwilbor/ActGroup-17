@@ -67,6 +67,10 @@ header a {
   color: #333;
 }
 
+.message-red {
+  background: red;
+}
+
 /* new workout form */
 label, input {
   display: block;
@@ -255,6 +259,12 @@ button:hover {
 canvas {
   width: 100%;
   height: auto;
+}
+
+
+.dashboardContainer {
+  display: flex;
+  width: 100%;
 }
 
 
