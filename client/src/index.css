@@ -67,6 +67,10 @@ header a {
   color: #333;
 }
 
+.message-red {
+  background: red;
+}
+
 /* new workout form */
 label, input {
   display: block;

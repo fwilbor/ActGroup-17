@@ -9,27 +9,10 @@ import { useAuthContext } from "../hooks/useAuthContext"
 // components
 import MessageDetails from "../components/MessageDetails"
 import MessageForm from "../components/MessageForm"
-import { readString } from 'react-papaparse';
-import SwearWordsListCSV from '../components/SwearWordsList.csv';
 // import WebcamCapture from "../components/WebcamCapture"
-
-
-
 
 const Home = () => {
   
-  const papaConfig = {
-    complete: (results, file) => {
-      console.log('Parsing complete:', results, file);
-    },
-    download: true,
-    error: (error, file) => {
-      console.log('Error while parsing:', error, file);
-    },
-  };
-  //const Wlists = readString(SwearWordsListCSV, papaConfig);
-
-
     const {messages, dispatch} = useMessagesContext()
     const {user} = useAuthContext()
 
