@@ -1,11 +1,20 @@
 // fetching data from back-end api to front-end using useEffect()
-import { useEffect, useState} from "react"
+import { useEffect } from "react"
+
+// importing useContext to keep global state of Messages
+import { useMessagesContext } from "../hooks/useMessagesContext"
+
+import { useAuthContext } from "../hooks/useAuthContext"
 
 // components
 import MessageDetails from "../components/MessageDetails"
 import MessageForm from "../components/MessageForm"
 import { readString } from 'react-papaparse';
 import SwearWordsListCSV from '../components/SwearWordsList.csv';
+// import WebcamCapture from "../components/WebcamCapture"
+
+
+
 
 const Home = () => {
   
@@ -21,25 +30,35 @@ const Home = () => {
   //const Wlists = readString(SwearWordsListCSV, papaConfig);
 
 
-    const [messages, setMessages] = useState(null)
+    const {messages, dispatch} = useMessagesContext()
+    const {user} = useAuthContext()
+
 
     // useEffect hook only fires once and returns object 
     useEffect(() => {
         const fetchMessages = async () => {
-            const response = await fetch("/api/messages")
+            const response = await fetch("/api/messages", {
+                headers: {
+                    "Authorization": `Bearer ${user.token}`
+                }
+            })
             const json = await response.json()
 
             if (response.ok) {
-                setMessages(json)
+                dispatch({type:"SET_MESSAGES", payload: json})
 
             }
         }
 
-        fetchMessages()
+        if (user) {
+            fetchMessages()
+        }
 
-    }, [messages])
+    }, [dispatch, user])
     
     return (
+
+        <>
         <div className="home">
            <div className="messages">
            
@@ -48,8 +67,14 @@ const Home = () => {
             ))}
 
            </div>
+           {/* <WebcamCapture /> */}
            <MessageForm />
+          
+
+        
         </div>
+        </>
+        
 
 
     )
