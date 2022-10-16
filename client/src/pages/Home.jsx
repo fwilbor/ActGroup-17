@@ -4,8 +4,22 @@ import { useEffect, useState} from "react"
 // components
 import MessageDetails from "../components/MessageDetails"
 import MessageForm from "../components/MessageForm"
+import { readString } from 'react-papaparse';
+import SwearWordsListCSV from '../components/SwearWordsList.csv';
 
 const Home = () => {
+  
+  const papaConfig = {
+    complete: (results, file) => {
+      console.log('Parsing complete:', results, file);
+    },
+    download: true,
+    error: (error, file) => {
+      console.log('Error while parsing:', error, file);
+    },
+  };
+  //const Wlists = readString(SwearWordsListCSV, papaConfig);
+
 
     const [messages, setMessages] = useState(null)
 
@@ -28,7 +42,7 @@ const Home = () => {
     return (
         <div className="home">
            <div className="messages">
-            
+           
             {messages && messages.map((message)=> (
                <MessageDetails key={message._id} message = {message} />
             ))}
@@ -41,4 +55,7 @@ const Home = () => {
     )
 }
 
+
+
+//export {Home, Wlists}
 export default Home
