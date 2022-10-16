@@ -55,8 +55,8 @@ return (
       {data.map((singleData) => {
         //console.log(data)
         const uniqueKey = singleData._id
-        // let data = singleData.image.data.data
-        console.log(singleData)
+        let data = singleData.image.data.data
+        //console.log(singleData.data.data)
         //const base64String = Buffer.from(String.fromCharCode(...new Uint8Array(singleData.image.data.data)).toString('base64')
         const buffer = Buffer.from(data);
         const base64String = buffer.toString('base64');

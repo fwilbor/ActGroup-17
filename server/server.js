@@ -1,3 +1,6 @@
+
+
+
 import express from "express";
 import bodyParser from "body-parser";
 import mongoose from "mongoose";
@@ -9,21 +12,21 @@ import userRouter from "./routes/uploadimage";
 import router from "./routes/messages";
 import multer from "multer";
 
+import urouter from "./routes/user";
 
-dotenv.config()
-
-
-
-// ***Old method const express = require("express")*****
-
-// const messageRoutes = require("./routes/messages.js")
-
-
-const CONNECTION_URL = process.env.MONGO_URI
+import mrouter from "./routes/messengerTest";
 
 
 //express app
 const app = express()
+// code for hiding global variables in .env file
+dotenv.config()
+
+
+
+
+const CONNECTION_URL = process.env.MONGO_URI
+
 
 const PORT = process.env.PORT 
 
@@ -46,11 +49,14 @@ app.get("/", (req, res)=> {
     res.json({msg: "Welcome to KidzSnap Backend Database Support"});
 })
 
-app.use("/api/messages", router)
 app.use("/api/uploads", userRouter)
+app.use("/api/messages", router )
+app.use("/api/user", urouter)
+app.use("/api/messenger", mrouter)
 
 
-//listen for requests *make change to .env file*
+
+//listen for requests 
 // app.listen(PORT, () => {
 //     console.log("listening on port " , process.env.PORT)
 // })

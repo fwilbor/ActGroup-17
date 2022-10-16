@@ -5,8 +5,10 @@ import PostImage from "../models/Images";
 // get all messages
 const getMessages = async (req, res) => {
 
+    const user_id = req.user._id
+
     try{
-        const messages = await PostMessage.find({}).sort({createdAt: -1})
+        const messages = await PostMessage.find({user_id}).sort({createdAt: -1})
         res.status(200).json(messages)
 } catch (error){
     res.status(404).json({ message: error.message});
@@ -41,7 +43,8 @@ const createMessage = async (req, res) => {
     const {title, message, creator} = req.body
 // *adds message to data-base
     try {
-        const newMessage = await PostMessage.create({title, message, creator})
+        const user_id = req.user._id
+        const newMessage = await PostMessage.create({title, message, creator, user_id})
         res.status(200).json(newMessage)
     } catch (error) {
         res.status(400).json({error: error.message})
