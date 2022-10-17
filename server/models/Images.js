@@ -3,14 +3,18 @@ import mongoose from "mongoose";
 //const Schema = mongoose.Schema
 
 const imageSchema = mongoose.Schema({
-    id: mongoose.Types.ObjectId,
-    title: String,
-    creator: String,
-    img:
+    //id: mongoose.Types.ObjectId,
+    name: String,
+    //desc: String,
+    image:
     {
         data: Buffer,
         contentType: String
-    }
+    },
+    // selectedFile: {
+    //     data: Buffer,
+    //     contentType: String
+    // }
     //tags: [String],
     //selectedFile: String,
     //likeCount: {

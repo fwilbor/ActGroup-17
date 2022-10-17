@@ -11,11 +11,8 @@ import MessageDetails from "../components/MessageDetails"
 import MessageForm from "../components/MessageForm"
 // import WebcamCapture from "../components/WebcamCapture"
 
-
-
-
 const Home = () => {
-
+  
     const {messages, dispatch} = useMessagesContext()
     const {user} = useAuthContext()
 
@@ -47,7 +44,7 @@ const Home = () => {
         <>
         <div className="home">
            <div className="messages">
-            
+           
             {messages && messages.map((message)=> (
                <MessageDetails key={message._id} message = {message} />
             ))}
@@ -66,4 +63,7 @@ const Home = () => {
     )
 }
 
+
+
+//export {Home, Wlists}
 export default Home

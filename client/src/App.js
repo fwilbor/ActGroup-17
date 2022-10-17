@@ -4,6 +4,7 @@ import { useAuthContext } from "./hooks/useAuthContext";
 
 // pages & components
 
+import FileUpload from "./components/FileUpload";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
@@ -31,6 +32,12 @@ function App() {
       
              />
 
+            <Route  
+            
+            path = "/uploads"
+            element = {<FileUpload />}
+      
+             />
             <Route 
             
             path="/login"

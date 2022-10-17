@@ -1,5 +1,4 @@
-// code for hiding global variables in .env file
-dotenv.config()
+
 
 
 import express from "express";
@@ -7,8 +6,10 @@ import bodyParser from "body-parser";
 import mongoose from "mongoose";
 import cors from "cors";
 import dotenv from "dotenv";
+import userRouter from "./routes/uploadimage";
 
 import router from "./routes/messages";
+import multer from "multer";
 
 import urouter from "./routes/user";
 
@@ -17,6 +18,8 @@ import mrouter from "./routes/messengerTest";
 
 //express app
 const app = express()
+// code for hiding global variables in .env file
+dotenv.config()
 
 
 
@@ -36,7 +39,8 @@ mongoose.connect(process.env.MONGO_URI, {useNewUrlParser: true, useUnifiedTopolo
 //middleware
 app.use(express.json())
 app.use((req, res, next) => {
-    console.log(req.path, req.method)
+    //console.log("asad test")
+    //console.log(req.path, req.method)
     next()
 })
 
@@ -45,10 +49,7 @@ app.get("/", (req, res)=> {
     res.json({msg: "Welcome to KidzSnap Backend Database Support"});
 })
 
-app.use("/api/messages", router )
-app.use("/api/user", urouter)
-app.use("/api/messenger", mrouter)
-
+app.use("/api/messages", router)
 
 
 //listen for requests 

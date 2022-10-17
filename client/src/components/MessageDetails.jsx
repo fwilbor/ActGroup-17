@@ -1,13 +1,14 @@
 import { useMessagesContext } from "../hooks/useMessagesContext"
 import { useAuthContext } from "../hooks/useAuthContext"
-
 // using date-fns
 import formatDistanceToNow from "date-fns/formatDistanceToNow"
+import SwearWordCheck from "../components/SwearWordCheck.jsx"
 
 const MessageDetails = ({message}) => {
 
     const { dispatch } = useMessagesContext()
     const { user } = useAuthContext()
+    const flag = SwearWordCheck(message.message)
     
     const handleClick = async () => {
         if (!user) {
@@ -29,13 +30,14 @@ const MessageDetails = ({message}) => {
 
     }
 
-
-
     return (
-        <div className="message-details">
+        
+        <div className="message-details" style={ flag === "Yes" ? { background: '#f06f6f', border: '1px solid red'} : {}}>
+            
             <h4> {message.title} </h4>
             <p><strong>Message: </strong>{message.message}</p>
             <p><strong>Creator: </strong>{message.creator}</p>
+            <p><strong>Flag: </strong>{flag}</p>
 
             <p>{message.createdAt}</p>
 
