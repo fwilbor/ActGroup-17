@@ -4,6 +4,8 @@ import Feed from "../components/feed/Feed";
 import Rightbar from "../components/rightbar/Rightbar";
 import "../index.css";
 
+// import { useAuthContext } from "../hooks/useAuthContext"
+
 
  function Messenger() {
   return (
@@ -13,9 +15,6 @@ import "../index.css";
     <Sidebar />
     <Feed />
     <Rightbar />
-
-
-
     </div>
 
 

@@ -8,7 +8,14 @@ import {
   School,
 } from "@material-ui/icons";
 
+
+import CloseFriend from "../closeFriend/CloseFriend";
+
+
+
 export default function Sidebar() {
+
+  
   return (
     <div className="sidebar">
       <div className="sidebarWrapper">
@@ -44,9 +51,10 @@ export default function Sidebar() {
         <button className="sidebarButton">Show More</button>
         <hr className="sidebarHr" />
         <ul className="sidebarFriendList">
-          {/* {Users.map((u) => (
-            <CloseFriend key={u.id} user={u} />
-          ))} */}
+        
+      
+            <CloseFriend   />
+          
         </ul>
       </div>
     </div>
