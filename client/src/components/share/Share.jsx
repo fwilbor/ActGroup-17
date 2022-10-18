@@ -1,5 +1,5 @@
 import "./share.css"
-import {Image} from "@material-ui/icons"
+import {Image, Chat, LocationOn} from "@material-ui/icons"
 
 export default function Share() {
   return (
@@ -14,7 +14,30 @@ export default function Share() {
             <div className="shareOptions">
                 <div className="shareOption">
                     <Image className ="shareIcon"/>
-                    <span className="shareOptionText">Images</span>
+                    <div className="snap">
+                         <span className="shareOptionText">Snapz</span>
+                         </div>
+                   
+
+                </div>
+                <div className="shareOption">
+                    <Chat className ="shareIcon"/>
+                    <div className="flags">
+                    <span className="shareOptionText">Messages</span>
+                    </div>
+                    
+
+                </div>
+                <div className="shareOption">
+                    <LocationOn className ="shareIcon"/>
+
+                    <div className="location">
+
+                    <span  className="shareOptionText">Location</span>
+                   
+                    </div>
+
+                   
 
                 </div>
             </div>
