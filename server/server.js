@@ -50,6 +50,7 @@ app.get("/", (req, res)=> {
 })
 
 app.use("/api/messages", router)
+app.use("api/uploads", userRouter)
 
 
 //listen for requests 
