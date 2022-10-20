@@ -51,8 +51,6 @@
       align-items: center;
       margin-right: 15px;
       cursor: pointer;
-      
-
   }
   
   .shareIcon{
@@ -63,14 +61,13 @@
   .shareOptionText{
       font-size: 14px;
       font-weight: 500;
-      
   }
   
   .shareButton{
       border: none;
       padding: 7px;
       border-radius: 5px;
-      background-color: green;
+      background-color: blue;
       font-weight: 500;
       margin-right: 20px;
       cursor: pointer;
@@ -93,16 +90,4 @@
     right: 20px;
     cursor: pointer;
     opacity: 0.7;
-  }
-
-  .snap{
-    background-color: blue;
-  }
-
-  .flags{
-    background-color: tomato;
-  }
-
-  .location{
-    background-color: goldenrod;
   }
