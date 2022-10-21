@@ -2,33 +2,9 @@
 import { Buffer } from "buffer";
 import { useEffect, useState} from "react"
 
-//const [data, setData] = useState([]);
-
-// useEffect(() => {
-//     const fetchImages = async () => {
-//         const response = await fetch("/api/uploads")
-//         const json = await response.json()
-
-//         if (response.ok) {
-             //setMessages(json)
-//             response.json()
-
-//         }
-//     }
-
-//     fetchImages()
-
-// }, [])
-
-
 
 function FileUpload() {
-
-    // const [title, setTitle] = useEffect("") 
-    // const [message, setMessage] = useEffect("") 
-    // const [creator, setCreator] = useEffect("")
-    // const [error, setError] = useEffect(null)
-    
+   
     const [data, setData] = useState([]);
     //console.log(data)
 

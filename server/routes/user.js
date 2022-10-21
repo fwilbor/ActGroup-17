@@ -7,10 +7,10 @@ import { loginUser, signupUser } from "../controllers/userController";
 const urouter = express.Router()
 
 // login route
-urouter.post("/login",loginUser)
+urouter.post('/login', loginUser)
 
 // signup route
-urouter.post("/signup", signupUser)
+urouter.post('/signup', signupUser)
 
 
 
