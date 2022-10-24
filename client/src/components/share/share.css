@@ -91,3 +91,18 @@
     cursor: pointer;
     opacity: 0.7;
   }
+
+  .imageOptionText{
+    background-color: green;
+    color: white;
+  }
+
+  .messageOptionText{
+    background-color: red;
+    color: white;
+  }
+
+  .locationOptionText{
+    background-color: goldenrod;
+    color: white;
+  }
