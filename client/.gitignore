@@ -1,13 +1,16 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
 # dependencies
+../node_modules
 /node_modules
+node_modules
 /.pnp
 .pnp.js
 <<<<<<< HEAD
-=======
 node_modules
->>>>>>> franklinbranch
+=======
+.env
+>>>>>>> eb6a9aa91d27de3750da0f2af191406650b15e92
 
 # testing
 /coverage
@@ -21,11 +24,10 @@ node_modules
 .env.development.local
 .env.test.local
 .env.production.local
-<<<<<<< HEAD
-=======
 .env
->>>>>>> franklinbranch
 
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+node_modules

@@ -1,39 +1,65 @@
-<<<<<<< HEAD
-import React from "react";
-
-const App = () => {
-    return (
-    <div>
-        <h1>"Cool React Components Go Here!!!"</h1>
-    </div>
-    );
-}
-
-export default App;
-=======
-import { BrowserRouter, Routes, Route } from "react-router-dom"
-
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom"
+import { useAuthContext } from "./hooks/useAuthContext";
 
 
 // pages & components
 
-import Home from "./pages/Home"
-import  Navbar from "./components/Navbar"
+import FileUpload from "./components/FileUpload";
+import Home from "./pages/Home";
+import Login from "./pages/Login";
+import Signup from "./pages/Signup";
+import  Navbar from "./components/Navbar";
+import Messenger from "./pages/Messenger";
+
+
+
+
 
 function App() {
+  const { user } = useAuthContext()
   return (
     <div className="App">
       <BrowserRouter>
       <Navbar /> 
+    
         <div className="pages">
           <Routes>
 
             <Route  
             
             path = "/"
-            element = {<Home />}
+            element = {user ? <Home /> : <Navigate to = "/login" />}
       
+             />
+
+            <Route  
             
+            path = "/uploads"
+            element = {<FileUpload />}
+      
+             />
+            <Route 
+            
+            path="/login"
+            element={!user ? <Login /> : <Navigate to = "/" />}
+            
+            
+            />
+
+            <Route 
+            
+            path="/signup"
+            element={!user ? <Signup /> : <Navigate to = "/" />}
+            
+            
+            />
+
+<Route 
+            
+            path="/messenger"
+            // element={!user ? <Navigate to = "/" />: <Messenger /> }
+            element= {<Messenger />}
+                      
             
             />
 
@@ -51,4 +77,4 @@ function App() {
 }
 
 export default App;
->>>>>>> franklinbranch
+
