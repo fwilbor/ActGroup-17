@@ -10,7 +10,7 @@ function FileUpload() {
 
 useEffect(() => {
     const fetchImages = async () => {
-        const response = await fetch("/api/uploads")
+        const response = await fetch('/api/uploads')
         const json = await response.json()
 
         if (response.ok) {

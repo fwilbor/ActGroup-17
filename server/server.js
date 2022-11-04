@@ -14,12 +14,27 @@ import multer from "multer";
 import urouter from "./routes/user";
 
 import mrouter from "./routes/messengerTest";
+//import socket from "socket.io";
+import http from "http";
+import { Server, Socket } from "socket.io";
+import path from "path";
+import { fileURLToPath } from "url";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 
 //express app
 const app = express()
 // code for hiding global variables in .env file
 dotenv.config()
+app.use(cors());
+const httpServer = http.createServer(app);
+const io = new Server(httpServer, {
+    cors: {
+        origin:["http://localhost:3000"],
+    },
+});
 
 
 
@@ -31,8 +46,26 @@ const PORT = process.env.PORT
 
 
 mongoose.connect(process.env.MONGO_URI, {useNewUrlParser: true, useUnifiedTopology: true})
-.then(() => app.listen(PORT, () => console.log(`Server running on port: ${PORT}`)))
+.then(() => httpServer.listen(PORT, () => console.log(`Server running on port: ${PORT}`)))
 .catch((error) => console.log(error.message));
+
+io.on('connection', (socket) => {
+    console.log("on connection", socket.id);
+    socket.on('ding', (ding) => {
+        console.log(ding);
+        socket.emit("update_user", {key: "value"});
+    });
+
+    socket.on('disconnect', () => {
+
+        console.log("disconnected");
+    });
+
+    socket.on('userChat', (data) => {
+
+        console.log(data);
+    });
+})
 
 // mongoose.set("useFindAndModify", false); FIND FIX 
 
@@ -46,13 +79,13 @@ app.use((req, res, next) => {
 
 //Routes
 app.get("/", (req, res)=> {
-    res.json({msg: "Welcome to KidzSnap Backend Database Support"});
+    //res.json({msg: "Welcome to KidzSnap Backend Database Support"});
+    res.sendFile(__dirname + '/index.html');
 })
 
 app.use("/api/messages", router)
-app.use("api/uploads", userRouter)
+app.use("/api/uploads", userRouter)
 app.use('/api/user', urouter)
-
 
 //listen for requests 
 // app.listen(PORT, () => {
