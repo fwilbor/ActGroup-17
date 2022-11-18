@@ -5,9 +5,10 @@ const MessageForm = () => {
     const { dispatch } = useMessagesContext()
     const { user } = useAuthContext()
   
-    const [title, setTitle] = useState('')
+    const [email, setEmail] = useState('')
     const [message, setMessage] = useState('')
     const [creator, setCreator] = useState('')
+    const [sendTo, setsendTo] = useState('')
     const [error, setError] = useState(null)
 
   const handleSubmit = async (e) => {
@@ -19,7 +20,7 @@ const MessageForm = () => {
     }
     
     // eslint-disable-next-line
-    var messages = {title, message, creator}
+    var messages = {email, message, creator, sendTo}
     
     const response = await fetch('/api/messages', {
       method: 'POST',
@@ -36,9 +37,10 @@ const MessageForm = () => {
     }
     if (response.ok) {
       setError(null)
-      setTitle('')
+      setEmail('')
       setMessage('')
       setCreator('')
+      setsendTo('')
       console.log('new message added:', json)
       dispatch({type: "CREATE_MESSAGE", payload: json })
     }
@@ -49,14 +51,6 @@ const MessageForm = () => {
     <form className="create" onSubmit={handleSubmit}> 
       <h3>Add a New Message</h3>
 
-      <label>Title: </label>
-      <input 
-        type="text" 
-        onChange={(e) => setTitle(e.target.value)} 
-        value={title}
-        required
-      />
-
       <label>Message: </label>
       <input 
         type="text" 
@@ -65,15 +59,15 @@ const MessageForm = () => {
         required
       />
 
-      <label>Creator: </label>
+      <label>To: </label>
       <input 
         type="text" 
-        onChange={(e) => setCreator(e.target.value)} 
-        value={creator}
+        onChange={(e) => setEmail(e.target.value)} 
+        value={email}
         required 
       />
 
-      <button>Add Message</button>
+      <button>Send Message</button>
       {error && <div className="error">{error}</div>}
     </form>
   )

@@ -17,6 +17,7 @@ import mrouter from "./routes/messengerTest";
 //import socket from "socket.io";
 import http from "http";
 import { Server, Socket } from "socket.io";
+//import socket from "socket.io";//check this
 import path from "path";
 import { fileURLToPath } from "url";
 
@@ -29,12 +30,7 @@ const app = express()
 // code for hiding global variables in .env file
 dotenv.config()
 app.use(cors());
-const httpServer = http.createServer(app);
-const io = new Server(httpServer, {
-    cors: {
-        origin:["http://localhost:3000"],
-    },
-});
+
 
 
 
@@ -49,23 +45,58 @@ mongoose.connect(process.env.MONGO_URI, {useNewUrlParser: true, useUnifiedTopolo
 .then(() => httpServer.listen(PORT, () => console.log(`Server running on port: ${PORT}`)))
 .catch((error) => console.log(error.message));
 
-io.on('connection', (socket) => {
-    console.log("on connection", socket.id);
-    socket.on('ding', (ding) => {
-        console.log(ding);
-        socket.emit("update_user", {key: "value"});
+//Chat Socket IO Template
+const httpServer = http.createServer(app);
+const io = new Server(httpServer, {
+    cors: {
+        origin:["http://localhost:3000"],
+    },
+});
+  
+  global.onlineUsers = new Map();
+  io.on("connection", (socket) => {
+    global.chatSocket = socket;
+    socket.on("add-user", (userId) => {
+      onlineUsers.set(userId, socket.id);
     });
-
-    socket.on('disconnect', () => {
-
-        console.log("disconnected");
+  
+    socket.on("send-msg", (data) => {
+      const sendUserSocket = onlineUsers.get(data.to);
+      if (sendUserSocket) {
+        socket.to(sendUserSocket).emit("msg-recieve", data.msg);
+      }
     });
+  });
 
-    socket.on('userChat', (data) => {
+//  const httpServer = http.createServer(app);
+//   const io = new Server(httpServer, {
+//     cors: {
+//         origin:["http://localhost:3000"],
+//     },
+// });
 
-        console.log(data);
-    });
-})
+  // io.on('connection', (socket) => {
+//     console.log("on connection", socket.id);
+//     socket.on('ding', (ding) => {
+//         console.log(ding);
+//         socket.emit("update_user", {key: "value"});
+//     });
+
+//     socket.on('chat', function(data){
+//         // console.log(data);
+//         io.sockets.emit('chat', data);
+//     });
+
+//     socket.on('disconnect', () => {
+
+//         console.log("disconnected");
+//     });
+
+//     socket.on('userChat', (data) => {
+
+//         console.log(data);
+//     });
+// })
 
 // mongoose.set("useFindAndModify", false); FIND FIX 
 
@@ -85,7 +116,8 @@ app.get("/", (req, res)=> {
 
 app.use("/api/messages", router)
 app.use("/api/uploads", userRouter)
-app.use('/api/user', urouter)
+app.use("/api/user", urouter)
+
 
 //listen for requests 
 // app.listen(PORT, () => {

@@ -10,17 +10,37 @@ import { useAuthContext } from "../hooks/useAuthContext"
 import MessageDetails from "../components/MessageDetails"
 import MessageForm from "../components/MessageForm"
 // import WebcamCapture from "../components/WebcamCapture"
+//import { useNavigate } from "react-router-dom";
+
 
 const Home = () => {
   
     const {messages, dispatch} = useMessagesContext()
     const {user} = useAuthContext()
+    //const [currentUser, setCurrentUser] = useState(undefined);
+    //const navigate = useNavigate();
 
+//     useEffect(() => {
+//     const fetchData=async()=>{
+//         if (!localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)) {
+//           navigate("/login");
+//         } else {
+//           setCurrentUser(
+//             await JSON.parse(
+//               localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)
+//             )
+//           );
+//         }
+//       }
+//       fetchData();
+//   }, [navigate]);
 
+  
     // useEffect hook only fires once and returns object 
     useEffect(() => {
         const fetchMessages = async () => {
             const response = await fetch("/api/messages", {
+                
                 headers: {
                     "Authorization": `Bearer ${user.token}`
                 }
@@ -35,8 +55,7 @@ const Home = () => {
 
         if (user) {
             fetchMessages()
-        }
-
+        } 
     }, [dispatch, user])
     
     return (

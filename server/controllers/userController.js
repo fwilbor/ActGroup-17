@@ -8,15 +8,15 @@ const createToken = (_id) => {
 // login user 
 const loginUser = async (req, res) => {
     
-    const {email, password} = req.body
+    const {username, password} = req.body
 
     try {
-        const user = await userModel.login(email, password)
+        const user = await userModel.login(username, password)
         
         // create a token
         const token = createToken(user._id)
         // passing back token and not _id here
-        res.status(200).json({email, token})
+        res.status(200).json({status: true, user, token})
     } catch (error) {
         res.status(400).json({error: error.message})
     }
@@ -26,19 +26,64 @@ const loginUser = async (req, res) => {
 
 // signup user
 const signupUser = async (req, res) => {
-    const {email, password} = req.body
+    const {username, email, password} = req.body
 
     try {
-        const user = await userModel.signup(email, password)
+        const user = await userModel.signup(username, email, password)
 
         // create a token
         const token = createToken(user._id)
         // passing back token and not _id here
-        res.status(200).json({email, token})
+        res.status(200).json({ status: true, user, token})
     } catch (error) {
         res.status(400).json({error: error.message})
     }
     
 }
 
-export {signupUser, loginUser}
+const getAllUsers = async (req, res, next) => {
+    try {
+      const users = await userModel.find({ _id: { $ne: req.params.id } }).select([
+        "email",
+        "username",
+        "avatarImage",
+        "_id",
+      ]);
+      return res.json(users);
+    } catch (ex) {
+      next(ex);
+    }
+  };
+  
+  const setAvatar = async (req, res, next) => {
+    try {
+      const userId = req.params.id;
+      const avatarImage = req.body.image;
+      const userData = await userModel.findByIdAndUpdate(
+        userId,
+        {
+          isAvatarImageSet: true,
+          avatarImage,
+        },
+        { new: true }
+      );
+      return res.json({
+        isSet: userData.isAvatarImageSet,
+        image: userData.avatarImage,
+      });
+    } catch (ex) {
+      next(ex);
+    }
+  };
+  
+  const logOut = (req, res, next) => {
+    try {
+      if (!req.params.id) return res.json({ msg: "User id is required " });
+      onlineUsers.delete(req.params.id);
+      return res.status(200).send();
+    } catch (ex) {
+      next(ex);
+    }
+  };
+
+export {signupUser, loginUser, getAllUsers, setAvatar, logOut}

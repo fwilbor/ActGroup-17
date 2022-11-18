@@ -1,5 +1,8 @@
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom"
-import { useAuthContext } from "./hooks/useAuthContext";
+
+import React from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom"
+import SetAvatar from "./components/SetAvatar";
+//import { useAuthContext } from "./hooks/useAuthContext";
 
 
 // pages & components
@@ -9,14 +12,14 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import  Navbar from "./components/Navbar";
-import Messenger from "./pages/Messenger";
+import Chat from "./pages/Messenger";
 
 
 
 
 
 function App() {
-  const { user } = useAuthContext()
+  //const { user } = useAuthContext()
   return (
     <div className="App">
       <BrowserRouter>
@@ -28,7 +31,7 @@ function App() {
             <Route  
             
             path = "/"
-            element = {user ? <Home /> : <Navigate to = "/login" />}
+            element = {<Home />}
       
              />
 
@@ -41,7 +44,7 @@ function App() {
             <Route 
             
             path="/login"
-            element={!user ? <Login /> : <Navigate to = "/" />}
+            element={<Login />}
             
             
             />
@@ -49,7 +52,7 @@ function App() {
             <Route 
             
             path="/signup"
-            element={!user ? <Signup /> : <Navigate to = "/" />}
+            element={<Signup />}
             
             
             />
@@ -58,10 +61,21 @@ function App() {
             
             path="/messenger"
             // element={!user ? <Navigate to = "/" />: <Messenger /> }
-            element= {<Messenger />}
+            element= {<Chat />}
                       
             
             />
+
+<Route 
+            
+            path="/setAvatar"
+            // element={!user ? <Navigate to = "/" />: <Messenger /> }
+            element= {<SetAvatar />}
+                      
+            
+            />
+
+            
 
           </Routes>
 
