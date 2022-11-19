@@ -2,9 +2,13 @@ import PostMessage from "../models/messageModel"
 import mongoose from "mongoose";
 import PostImage from "../models/Images";
 import userModel from "../models/userModel"
+//import pkg from "../../client/src/hooks/useAuthContext";
+//import useAuthContext from "../../client/src/hooks/useAuthContext";
 
 const getChats = async (req, res, next) => {
     try {
+      //const { useAuthContext } = pkg;
+      //const [user] = useAuthContext()
       const { from, to } = req.body;
   
       const messages = await PostMessage.find({
@@ -29,7 +33,7 @@ const getChats = async (req, res, next) => {
     try {
       const { from, to, message } = req.body;
       const data = await PostMessage.create({
-        message: { text: message },
+        message: { text: message, to },
         users: [from, to],
         sender: from,
       });

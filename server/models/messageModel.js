@@ -5,12 +5,13 @@ import mongoose from "mongoose";
 
 const messageSchema = mongoose.Schema({
    email: String,
-   message: String,
+   message: {
+      text: { type: String, required: true },
+    },
    //creator: String,
    //sendTo: String,
    user_id: {
       type: String,
-      required: true
    },
    users: Array,
     sender: {

@@ -3,7 +3,7 @@ import { useMessagesContext } from "../hooks/useMessagesContext"
 import { useAuthContext } from '../hooks/useAuthContext'
 const MessageForm = () => {
     const { dispatch } = useMessagesContext()
-    const { user } = useAuthContext()
+    const { user } = useAuthContext();
   
     const [email, setEmail] = useState('')
     const [message, setMessage] = useState('')

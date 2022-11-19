@@ -1,10 +1,10 @@
 import express from "express";
 import {createMessage, getMessage, getMessages, deleteMessage, updateMessage, addMessage, getChats} from "../controllers/messageController";
-import requireAuth from "../middleware/requireauth";
+//import requireAuth from "../middleware/requireauth";
 
 const router = express.Router()
 // require Authorization for all message routes
-router.use(requireAuth)
+//router.use(requireAuth)
 
 // GET all messages
 router.get("/", getMessages)
