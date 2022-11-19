@@ -12,7 +12,7 @@ const loginUser = async (req, res) => {
 
     try {
         const user = await userModel.login(username, password)
-        
+        //console.log(user)
         // create a token
         const token = createToken(user._id)
         // passing back token and not _id here
@@ -30,6 +30,7 @@ const signupUser = async (req, res) => {
 
     try {
         const user = await userModel.signup(username, email, password)
+        //console.log(user)
 
         // create a token
         const token = createToken(user._id)

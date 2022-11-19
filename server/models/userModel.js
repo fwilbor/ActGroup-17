@@ -81,21 +81,21 @@ userSchema.statics.login = async function (username, password) {
         throw Error("All fields must be filled Login")
     }
 
-    const user_exist = await this.findOne({username})
+    const user = await this.findOne({username})
+    
 
     if (!user) {
         throw Error("Invalid Username")
     }
 
     const match = await bcrypt.compare(password, user.password)
+    
 
     if (!match) {
         throw Error("Invalid Password")
     }
 
     return user
-
-
 }
 
 var userModel = mongoose.model("User", userSchema);

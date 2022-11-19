@@ -47,7 +47,7 @@ export default function ChatWindow() {
     });
 
     socket.on("uploaded", (data) => {
-      console.log(data);
+      //console.log(data);
       setChat((prev) => [
         ...prev,
         { message: data.buffer, received: true, type: "image" },
