@@ -59,7 +59,7 @@ userSchema.statics.signup = async function (username, email, password) {
     }
 
     const exists_username = await this.findOne({username})
-
+    
     if (exists_username) {
         throw Error("Username alredy exists")
     }
@@ -72,7 +72,6 @@ userSchema.statics.signup = async function (username, email, password) {
 
     return user
 }
-
 
 // static login method
 userSchema.statics.login = async function (username, password) {
