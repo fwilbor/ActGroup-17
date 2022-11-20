@@ -1,5 +1,5 @@
 import PostMessage from "../models/messageModel"
-import mongoose from "mongoose";
+//import mongoose from "mongoose";
 import PostImage from "../models/Images";
 import userModel from "../models/userModel"
 //import pkg from "../../client/src/hooks/useAuthContext";
@@ -38,7 +38,7 @@ const getChats = async (req, res, next) => {
         sender: from,
       });
   
-      if (data) return res.json({ msg: "Message added successfully." });
+      if (data) return res.json({ msg: "Message added successfully Controller." });
       else return res.json({ msg: "Failed to add message to the database" });
     } catch (ex) {
       next(ex);

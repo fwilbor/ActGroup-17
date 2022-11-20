@@ -56,6 +56,7 @@ export default function ChatContainer({ currentChat, socket }) {
     setMessages(msgs);
   };
 
+  //different then template
   useEffect(() => {
     if (socket.current) {
       socket.current.on("msg-recieve", (msg) => {
@@ -74,6 +75,7 @@ export default function ChatContainer({ currentChat, socket }) {
     }
   }, [messages]);
 
+  //put swearwordcheck in message.message
   return (
     <Container>
       <div className="chat-header">

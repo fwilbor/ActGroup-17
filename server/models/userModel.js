@@ -98,7 +98,7 @@ userSchema.statics.login = async function (username, password) {
     return user
 }
 
-var userModel = mongoose.model("User", userSchema);
+var userModel = mongoose.model("Users", userSchema);
 
 export default userModel
 
