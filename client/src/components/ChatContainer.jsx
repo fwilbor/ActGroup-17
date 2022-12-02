@@ -5,6 +5,7 @@ import Logout from "./Logout";
 import { v4 as uuidv4 } from "uuid";
 import axios from "axios";
 import { sendMessageRoute, recieveMessageRoute } from "../utils/APIRoutes";
+import SwearWordCheck from "../components/SwearWordCheck.jsx"
 
 export default function ChatContainer({ currentChat, socket }) {
   const [messages, setMessages] = useState([]);
@@ -95,6 +96,7 @@ export default function ChatContainer({ currentChat, socket }) {
 
       <div className="chat-messages">
         {messages.map((message) => {
+          const flag = SwearWordCheck(message.message)
           return (
             <div ref={scrollRef} key={uuidv4()}>
               <div
@@ -103,7 +105,7 @@ export default function ChatContainer({ currentChat, socket }) {
                 }`}
               >
                 <div className="content ">
-                  <p>{message.message}</p>
+                  <p style={ flag === "Yes" ? { background: '#f06f6f', border: '1px solid red'} : {}}>{message.message}</p>
                 </div>
               </div>
             </div>
