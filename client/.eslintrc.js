@@ -45,7 +45,7 @@ module.exports = {
     "react/forbid-prop-types": 0,
     "jsx-a11y/anchor-is-valid": 0,
     "react/react-in-jsx-scope": "off",
-    "react/jsx-uses-react": "off",
+    
     "react/no-array-index-key": 0,
     "react/no-unused-prop-types": 1,
     "react-hooks/rules-of-hooks": 2,
