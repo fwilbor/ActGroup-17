@@ -9,8 +9,13 @@ const getChats = async (req, res, next) => {
     try {
       //const { useAuthContext } = pkg;
       //const [user] = useAuthContext()
-      const { from, to } = req.body;
-  
+
+
+     const { from, to } = req.body;
+
+//       let child_id = userModel.parentChildLink = req.params;
+// console.log(child_id.children)
+
       const messages = await PostMessage.find({
         users: {
           $all: [from, to],
@@ -31,19 +36,76 @@ const getChats = async (req, res, next) => {
   
   const addMessage = async (req, res, next) => {
     try {
-      const { from, to, message } = req.body;
+
+      const { from, to, parentLink, message } = req.body;
       const data = await PostMessage.create({
         message: { text: message, to },
-        users: [from, to],
+        users: [from, to, parentLink],
         sender: from,
-      });
+        });
   
-      if (data) return res.json({ msg: "Message added successfully Controller." });
+      if (data) return res.json({ msg: "Message added successfully." });
       else return res.json({ msg: "Failed to add message to the database" });
     } catch (ex) {
       next(ex);
     }
   };
+
+  //get child messages
+  const getChildMessages = async (req, res) => {
+//     try {
+//       const {parentChildLink} = req.params
+//     //const childname = req.user.creator TestNMD.units = req.params.units.split(',')
+
+//     const childmessages = await PostMessage.find({users: { $eq: userModel.parentChildLink }}).sort({createdAt: -1})
+//     res.status(200).json(childmessages)
+// } catch (error){
+//     res.status(404).json({ message: error.message});
+  
+//       const messages = await PostMessage.find({
+//         users: {
+//           $all: [from, to],
+//         },
+//       }).sort({ updatedAt: 1 });
+  
+//       const projectedMessages = messages.map((msg) => {
+//         return {
+//           fromSelf: msg.sender.toString() === children,
+//           message: msg.message.text,
+//         };
+//       });
+//       res.json(projectedMessages);
+//     } catch (ex) {
+//       next(ex);
+//     }
+//   };
+
+
+// try {
+//   const { id } = req.params
+
+//   if (!mongoose.Types.ObjectId.isValid(id)) {
+//     return res.status(404).json({error: 'No such workout'})
+//   }
+//   const link = await userModel.findById(id)
+//   console.log(link)
+//   if (!link) {
+//     return res.status(404).json({error: 'No such workout'})
+//   }
+//   return res.status(200).json(link);
+// } catch (ex) {
+//   next(ex);
+// }
+
+const { id } = req.params
+
+  const link = await userModel.findById(id)
+  console.log(link.parentLink)
+  if (!link) {
+    return res.status(404).json({error: 'No such workout'})
+  }
+  res.status(200).json(link);
+};
 
 // get all messages
 const getMessages = async (req, res) => {
@@ -96,7 +158,7 @@ const getMessages = async (req, res) => {
 const getMessage = async (req, res) => {
 
     const {creator} = req.params
-    //const childname = req.user.creator
+    //const childname = req.user.creator TestNMD.units = req.params.units.split(',')
 
 
     if (!PostMessage.find({creator})) {
@@ -214,4 +276,4 @@ const updateMessage = async (req, res) => {
 
 
 
-export  {createMessage, getMessage, getMessages, deleteMessage, updateMessage, getChats, addMessage} 
+export  {createMessage, getMessage, getMessages, deleteMessage, updateMessage, getChats, addMessage, getChildMessages} 
