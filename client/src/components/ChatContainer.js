@@ -108,13 +108,8 @@ export default function ChatContainer({ currentChat, socket }) {
                   message.fromSelf ? "sended" : "recieved"
                 }`}
               >
-<<<<<<< HEAD
-                <div className="content " >
-                  <p>{message.message}</p>
-=======
                 <div className="content ">
                   <p style={ flag === "Yes" ? { background: '#f06f6f', border: '1px solid red'} : {}}>{message.message}</p>
->>>>>>> 436098e4924ef29c75cb0dc20cbb482aeedd37cd
                 </div>
               </div>
             </div>

@@ -54,7 +54,7 @@ export default function Router() {
       element: <SetAvatar />,
     },
     {
-      path: "/home",
+      path: "/addchild",
       element: <Home />,
     },
     {
