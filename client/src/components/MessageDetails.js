@@ -2,7 +2,7 @@ import { useMessagesContext } from "../hooks/useMessagesContext"
 import { useAuthContext } from "../hooks/useAuthContext"
 // using date-fns
 import formatDistanceToNow from "date-fns/formatDistanceToNow"
-import SwearWordCheck from "../components/SwearWordCheck.jsx"
+import SwearWordCheck from "../components/SwearWordCheck.js"
 
 const MessageDetails = ({message}) => {
 

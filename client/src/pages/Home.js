@@ -1,5 +1,5 @@
 // fetching data from back-end api to front-end using useEffect()
-import { useEffect } from "react"
+import React, { useEffect } from "react"
 
 // importing useContext to keep global state of Messages
 import { useMessagesContext } from "../hooks/useMessagesContext"

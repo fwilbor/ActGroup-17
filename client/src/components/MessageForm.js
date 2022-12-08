@@ -26,9 +26,10 @@ const MessageForm = () => {
     setValues({ ...values, [event.target.name]: event.target.value });
   };
 
+  // useEffect and navigate are routing and re-rendering page (likely needs to be changed)
   useEffect(() => {
     if (localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)) {
-      navigate("/");
+      navigate("/dashboard/app");
     }
   }, [navigate]);
 
