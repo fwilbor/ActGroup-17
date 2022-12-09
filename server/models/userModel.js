@@ -38,8 +38,8 @@ const userSchema = mongoose.Schema({
         default: "",
       },
 
-      child: Array,
-      children: {
+      friends: Array,
+      friend: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "User",
       },

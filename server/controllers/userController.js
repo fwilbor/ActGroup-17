@@ -117,7 +117,7 @@ const getAllUsers = async (req, res, next) => {
       const users = await userModel.find({ parentLink: { $eq: req.params.id } }).select([
         "username",
         "avatarImage",
-        "_id",
+        "friends",
       ]);
       return res.json(users);
     } catch (ex) {
