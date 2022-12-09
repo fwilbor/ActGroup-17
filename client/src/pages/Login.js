@@ -57,7 +57,17 @@ export default function Login() {
           JSON.stringify(data.user)
         );
 
-        navigate("/messenger");
+        let parent_or_child = await JSON.parse(
+          localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)
+        ).parentLink;
+
+        if (parent_or_child === undefined) {
+          navigate("/dashboard/app");
+        } else {
+          navigate("/messenger");
+        }
+
+        
       }
     }
   };
