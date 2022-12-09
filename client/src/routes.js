@@ -35,7 +35,6 @@ export default function Router() {
         { path: 'user', element: <UserPage /> },
       ],
     },
-    
     {
       element: <SimpleLayout />,
       children: [
@@ -54,7 +53,7 @@ export default function Router() {
       element: <SetAvatar />,
     },
     {
-      path: "/home",
+      path: "/addchild",
       element: <Home />,
     },
     {

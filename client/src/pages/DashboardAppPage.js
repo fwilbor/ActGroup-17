@@ -4,6 +4,8 @@ import { faker } from '@faker-js/faker';
 import { useTheme } from '@mui/material/styles';
 import { Grid, Container, Typography } from '@mui/material';
 
+import MessageForm from '../components/MessageForm';
+
 // sections
 import {
   AppNewsUpdate,
@@ -134,6 +136,9 @@ export default function DashboardAppPage() {
                 postedAt: faker.date.recent(),
               }))}
             />
+            <div>
+            <MessageForm />
+            </div>
           </Grid>
 
         </Grid>

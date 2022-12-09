@@ -1,11 +1,12 @@
 import mongoose from "mongoose"
 import bcrypt from "bcrypt"
 import validator from "validator"
+//import childModel from "./childModel"
 
 // const Schema = mongoose.Schema
 
 const userSchema = mongoose.Schema({
-    creator: {
+    parentLink: {
         type: String,
 
     },
@@ -18,7 +19,10 @@ const userSchema = mongoose.Schema({
       },
     email: {
         type: String,
-        unique: true
+        index: {
+            unique: true,
+            partialFilterExpression: {email: {$type: 'string'}},
+          },
 
     },
     password: {
@@ -34,6 +38,12 @@ const userSchema = mongoose.Schema({
         default: "",
       },
 
+      child: Array,
+      children: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+      },
+
 })
 
 // static signup method
@@ -44,12 +54,12 @@ userSchema.statics.signup = async function (username, email, password) {
         throw Error("All fields must be filled Signup")
     }
 
-    if (!validator.isEmail(email)) {
-        throw Error("Email is not valid")
-    }
+    // if (!validator.isEmail(email)) {
+    //     throw Error("Email is not valid")
+    // }
 
     if (!validator.isStrongPassword(password)) {
-        throw Error("Password is not strong enough")
+        throw Error("Password is not strong enough Parent signup")
     }
 
     const exists = await this.findOne({email})
@@ -69,6 +79,33 @@ userSchema.statics.signup = async function (username, email, password) {
 
     // creates new user with hashed password
     const user = await this.create({ username, email, password: hash })
+
+    return user
+}
+
+// child signup method
+userSchema.statics.childsignup = async function (username, password, parentLink) {
+
+    // validation
+    if (!username || !password) {
+        throw Error("All fields must be filled Signup")
+    }
+
+    if (!validator.isStrongPassword(password)) {
+        throw Error("Password is not strong enough")
+    }
+
+    const exists_username = await this.findOne({username})
+    
+    if (exists_username) {
+        throw Error("Username alredy exists")
+    }
+    //used to add hash code to value can increase value but slows system
+    const salt = await bcrypt.genSalt(10)
+    const hash = await bcrypt.hash(password, salt)
+
+    // creates new user with hashed password
+    const user = await this.create({ username, parentLink, password: hash })
 
     return user
 }
@@ -97,7 +134,20 @@ userSchema.statics.login = async function (username, password) {
     return user
 }
 
+// userSchema.statics.getAllChildren = async function (username, avatarImage, _id, parentLink) => {
+//     try {
+//       const users = await userModel.find({ parentLink: { $eq: parent_data.id } }).select([
+//         "username",
+//         "avatarImage",
+//         "_id",
+//       ]);
+//       return res.json(users);
+//     } catch (ex) {
+//       next(ex);
+//     }
+//   };
+
 var userModel = mongoose.model("Users", userSchema);
 
 export default userModel
-
+//export default mongoose.models['Users'] || mongoose.model('Users', childSchema);

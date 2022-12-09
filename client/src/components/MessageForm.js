@@ -1,74 +1,129 @@
-import { useState } from 'react'
-import { useMessagesContext } from "../hooks/useMessagesContext"
-import { useAuthContext } from '../hooks/useAuthContext'
+import React, { useState, useEffect } from "react";
+// import { useMessagesContext } from "../hooks/useMessagesContext"
+// import { useAuthContext } from '../hooks/useAuthContext'
+import { useNavigate } from "react-router-dom";
+import { getAllChildren, registerChild } from "../utils/APIRoutes";
+import axios from "axios";
+
 const MessageForm = () => {
-    const { dispatch } = useMessagesContext()
-    const { user } = useAuthContext();
+    // const { dispatch } = useMessagesContext()
+    // const { user } = useAuthContext();
   
-    const [email, setEmail] = useState('')
-    const [message, setMessage] = useState('')
-    const [creator, setCreator] = useState('')
-    const [sendTo, setsendTo] = useState('')
-    const [error, setError] = useState(null)
+    // const [email, setEmail] = useState('')
+    // const [message, setMessage] = useState('')
+    // const [creator, setCreator] = useState('')
+    // const [sendTo, setsendTo] = useState('')
+    //const [error, setError] = useState(null)
+
+    const navigate = useNavigate();
+
+  const [values, setValues] = useState({
+    username: "",
+    password: "",
+  });
+
+  const handleChange = (event) => {
+    setValues({ ...values, [event.target.name]: event.target.value });
+  };
+
+  // useEffect and navigate are routing and re-rendering page (likely needs to be changed)
+  useEffect(() => {
+    if (localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)) {
+      navigate("/dashboard/app");
+    }
+  }, [navigate]);
+
+  // get childs username and info to parent dashboard
+  useEffect(() => {
+    const fetchData=async()=>{
+      const parent_data = await JSON.parse(
+        localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)
+      );
+      const parentLink = parent_data._id
+        const data = await axios.get(`${getAllChildren}/${parentLink}`);
+        console.log(data)
+
+  }
+  fetchData();
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault()
 
-    if (!user) {
-        setError("You must be logged in")
-        return
-    }
-    
+    const parent_data = await JSON.parse(
+      localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)
+    );
+    const parentLink = parent_data._id
+        
     // eslint-disable-next-line
-    var messages = {email, message, creator, sendTo}
-    
-    const response = await fetch('/api/messages', {
-      method: 'POST',
-      body: JSON.stringify(messages),
-      headers: {
-        'Content-Type': 'application/json',
-        "Authorization": `Bearer ${user.token}`
-      }
-    })
-    const json = await response.json()
+    const {username, password} = values
+   
+    const { data } = await axios.post(registerChild, {
+      username,
+      password,
+      parentLink,
+    });
+    console.log(data)
 
-    if (!response.ok) {
-      setError(json.error)
+    if (data.status === false) {
+      console.log("Error making child account")
     }
-    if (response.ok) {
-      setError(null)
-      setEmail('')
-      setMessage('')
-      setCreator('')
-      setsendTo('')
-      console.log('new message added:', json)
-      dispatch({type: "CREATE_MESSAGE", payload: json })
+    if (data.status === true) {
+      // localStorage.setItem(
+      //   process.env.REACT_APP_LOCALHOST_KEY,
+      //   JSON.stringify(data.user)
+      // );
+      console.log("Child added")
     }
+
+    
+    
+    // const { children_data } = await axios.post(getAllChildren, {
+    //   username,
+    //   avatarImage,
+    //   _id,
+    // });
+    // console.log(children_data)
+
+
+
+    // const json = await response.json()
+
+    // if (!response.ok) {
+    //   setError(json.error)
+    // }
+    // if (response.ok) {
+    //   setError(null)
+    //   setEmail('')
+    //   setMessage('')
+    //   setCreator('')
+    //   setsendTo('')
+    //   console.log('new message added:', json)
+    //   dispatch({type: "CREATE_MESSAGE", payload: json })
+    // }
 
   }
 
   return (
     <form className="create" onSubmit={handleSubmit}> 
-      <h3>Add a New Message</h3>
+      <h3>Add Child</h3>
 
-      <label>Message: </label>
-      <input 
-        type="text" 
-        onChange={(e) => setMessage(e.target.value)} 
-        value={message}
-        required
-      />
+      <input
+            type="text"
+            placeholder="Username"
+            name="username"
+            onChange={(e) => handleChange(e)}
+            min="3"
+          />
+          <input
+            type="password"
+            placeholder="Password"
+            name="password"
+            onChange={(e) => handleChange(e)}
+          />
 
-      <label>To: </label>
-      <input 
-        type="text" 
-        onChange={(e) => setEmail(e.target.value)} 
-        value={email}
-        required 
-      />
-
-      <button>Send Message</button>
-      {error && <div className="error">{error}</div>}
+      <button>Add child</button>
+      
     </form>
   )
 

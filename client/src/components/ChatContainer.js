@@ -17,9 +17,11 @@ export default function ChatContainer({ currentChat, socket }) {
       const data = await JSON.parse(
         localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)
       );
+      //console.log('stored', data.parentLink)
       const response = await axios.post(recieveMessageRoute, {
         from: data._id,
         to: currentChat._id,
+        parentLink: data.parentLink,
       });
       setMessages(response.data);
     };
@@ -41,6 +43,7 @@ export default function ChatContainer({ currentChat, socket }) {
     const data = await JSON.parse(
       localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)
     );
+
     socket.current.emit("send-msg", {
       to: currentChat._id,
       from: data._id,
@@ -49,6 +52,7 @@ export default function ChatContainer({ currentChat, socket }) {
     await axios.post(sendMessageRoute, {
       from: data._id,
       to: currentChat._id,
+      parentLink: data.parentLink,
       message: msg,
     });
 

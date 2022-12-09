@@ -1,5 +1,5 @@
 import express from "express";
-import {createMessage, getMessage, getMessages, deleteMessage, updateMessage, addMessage, getChats} from "../controllers/messageController";
+import {createMessage, getMessage, getMessages, deleteMessage, updateMessage, addMessage, getChats, getChildMessages} from "../controllers/messageController";
 //import requireAuth from "../middleware/requireauth";
 
 const router = express.Router()
@@ -27,6 +27,7 @@ router.patch("/:id", updateMessage)
 //chat routes
 router.post("/addmsg/", addMessage);
 router.post("/getmsg/", getChats);
+router.get('/getmsg/:id', getChildMessages)
 
 export default router
 
