@@ -123,6 +123,41 @@ const getAllUsers = async (req, res, next) => {
     } catch (ex) {
       next(ex);
     }
+  };
+
+    // Add Friend 
+    const addFriend = async (req, res) => {
+    
+    const {username, current_user} = req.body
+
+     try {
+
+     //const user = await userModel.addFriend(username)
+      //console.log(user)
+
+      // create a token
+      //const token = createToken(user._id)
+      // passing back token and not _id here
+      
+      res.status(200).json({ status: true, user})
+      const updateVisitor = await userModel.addFriend.findOneAndUpdate(
+        {
+          username: current_user
+          
+        },
+        {
+          $push:{
+           friends: user
+          }
+        })
+        console.log(current_user)
+      console.log(username)
+      console.log(updateVisitor)
+    } catch (error) {
+      res.status(403).json({error: error.message})
+  }
+
+};
     
     // const {username, avatarImage, _id} = req.body
 
@@ -133,6 +168,6 @@ const getAllUsers = async (req, res, next) => {
     //     res.status(400).json({error: error.message})
     // }
 
-}
+//}
 
-export {signupUser, childsignup, loginUser, getAllUsers, setAvatar, logOut, getAllChildren}
+export {signupUser, childsignup, loginUser, getAllUsers, setAvatar, logOut, getAllChildren, addFriend}

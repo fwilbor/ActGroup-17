@@ -40,7 +40,7 @@ const userSchema = mongoose.Schema({
 
       friends: Array,
       friend: {
-        type: mongoose.Schema.Types.ObjectId,
+        type: String,
         ref: "User",
       },
 
@@ -129,6 +129,23 @@ userSchema.statics.login = async function (username, password) {
 
     if (!match) {
         throw Error("Invalid Password")
+    }
+
+    return user
+}
+
+// static login method
+userSchema.statics.addFriend = async function (username) {
+    
+    if (!username) {
+        throw Error("You must add a username!")
+    }
+
+    const user = await this.findOne({username})
+    
+
+    if (!user) {
+        throw Error("Invalid Username")
     }
 
     return user

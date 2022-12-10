@@ -19,6 +19,7 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import Chat from "./pages/Messenger";
+import FriendForm from './components/FriendForm';
 //
 
 // ----------------------------------------------------------------------
@@ -71,6 +72,10 @@ export default function Router() {
     {
       path: "/signup",
       element: <Signup />,
+    },
+    {
+      path: "/addfriend",
+      element: <FriendForm />,
     },
   ]);
 
