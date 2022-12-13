@@ -9,7 +9,7 @@ const FriendForm = () => {
     // const { dispatch } = useMessagesContext()
     // const { user } = useAuthContext();
   
-    // const [email, setEmail] = useState('')
+    const [user, setUser] = useState('')
     // const [message, setMessage] = useState('')
     // const [creator, setCreator] = useState('')
     // const [sendTo, setsendTo] = useState('')
@@ -17,30 +17,67 @@ const FriendForm = () => {
 
     //const navigate = useNavigate();
 
-  const [values, setValues] = useState({
-    username: "",
-  });
+  // const [values, setValues] = useState({
+  //   username: "",
+  // });
 
   const handleChange = (event) => {
-    setValues({ ...values, [event.target.name]: event.target.value });
+    //setValues({ ...values, [event.target.name]: event.target.value });
+    setUser(event.target.value)
   };
+
+  //  useEffect(() => {
+  //   const fetchData=async()=>{
+  //     const user_data = await JSON.parse(
+  //       localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)
+  //     );
+  //     const current_user = user_data.username
+  //     console.log(current_user)
+
+  // }
+  // fetchData();
+  // }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault()
+
+  //   const user_data = await JSON.parse(
+  //     localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)
+  //   );
+  //   const user_username = user_data.username
+  //     const data = await axios.get(`${addFriend}/${user_username}`);
+  //     console.log(data)
 
     const user_data = await JSON.parse(
       localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)
     );
     const friend_array = user_data.friends
-    const current_user = user_data.username
-    console.log(current_user)
+    //const current_user = user_data.username
+
   
         
     // eslint-disable-next-line
-    const {username} = values
+    const username = user
+    const newFriend = ({addFriend},(req,res)=> {
+      // if(err){
+      //   console.log(err)
+      // } else{
+      const new_friend = friend_array.push(username);
+      console.log(new_friend)
+      //new_friend
+             //.save()
+             //.then(()=>console.log("successful friend upload????"))
+             //.catch((err) => console.log(err));
+      //}
+          
+    })
+    newFriend();
+    
 
-    const { data } = await axios.post(addFriend, {
-      username,
+    //console.log(username)
+
+    const { data } = await axios.patch(`${addFriend}/${user_data._id}`, {
+      friends: username
     });
     console.log(data)
    
@@ -50,7 +87,8 @@ const FriendForm = () => {
     }
     if (data.status === true) {
 
-      friend_array.push(username)
+      //friend_array.push(current_user)
+      console.log("You might have added a friend")
 
 
       
@@ -90,8 +128,7 @@ const FriendForm = () => {
 
       <input
             type="text"
-            placeholder="Username"
-            name="username"
+            value={user}
             onChange={(e) => handleChange(e)}
             min="3"
           />

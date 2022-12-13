@@ -65,13 +65,36 @@ const childsignup = async (req, res) => {
 }
 
 const getAllUsers = async (req, res, next) => {
+  const { id } = req.params
+
+  const link = await userModel.findById(id)
+  
+  try {
+    const users = await userModel.find({ _id: { $nin: link.friends } }).select([
+      "email",
+      "username",
+      "avatarImage",
+      "_id",
+    ]);
+    return res.json(users);
+  } catch (ex) {
+    next(ex);
+  }
+};
+
+const getAllFriends = async (req, res, next) => {
+  const { id } = req.params
+
+  const link = await userModel.findById(id)
+
     try {
-      const users = await userModel.find({ _id: { $ne: req.params.id } }).select([
+      const users = await userModel.find({ _id: { $in: link.friends } }).select([
         "email",
         "username",
         "avatarImage",
         "_id",
       ]);
+
       return res.json(users);
     } catch (ex) {
       next(ex);
@@ -128,9 +151,11 @@ const getAllUsers = async (req, res, next) => {
     // Add Friend 
     const addFriend = async (req, res) => {
     
-    const {username, current_user} = req.body
+      
 
-     try {
+   try {
+
+      //const avatarImage = req.body.image;
 
      //const user = await userModel.addFriend(username)
       //console.log(user)
@@ -138,21 +163,34 @@ const getAllUsers = async (req, res, next) => {
       // create a token
       //const token = createToken(user._id)
       // passing back token and not _id here
+      //const current_user = current_user
+
+      const { id } = req.params;
+
+      const link = await userModel.findById(id)
       
-      res.status(200).json({ status: true, user})
-      const updateVisitor = await userModel.addFriend.findOneAndUpdate(
-        {
-          username: current_user
+      //const user = req.body;
+      console.log(link)
+      link.friends.push('638ffcbba7447e5150a18b8d')
+
+      //const user_id = await userModel.findById(user)
+      //console.log(user_id)
+      
+      
+      //console.log(user)
+      //const updateVisitor = await userModel.findOneAndUpdate(link._id, user
+        // {
+        //   username: link.username
           
-        },
-        {
-          $push:{
-           friends: user
-          }
-        })
-        console.log(current_user)
-      console.log(username)
-      console.log(updateVisitor)
+        // },
+        // {
+        //    friends: username
+        //   }
+        //)
+        //console.log(updateVisitor)
+      
+      //console.log(user)
+      res.status(200).json({ status: true})
     } catch (error) {
       res.status(403).json({error: error.message})
   }
@@ -170,4 +208,4 @@ const getAllUsers = async (req, res, next) => {
 
 //}
 
-export {signupUser, childsignup, loginUser, getAllUsers, setAvatar, logOut, getAllChildren, addFriend}
+export {signupUser, childsignup, loginUser, getAllUsers, setAvatar, logOut, getAllChildren, addFriend, getAllFriends}

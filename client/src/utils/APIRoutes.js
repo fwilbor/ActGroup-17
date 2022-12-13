@@ -5,6 +5,7 @@ export const getAllChildren = `${host}/api/user/children`;
 export const registerChild = `${host}/api/user/child`;
 export const logoutRoute = `${host}/api/user/logout`;
 export const allUsersRoute = `${host}/api/user/allusers`;
+export const getAllFriends = `${host}/api/user/allfriends`;
 export const sendMessageRoute = `${host}/api/messages/addmsg`;
 export const recieveMessageRoute = `${host}/api/messages/getmsg`;
 export const setAvatarRoute = `${host}/api/user/setavatar`;

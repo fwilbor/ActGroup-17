@@ -18,7 +18,8 @@ import FileUpload from "./components/FileUpload";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
-import Chat from "./pages/Messenger";
+import Chat from "./pages/ChatRoom";
+import Messenger from "./pages/Messenger";
 import FriendForm from './components/FriendForm';
 //
 
@@ -65,9 +66,14 @@ export default function Router() {
       element: <Login />,
     },
     {
-      path: "/messenger",
+      path: "/chat",
       // element={!user ? <Navigate to = "/" />: <Messenger /> }
       element: <Chat />,
+    },
+    {
+      path: "/messenger",
+      // element={!user ? <Navigate to = "/" />: <Messenger /> }
+      element: <Messenger />,
     },
     {
       path: "/signup",
