@@ -77,7 +77,7 @@ const FriendForm = () => {
     //console.log(username)
 
     const { data } = await axios.patch(`${addFriend}/${user_data._id}`, {
-      friends: username
+      username
     });
     console.log(data)
    
@@ -129,6 +129,8 @@ const FriendForm = () => {
       <input
             type="text"
             value={user}
+            placeholder="Username"
+            name="username"
             onChange={(e) => handleChange(e)}
             min="3"
           />

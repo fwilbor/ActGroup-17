@@ -151,11 +151,21 @@ const getAllFriends = async (req, res, next) => {
     // Add Friend 
     const addFriend = async (req, res) => {
     
+      const { username } = req.body
+      const friend_add = await userModel.findOne({username: { $eq: username }})
+      //console.log(friend_add)
+
+      const { id } = req.params;
+
+      const user = await userModel.findById(id)
+      //console.log(user)
       
 
    try {
 
-      //const avatarImage = req.body.image;
+      const results = user.friends.push(friend_add.id)
+      console.log(user.friends)  
+    //const avatarImage = req.body.image;
 
      //const user = await userModel.addFriend(username)
       //console.log(user)
@@ -165,13 +175,17 @@ const getAllFriends = async (req, res, next) => {
       // passing back token and not _id here
       //const current_user = current_user
 
-      const { id } = req.params;
+      //const { id } = req.params;
 
-      const link = await userModel.findById(id)
+      //const user = await userModel.findById(id)
+
+      const { username } = req.params.username;
+      const friend = await userModel.findOne({username: { $eq: username }})
+      console.log(username)
       
       //const user = req.body;
-      console.log(link)
-      link.friends.push('638ffcbba7447e5150a18b8d')
+      //console.log(user)
+      //user.friends.push('638ffcbba7447e5150a18b8d')
 
       //const user_id = await userModel.findById(user)
       //console.log(user_id)
