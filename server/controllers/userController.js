@@ -164,46 +164,23 @@ const getAllFriends = async (req, res, next) => {
    try {
 
       const results = user.friends.push(friend_add.id)
-      console.log(user.friends)  
-    //const avatarImage = req.body.image;
+      
+      
+      await user.save()
+      console.log(user.friends)
 
-     //const user = await userModel.addFriend(username)
-      //console.log(user)
+      const connect_friend = friend_add.friends.push(user.id)
+      
+      
+      await friend_add.save()
+      console.log(connect_friend)
 
       // create a token
       //const token = createToken(user._id)
       // passing back token and not _id here
-      //const current_user = current_user
-
-      //const { id } = req.params;
-
-      //const user = await userModel.findById(id)
-
-      const { username } = req.params.username;
-      const friend = await userModel.findOne({username: { $eq: username }})
-      console.log(username)
+            
       
-      //const user = req.body;
-      //console.log(user)
-      //user.friends.push('638ffcbba7447e5150a18b8d')
 
-      //const user_id = await userModel.findById(user)
-      //console.log(user_id)
-      
-      
-      //console.log(user)
-      //const updateVisitor = await userModel.findOneAndUpdate(link._id, user
-        // {
-        //   username: link.username
-          
-        // },
-        // {
-        //    friends: username
-        //   }
-        //)
-        //console.log(updateVisitor)
-      
-      //console.log(user)
       res.status(200).json({ status: true})
     } catch (error) {
       res.status(403).json({error: error.message})
@@ -211,14 +188,6 @@ const getAllFriends = async (req, res, next) => {
 
 };
     
-    // const {username, avatarImage, _id} = req.body
-
-    // try {
-    //     const user = await userModel.getAllChildren(username, avatarImage, _id)
-    //     res.status(200).json({user})
-    // } catch (error) {
-    //     res.status(400).json({error: error.message})
-    // }
 
 //}
 
