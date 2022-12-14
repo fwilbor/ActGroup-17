@@ -142,8 +142,6 @@ const getAllFriends = async (req, res, next) => {
 
       let session = (convert_logout - convert_login);
       console.log(session)
-      session += session
-      console.log(session)
           
       onlineUsers.delete(req.params.id);
       return res.status(200).send();
