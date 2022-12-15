@@ -57,7 +57,21 @@ export default function Login() {
           JSON.stringify(data.user)
         );
 
-        navigate("/messenger");
+        let parent_or_child = await JSON.parse(
+          localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)
+        ).parentLink;
+
+        if (parent_or_child === undefined) {
+          navigate("/dashboard/app");
+        } else {
+          navigate("/chat");
+          // let currentTimestamp = Date.now()
+          // console.log(currentTimestamp); // get current timestamp
+          // let login_date = new Intl.DateTimeFormat('en-US', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit' }).format(currentTimestamp)
+          // console.log(login_date)
+        }
+
+        
       }
     }
   };

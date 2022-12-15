@@ -126,7 +126,9 @@ export default function ChatWindow() {
             </Typography>
           )
         )}
+
       </Box>
+      
       <Box component="form" onSubmit={handleForm}>
         {typing && (
           <InputLabel sx={{ color: "white" }} shrink htmlFor="message-input">
@@ -159,6 +161,7 @@ export default function ChatWindow() {
                 <AttachFileIcon />
               </IconButton>
               <IconButton type="submit" edge="end">
+              
                 <SendIcon />
               </IconButton>
             </InputAdornment>
