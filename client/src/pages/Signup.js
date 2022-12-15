@@ -107,9 +107,9 @@ export default function Register() {
       return false;
     }
     
-    else if(username.length > 6){
+    else if(username.length > 10){
       toast.error(
-        "Username should not more than 6 characters.",
+        "Username should not more than 10 characters.",
         toastOptions
       );
       
