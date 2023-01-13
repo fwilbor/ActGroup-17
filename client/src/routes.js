@@ -21,6 +21,7 @@ import Signup from "./pages/Signup";
 import Chat from "./pages/ChatRoom";
 import Messenger from "./pages/Messenger";
 import FriendForm from './components/FriendForm';
+import WebcamCapture from './components/WebcamCapture';
 //
 
 // ----------------------------------------------------------------------
@@ -82,6 +83,10 @@ export default function Router() {
     {
       path: "/addfriend",
       element: <FriendForm />,
+    },
+    {
+      path: "/addImage",
+      element: <WebcamCapture />,
     },
   ]);
 

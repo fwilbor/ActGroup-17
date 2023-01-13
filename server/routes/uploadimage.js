@@ -8,7 +8,7 @@ const userRouter = express.Router()
 userRouter.get("/", getImage)
 
 // Post image route
-userRouter.post("/", createImage)
+userRouter.post("/addimage", createImage)
 
 
 

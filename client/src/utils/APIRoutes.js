@@ -11,3 +11,4 @@ export const recieveMessageRoute = `${host}/api/messages/getmsg`;
 export const setAvatarRoute = `${host}/api/user/setavatar`;
 export const getChildMessages = `${host}/api/messages/getmsg/:id`
 export const addFriend = `${host}/api/user/addfriend`;
+export const addImage = `${host}/api/uploads/addimage`;

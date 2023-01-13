@@ -83,6 +83,7 @@ userSchema.statics.signup = async function (username, email, password) {
 
     // creates new user with hashed password
     const user = await this.create({ username, email, password: hash })
+    console.log(user)
 
     return user
 }

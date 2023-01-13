@@ -41,7 +41,7 @@ const Storage = multer.memoryStorage();
 
 const upload = multer({
     storage:Storage
-}).single('testImage')
+}).single('testimage')
 
 // Create storage engine
 // const storage = new GridFsStorage({
@@ -161,6 +161,20 @@ const getImage = async (req, res) => {
 //   });
 
 const createImage = app.post = async (req, res) => {
+
+    //const image = Object.values(req.body)
+    //PostImage.image.data = req.body.PostImage.image
+    
+
+    // const postImage = new PostImage()
+    // const image = req.body.postImage;
+
+    // img_data = image[req.body];
+    // const split = img_data.split(',');
+    // base64string = split[1];
+    // const buffer = Buffer.from(base64string, 'base64');
+
+    // postImage.image.data = buffer;
     upload(req, res, (err) => {
         if (err) {
             console.log(err);
@@ -169,17 +183,23 @@ const createImage = app.post = async (req, res) => {
             const newImage = new PostImage({
                 name: req.body.name,
                 image: {
-                    data:req.file.buffer,
-                    contentType: "image/png",
+                    type: "Object",
+                    data: req.body,
+                    contentType: "multipart/form-data",
                 },
             });
             newImage
                 .save()
                 .then(() => res.send("successfully uploaded"))
                 .catch((err) => console.log(err));
-        }
+        console.log(newImage.image)
+            }
     });
 };
+
+
+
+
 //}
 
 // GeekbyGeek tutorial
