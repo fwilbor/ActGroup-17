@@ -96,6 +96,7 @@ const getImage = async (req, res) => {
     const imageData = await PostImage.find()
     res.json(imageData)
 
+
 }
   
 
@@ -183,9 +184,8 @@ const createImage = app.post = async (req, res) => {
             const newImage = new PostImage({
                 name: req.body.name,
                 image: {
-                    type: "Object",
-                    data: req.body,
-                    contentType: "multipart/form-data",
+                    data: JSON.parse(JSON.stringify(req.body.image)),
+                    contentType: "image/png",
                 },
             });
             newImage

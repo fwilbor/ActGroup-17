@@ -4,7 +4,7 @@ import React, {useRef,useEffect, useState} from 'react';
 import { addImage } from 'src/utils/APIRoutes';
 import axios from "axios";
 import { Buffer } from "buffer";
-//import { Buffer } from "buffer";
+
 
 
 
@@ -86,7 +86,7 @@ function WebcamCapture() {
                 headers: {
                   'accept': 'application/json',
                   'Accept-Language': 'en-US,en;q=0.8',
-                  'Content-Type': 'multipart/form-data',
+                  'Content-Type': 'image/png',
                 },
             
             });
