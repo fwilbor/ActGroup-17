@@ -1,9 +1,11 @@
 import { Helmet } from 'react-helmet-async';
 import { faker } from '@faker-js/faker';
+import { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 // @mui
 import { useTheme } from '@mui/material/styles';
 import { Grid, Container, Typography } from '@mui/material';
-
+import { getAllChildren } from 'src/utils/APIRoutes';
 import MessageForm from '../components/MessageForm';
 
 // sections
@@ -18,6 +20,29 @@ import {
 // ----------------------------------------------------------------------
 
 export default function DashboardAppPage() {
+
+  const navigate = useNavigate();
+  const [currentUser, setCurrentUser] = useState("");
+  var [childUser, setChildUser] = useState("");
+
+useEffect(() => {
+  const fetchData=async()=>{
+    setCurrentUser(
+      await JSON.parse(
+        localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)
+      )
+    );
+  }
+
+  setChildUser(currentUser.parentChildLink)
+  
+
+fetchData();
+}, [navigate]);
+
+console.log(currentUser)
+console.log(childUser)
+
   const theme = useTheme();
 
   return (
@@ -33,7 +58,7 @@ export default function DashboardAppPage() {
 
         <Grid container spacing={3}>
           <Grid item xs={12} sm={6} md={3}>
-            <AppWidgetSummary title="Weekly Sales" total={714000} icon={'ant-design:android-filled'} />
+            <AppWidgetSummary title="" total={714000} icon={'ant-design:android-filled'} />
           </Grid>
 
           <Grid item xs={12} sm={6} md={3}>

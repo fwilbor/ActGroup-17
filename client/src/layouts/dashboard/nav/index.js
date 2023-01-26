@@ -1,11 +1,12 @@
 import PropTypes from 'prop-types';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 // @mui
 import { styled, alpha } from '@mui/material/styles';
 import { Box, Link, Drawer, Typography, Avatar,} from '@mui/material';
 // hooks
 import useResponsive from '../../../hooks/useResponsive';
+import { useNavigate } from "react-router-dom";
 // components
 import Logo from '../../../components/logo';
 import Scrollbar from '../../../components/scrollbar';
@@ -33,6 +34,26 @@ Nav.propTypes = {
 };
 
 export default function Nav({ openNav, onCloseNav }) {
+
+  const navigate = useNavigate();
+  const [currentUser, setCurrentUser] = useState("");
+
+useEffect(() => {
+  const fetchData=async()=>{
+  if (!localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)) {
+    navigate("/login");
+  } else {
+    setCurrentUser(
+      await JSON.parse(
+        localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)
+      )
+    );
+  }
+}
+fetchData();
+}, [navigate]);
+
+
   const { pathname } = useLocation();
 
   const isDesktop = useResponsive('up', 'lg');
@@ -45,6 +66,8 @@ export default function Nav({ openNav, onCloseNav }) {
   }, [pathname]);
 
   const renderContent = (
+
+    
     <Scrollbar
       sx={{
         height: 1,
@@ -58,15 +81,15 @@ export default function Nav({ openNav, onCloseNav }) {
       <Box sx={{ mb: 5, mx: 2.5 }}>
         <Link underline="none">
           <StyledAccount>
-            <Avatar src="" alt="photoURL" />
+            <Avatar src={currentUser.avatarImage} alt="photoURL" />
 
             <Box sx={{ ml: 2 }}>
               <Typography variant="subtitle2" sx={{ color: 'text.primary' }}>
-              <h1>needs account display name</h1>
+              {currentUser.username}
               </Typography>
 
               <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-                <h1>needs account data</h1>
+              {currentUser.email}
               </Typography>
             </Box>
           </StyledAccount>

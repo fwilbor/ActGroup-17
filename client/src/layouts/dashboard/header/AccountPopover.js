@@ -1,7 +1,10 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 // @mui
 import { alpha } from '@mui/material/styles';
 import { Box, Divider, Typography, Stack, MenuItem, Avatar, IconButton, Popover } from '@mui/material';
+import { useNavigate } from "react-router-dom";
+import Logout from "../../../components/Logout.js"
+import axios from "axios";
 
 // ----------------------------------------------------------------------
 
@@ -22,8 +25,27 @@ const MENU_OPTIONS = [
 
 // ----------------------------------------------------------------------
 
+
 export default function AccountPopover() {
   const [open, setOpen] = useState(null);
+  const navigate = useNavigate();
+  const [currentUser, setCurrentUser] = useState("");
+
+useEffect(() => {
+  const fetchData=async()=>{
+  if (!localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)) {
+    navigate("/login");
+  } else {
+    setCurrentUser(
+      await JSON.parse(
+        localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)
+      )
+    );
+    
+  }
+}
+fetchData();
+}, [navigate]);
 
   const handleOpen = (event) => {
     setOpen(event.currentTarget);
@@ -52,7 +74,7 @@ export default function AccountPopover() {
           }),
         }}
       >
-        <Avatar src="" alt="photoURL" />
+        <Avatar src={currentUser.avatarImage} alt="photoURL" />
       </IconButton>
 
       <Popover
@@ -76,10 +98,10 @@ export default function AccountPopover() {
       >
         <Box sx={{ my: 1.5, px: 2.5 }}>
           <Typography variant="subtitle2" noWrap>
-            <h1>sample acc</h1>
+            {currentUser.username}
           </Typography>
           <Typography variant="body2" sx={{ color: 'text.secondary' }} noWrap>
-          <h1>sample email</h1>
+            {currentUser.email}
           </Typography>
         </Box>
 
@@ -96,7 +118,7 @@ export default function AccountPopover() {
         <Divider sx={{ borderStyle: 'dashed' }} />
 
         <MenuItem onClick={handleClose} sx={{ m: 1 }}>
-          Logout
+          <Logout/>
         </MenuItem>
       </Popover>
     </>
