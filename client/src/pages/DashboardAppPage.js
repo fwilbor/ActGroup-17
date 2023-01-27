@@ -58,24 +58,24 @@ console.log(childUser)
 
         <Grid container spacing={3}>
           <Grid item xs={12} sm={6} md={3}>
-            <AppWidgetSummary title="" total={714000} icon={'ant-design:android-filled'} />
+            <AppWidgetSummary title="Child 1" username={"username"} icon={'ant-design:android-filled'} />
           </Grid>
 
           <Grid item xs={12} sm={6} md={3}>
-            <AppWidgetSummary title="New Users" total={1352831} color="info" icon={'ant-design:apple-filled'} />
+            <AppWidgetSummary title="Child 2" username={"username"} color="info" icon={'ant-design:android-filled'} />
           </Grid>
 
           <Grid item xs={12} sm={6} md={3}>
-            <AppWidgetSummary title="Item Orders" total={1723315} color="warning" icon={'ant-design:windows-filled'} />
+            <AppWidgetSummary title="Child 3" username={"username"} color="warning" icon={'ant-design:android-filled'} />
           </Grid>
 
           <Grid item xs={12} sm={6} md={3}>
-            <AppWidgetSummary title="Bug Reports" total={234} color="error" icon={'ant-design:bug-filled'} />
+            <AppWidgetSummary title="Child 4" username={"username"} color="error" icon={'ant-design:android-filled'} />
           </Grid>
 
           <Grid item xs={12} md={6} lg={8}>
             <AppWebsiteVisits
-              title="Website Visits"
+              title="Child Usage"
               subheader="(+43%) than last year"
               chartLabels={[
                 '01/01/2003',
@@ -115,17 +115,15 @@ console.log(childUser)
 
           <Grid item xs={12} md={6} lg={4}>
             <AppCurrentVisits
-              title="Current Visits"
+              title="Flagged Messages"
               chartData={[
-                { label: 'America', value: 4344 },
-                { label: 'Asia', value: 5435 },
-                { label: 'Europe', value: 1443 },
-                { label: 'Africa', value: 4443 },
+                { label: 'Total Messages', value: 4344 },
+         
+                { label: 'Flagged Messages', value: 100 },
               ]}
               chartColors={[
                 theme.palette.primary.main,
-                theme.palette.info.main,
-                theme.palette.warning.main,
+        
                 theme.palette.error.main,
               ]}
             />
@@ -133,7 +131,7 @@ console.log(childUser)
 
           <Grid item xs={12} md={6} lg={8}>
             <AppConversionRates
-              title="Conversion Rates"
+              title="Friends List"
               subheader="(+43%) than last year"
               chartData={[
                 { label: 'Italy', value: 400 },
@@ -152,7 +150,7 @@ console.log(childUser)
 
           <Grid item xs={12} md={6} lg={8}>
             <AppNewsUpdate
-              title="News Update"
+              title="Recent Activity"
               list={[...Array(5)].map((_, index) => ({
                 id: faker.datatype.uuid(),
                 title: faker.name.jobTitle(),
