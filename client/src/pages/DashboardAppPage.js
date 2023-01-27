@@ -38,7 +38,7 @@ useEffect(() => {
   
 
 fetchData();
-}, [navigate]);
+}, [childUser]);
 
 console.log(currentUser)
 console.log(childUser)
