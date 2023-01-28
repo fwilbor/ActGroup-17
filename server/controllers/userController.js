@@ -158,7 +158,6 @@ const getAllFriends = async (req, res, next) => {
       const users = await userModel.find({ parentLink: { $eq: req.params.id } }).select([
         "username",
         "avatarImage",
-        "friends",
       ]);
       return res.json(users);
     } catch (ex) {

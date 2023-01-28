@@ -94,6 +94,7 @@ const getImage = async (req, res) => {
     // }
 
     const imageData = await PostImage.find()
+    //const imageData = await PostImage.findOne({_id: "63c1fbb816e5f6152ac92e20"})
     res.json(imageData)
 
 
@@ -184,7 +185,7 @@ const createImage = app.post = async (req, res) => {
             const newImage = new PostImage({
                 name: req.body.name,
                 image: {
-                    data: JSON.parse(JSON.stringify(req.body.image)),
+                    data: req.body.image,
                     contentType: "image/png",
                 },
             });
