@@ -4,6 +4,7 @@ import { Link as RouterLink } from 'react-router-dom';
 // @mui
 import { useTheme } from '@mui/material/styles';
 import { Box, Link } from '@mui/material';
+import logo80 from '../../assets/logo-55x55-tr.png';
 
 // ----------------------------------------------------------------------
 
@@ -21,58 +22,50 @@ const Logo = forwardRef(({ disabledLink = false, sx, ...other }, ref) => {
   // const logo = (
   //   <Box
   //     component="img"
-  //     src="/logo/logo_single.svg" => your path
+  //     src="/src/assets/logo-250x250_adobe_express.svg"
   //     sx={{ width: 40, height: 40, cursor: 'pointer', ...sx }}
   //   />
   // );
+
 
   const logo = (
     <Box
       ref={ref}
       component="div"
       sx={{
-        width: 40,
-        height: 40,
+        width: 55,
+        height: 55,
         display: 'inline-flex',
         ...sx,
       }}
       {...other}
     >
-      <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 512 512">
-        <defs>
-          <linearGradient id="BG1" x1="100%" x2="50%" y1="9.946%" y2="50%">
-            <stop offset="0%" stopColor={PRIMARY_DARK} />
-            <stop offset="100%" stopColor={PRIMARY_MAIN} />
-          </linearGradient>
+      <img src={logo80} alt="Logo" />
+    {/*  
+      <svg version="1.0" xmlns="http://www.w3.org/2000/svg"
+ width="80.000000pt" height="80.000000pt" viewBox="0 0 80.000000 80.000000"
+ preserveAspectRatio="xMidYMid meet">
 
-          <linearGradient id="BG2" x1="50%" x2="50%" y1="0%" y2="100%">
-            <stop offset="0%" stopColor={PRIMARY_LIGHT} />
-            <stop offset="100%" stopColor={PRIMARY_MAIN} />
-          </linearGradient>
+<g transform="translate(0.000000,80.000000) scale(0.100000,-0.100000)"
+fill="#000000" stroke="none">
+<path d="M180 450 c0 -15 5 -20 18 -18 9 2 17 10 17 18 0 8 -8 16 -17 18 -13
+2 -18 -3 -18 -18z"/>
+<path d="M260 343 c0 -142 5 -155 57 -155 41 0 63 34 63 98 0 37 4 54 13 54 6
+0 33 -34 59 -75 41 -66 51 -75 77 -75 32 0 61 22 61 47 0 9 -14 38 -31 65 -26
+40 -39 50 -76 59 -31 8 -48 19 -58 39 -16 31 -70 60 -126 67 l-39 6 0 -130z"/>
+<path d="M164 385 c-9 -23 3 -45 26 -45 25 0 37 25 20 45 -16 19 -39 19 -46 0z"/>
+<path d="M613 363 c-15 -6 -17 -49 -3 -58 33 -20 65 26 38 53 -13 13 -16 13
+-35 5z"/>
+<path d="M390 160 c0 -13 5 -20 13 -17 6 2 12 10 12 17 0 7 -6 15 -12 18 -8 2
+-13 -5 -13 -18z"/>
+<path d="M340 150 c0 -5 5 -10 10 -10 6 0 10 5 10 10 0 6 -4 10 -10 10 -5 0
+-10 -4 -10 -10z"/>
+</g>
+</svg>
+ */}   
 
-          <linearGradient id="BG3" x1="50%" x2="50%" y1="0%" y2="100%">
-            <stop offset="0%" stopColor={PRIMARY_LIGHT} />
-            <stop offset="100%" stopColor={PRIMARY_MAIN} />
-          </linearGradient>
-        </defs>
-
-        <g fill={PRIMARY_MAIN} fillRule="evenodd" stroke="none" strokeWidth="1">
-          <path
-            fill="url(#BG1)"
-            d="M183.168 285.573l-2.918 5.298-2.973 5.363-2.846 5.095-2.274 4.043-2.186 3.857-2.506 4.383-1.6 2.774-2.294 3.939-1.099 1.869-1.416 2.388-1.025 1.713-1.317 2.18-.95 1.558-1.514 2.447-.866 1.38-.833 1.312-.802 1.246-.77 1.18-.739 1.111-.935 1.38-.664.956-.425.6-.41.572-.59.8-.376.497-.537.69-.171.214c-10.76 13.37-22.496 23.493-36.93 29.334-30.346 14.262-68.07 14.929-97.202-2.704l72.347-124.682 2.8-1.72c49.257-29.326 73.08 1.117 94.02 40.927z"
-          />
-          <path
-            fill="url(#BG2)"
-            d="M444.31 229.726c-46.27-80.956-94.1-157.228-149.043-45.344-7.516 14.384-12.995 42.337-25.267 42.337v-.142c-12.272 0-17.75-27.953-25.265-42.337C189.79 72.356 141.96 148.628 95.69 229.584c-3.483 6.106-6.828 11.932-9.69 16.996 106.038-67.127 97.11 135.667 184 137.278V384c86.891-1.611 77.962-204.405 184-137.28-2.86-5.062-6.206-10.888-9.69-16.994"
-          />
-          <path
-            fill="url(#BG3)"
-            d="M450 384c26.509 0 48-21.491 48-48s-21.491-48-48-48-48 21.491-48 48 21.491 48 48 48"
-          />
-        </g>
-      </svg>
     </Box>
-  );
+  ); 
 
   if (disabledLink) {
     return <>{logo}</>;

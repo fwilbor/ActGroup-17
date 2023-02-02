@@ -35,25 +35,37 @@ useEffect(() => {
   }
 
   setChildUser(currentUser.parentChildLink)
-  
+   
 
 fetchData();
 }, [childUser]);
 
+//console.log(currentUser)
+//console.log(childUser)
+
 console.log(currentUser)
-console.log(childUser)
+
+const cfrs = currentUser.friends
+console.log(cfrs) 
+
 
   const theme = useTheme();
 
   return (
     <>
       <Helmet>
-        <title> Dashboard | Minimal UI </title>
+        <title> Dashboard | KidsSnap.com </title>
       </Helmet>
 
       <Container maxWidth="xl">
         <Typography variant="h4" sx={{ mb: 5 }}>
-          Hi, Welcome back
+        Hi {currentUser.username}, Welcome back<br />
+          {//currentUser.friends}<br />
+          //Hi {currentUser.username.toUpperCase()}, Welcome back<br />
+          }
+          {//currentUser._id}<br />
+          }
+          
         </Typography>
 
         <Grid container spacing={3}>
@@ -117,13 +129,11 @@ console.log(childUser)
             <AppCurrentVisits
               title="Flagged Messages"
               chartData={[
-                { label: 'Total Messages', value: 4344 },
-         
-                { label: 'Flagged Messages', value: 100 },
+                { label: 'Total Messages', value: 45 },
+                { label: 'Flagged Messages', value: 10 },
               ]}
               chartColors={[
                 theme.palette.primary.main,
-        
                 theme.palette.error.main,
               ]}
             />
@@ -159,9 +169,12 @@ console.log(childUser)
                 postedAt: faker.date.recent(),
               }))}
             />
-            <div>
-            <MessageForm />
-            </div>
+                
+        <div>
+        <MessageForm />
+        </div>
+        
+            
           </Grid>
 
         </Grid>
