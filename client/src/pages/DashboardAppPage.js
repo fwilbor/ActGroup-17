@@ -7,6 +7,7 @@ import { useTheme } from '@mui/material/styles';
 import { Grid, Container, Typography } from '@mui/material';
 import { getAllChildren } from 'src/utils/APIRoutes';
 import MessageForm from '../components/MessageForm';
+import GetAllMsgs from "../components/GetAllMsgs.js"
 
 // sections
 import {
@@ -24,8 +25,10 @@ export default function DashboardAppPage() {
   const navigate = useNavigate();
   const [currentUser, setCurrentUser] = useState("");
   var [childUser, setChildUser] = useState("");
+  const [CurID, setCurID] = useState(0);
+  const [CurUser, setCurUser] = useState(0);
 
-useEffect(() => {
+  useEffect(() => {
   const fetchData=async()=>{
     setCurrentUser(
       await JSON.parse(
@@ -33,7 +36,9 @@ useEffect(() => {
       )
     );
   }
-
+   
+  setCurID(currentUser._id)
+  setCurUser(currentUser.username)
   setChildUser(currentUser.parentChildLink)
    
 
@@ -43,14 +48,12 @@ fetchData();
 //console.log(currentUser)
 //console.log(childUser)
 
-console.log(currentUser)
+//console.log(currentUser)
 
-const cfrs = currentUser.friends
-console.log(cfrs) 
-
+//const cfrs = currentUser.friends
+//console.log(cfrs) 
 
   const theme = useTheme();
-
   return (
     <>
       <Helmet>
@@ -59,12 +62,11 @@ console.log(cfrs)
 
       <Container maxWidth="xl">
         <Typography variant="h4" sx={{ mb: 5 }}>
-        Hi {currentUser.username}, Welcome back<br />
-          {//currentUser.friends}<br />
-          //Hi {currentUser.username.toUpperCase()}, Welcome back<br />
-          }
-          {//currentUser._id}<br />
-          }
+        Hi {CurUser}, Welcome back<br />
+        {
+        //Hi {CurUser.toUpperCase()}, Welcome back<br />
+        }
+          { CurID }<br />
           
         </Typography>
 
@@ -124,21 +126,9 @@ console.log(cfrs)
               ]}
             />
           </Grid>
-
-          <Grid item xs={12} md={6} lg={4}>
-            <AppCurrentVisits
-              title="Flagged Messages"
-              chartData={[
-                { label: 'Total Messages', value: 45 },
-                { label: 'Flagged Messages', value: 10 },
-              ]}
-              chartColors={[
-                theme.palette.primary.main,
-                theme.palette.error.main,
-              ]}
-            />
-          </Grid>
-
+          
+          { GetAllMsgs('currentUser._id') }
+          
           <Grid item xs={12} md={6} lg={8}>
             <AppConversionRates
               title="Friends List"
@@ -173,8 +163,6 @@ console.log(cfrs)
         <div>
         <MessageForm />
         </div>
-        
-            
           </Grid>
 
         </Grid>
