@@ -1,6 +1,7 @@
 //import Buffer from "buffer/"
 import { Buffer } from "buffer";
 import { useEffect, useState} from "react"
+import base64js from "base64-js"
 
 
 function FileUpload() {
@@ -35,12 +36,14 @@ return (
         let data = singleData.image.data.data
         //console.log(singleData.data.data)
         //const base64String = Buffer.from(String.fromCharCode(...new Uint8Array(singleData.image.data.data)).toString('base64')
-        const buffer = Buffer.from(data);
-        const base64String = buffer.toString('base64');
+        //const buffer = Buffer.from(data);
+        //const base64String = buffer.toString('base64');
+        const base64String = base64js.fromByteArray(new Uint8Array(data))
                   
         //);
         console.log(uniqueKey)
-        return <img key = {uniqueKey} src={`image/png;base64,${base64String}`} alt="" height={300} width={500}/>
+        return <img key={uniqueKey} src={`data:image/png;base64,${base64String}`} alt="" height={300} width={500} />
+        //return <img key = {uniqueKey} src={`image/png;base64,${base64String}`} alt="" height={300} width={500}/>
         //return <img src="img_girl.jpg" alt="Girl in a jacket" width="500" height="600"></img>
       })}
     </div>

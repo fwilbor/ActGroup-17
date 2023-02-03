@@ -1,15 +1,53 @@
 //no longer needed but we'll keep for clarity
-import React, {useRef,useEffect, useState} from 'react';
+// import React, {useRef, useState} from 'react';
 //import { fileAccepted } from 'react-papaparse/dist/utils';
+// import Webcam from "react-webcam";
+// import { addImage } from '../utils/APIRoutes';
+// import axios from "axios";
+
+// const WebcamCapture = () => {
+//     const webcamRef = useRef(null);
+//     const [imageSrc, setImageSrc] = useState(null);
+  
+//     const capture = () => {
+//       const imageSrc = webcamRef.current.getScreenshot();
+//       setImageSrc(imageSrc);
+      
+//       const saveImage = async (imageSrc) => {
+//         try {
+//         const binaryImage = Buffer.from(imageSrc.replace(/^data:image\/\w+;base64,/, ""), 'base64');
+//         const response = await axios.post(addImage, { image: binaryImage });
+//          console.log(response);
+//         } catch (error) {
+//         console.error(error);
+//         }
+//         };
+//     };
+
+//     return (
+//         <div>
+//           <Webcam
+//             ref={webcamRef}
+//           />
+//           <button onClick={capture}>Capture photo</button>
+//           {imageSrc && <img src={imageSrc} alt="Webcam capture" />}
+//         </div>
+//       );
+//     };
+
+
+
+
+
+
+
+// export default WebcamCapture
+
+
+import React, {useRef,useEffect, useState} from 'react';
 import { addImage } from 'src/utils/APIRoutes';
 import axios from "axios";
 import { Buffer } from "buffer";
-
-
-
-
-
-
 
 function WebcamCapture() {
     
@@ -48,7 +86,6 @@ function WebcamCapture() {
 
         canvas.width = 250;
         canvas.height = canvas.width / (16/9)
-        //console.log(photo)
 
         photo.width = width;
         photo.height = height;
@@ -56,43 +93,35 @@ function WebcamCapture() {
         canvas.getContext('2d').drawImage(video, 0, 0, width, height);
         document.getElementById("printresult").innerHTML = canvas.toDataURL().split(';base64,')[1];
 
-        //const buffer = Buffer.from(canvas.toDataURL().split(';base64,')[1]);
-        //const base64String = buffer.toString('base64');
         let ctx = photo.getContext("2d");
-        //console.log(ctx)
         ctx.drawImage(video, 0, 0, width, height);
-        //console.log(ctx)
         setHasPhoto(true);
 
         image = canvas.toDataURL();
-    // const split = image.split(',');
-    // const base64string = split[1];
-    // const buffer = Buffer.from(base64string, 'base64');
-    const buffer = Buffer.from(image, 'base64');
-    const base64String = buffer.toString('base64');
+    const split = image.split(',');
+    const base64string = split[1];
+    const buffer = Buffer.from(base64string, 'base64');
+    console.log(buffer);
 
-           
-        // image = canvas.toDataURL()
-        // const buffer = Buffer.from(image);
 
-        if (base64String) {
-            setImage = base64String;
+        if (buffer) {
+            setImage = buffer;
 
         }
 
         const bodyFormData = new FormData();
-        bodyFormData.append('image', setImage);
+        const blob = new Blob([buffer], {type: 'image/jpeg'});
+        bodyFormData.append('image', blob, 'filename.jpg');
         console.log(typeof(bodyFormData))
         const { data } = await axios.post(`${addImage}`, bodyFormData, {
             
                 headers: {
                 //   'accept': 'application/json',
                 //   'Accept-Language': 'en-US,en;q=0.8',
-                  //'Content-Type': 'text/plain',
+                  'Content-Type': 'multipart/form-data',
                 },
             
             });
-            //console.log(bodyFormData)
             console.log(data)
 
           
@@ -103,7 +132,6 @@ function WebcamCapture() {
           }
           if (data.status === true) {
       
-            //friend_array.push(current_user)
             console.log("Image in database")
             console.log(data)
                  
