@@ -60,6 +60,7 @@ export default function Login() {
         let parent_or_child = await JSON.parse(
           localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)
         ).parentLink;
+        console.log(parent_or_child)
 
         if (parent_or_child === undefined) {
           navigate("/dashboard/app");

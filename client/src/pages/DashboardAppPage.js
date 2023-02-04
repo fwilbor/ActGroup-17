@@ -8,6 +8,8 @@ import { Grid, Container, Typography } from '@mui/material';
 import { getAllChildren } from 'src/utils/APIRoutes';
 import MessageForm from '../components/MessageForm';
 import GetAllMsgs from "../components/GetAllMsgs.js"
+import axios from 'axios';
+import React from 'react';
 
 // sections
 import {
@@ -25,25 +27,35 @@ export default function DashboardAppPage() {
   const navigate = useNavigate();
   const [currentUser, setCurrentUser] = useState("");
   var [childUser, setChildUser] = useState("");
-  const [CurID, setCurID] = useState(0);
+  const [CurID, setCurID] = useState("");
   const [CurUser, setCurUser] = useState(0);
+  const [children, setChildren] = useState([]);
+
+  const parent_id = JSON.parse(
+    localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)
+  )._id;
+  console.log(parent_id)
 
   useEffect(() => {
   const fetchData=async()=>{
-    setCurrentUser(
-      await JSON.parse(
-        localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)
-      )
+    const parent_data = await JSON.parse(
+      localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)
     );
+    setCurID(parent_data._id)
+  setCurUser(parent_data.username)
+  setChildUser(parent_data.parentChildLink)
+    const parentLink = parent_data._id
+        const data = await axios.get(`${getAllChildren}/${parentLink}`);
+        const data_array = data.data
+        setChildren(Array.from(data_array));
+        console.log(parentLink)
   }
    
-  setCurID(currentUser._id)
-  setCurUser(currentUser.username)
-  setChildUser(currentUser.parentChildLink)
+  
    
 
 fetchData();
-}, [childUser]);
+}, []);
 
 //console.log(currentUser)
 //console.log(childUser)
@@ -70,23 +82,19 @@ fetchData();
           
         </Typography>
 
+        {children.map((child, index) => (
+  <React.Fragment key={index}>
+    <Grid container spacing={3}>
+      <Grid item xs={12} sm={6} md={3}>
+        <AppWidgetSummary username={child.username} avatarImage={<img src={`data:image/png;base64,${child.avatarImage}`} />}  />
+      </Grid>
+    </Grid>
+    {index !== children.length - 1 && <br />}
+  </React.Fragment>
+))}
+
         <Grid container spacing={3}>
-          <Grid item xs={12} sm={6} md={3}>
-            <AppWidgetSummary title="Child 1" username={"username"} icon={'ant-design:android-filled'} />
-          </Grid>
-
-          <Grid item xs={12} sm={6} md={3}>
-            <AppWidgetSummary title="Child 2" username={"username"} color="info" icon={'ant-design:android-filled'} />
-          </Grid>
-
-          <Grid item xs={12} sm={6} md={3}>
-            <AppWidgetSummary title="Child 3" username={"username"} color="warning" icon={'ant-design:android-filled'} />
-          </Grid>
-
-          <Grid item xs={12} sm={6} md={3}>
-            <AppWidgetSummary title="Child 4" username={"username"} color="error" icon={'ant-design:android-filled'} />
-          </Grid>
-
+          
           <Grid item xs={12} md={6} lg={8}>
             <AppWebsiteVisits
               title="Child Usage"
