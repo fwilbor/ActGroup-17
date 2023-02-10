@@ -47,6 +47,10 @@ const userSchema = mongoose.Schema({
         type: Array,
         default: [],
       },
+      sessionTime: {
+        type: Number,
+        default: 0
+        }
 
 })
 

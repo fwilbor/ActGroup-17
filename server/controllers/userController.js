@@ -142,6 +142,11 @@ const getAllFriends = async (req, res, next) => {
 
       let session = (convert_logout - convert_login);
       console.log(session)
+
+      userModel.findByIdAndUpdate(req.params.id, { $inc: { sessionTime: session } }, { new: true }, function(err, user) {
+        if (err) return next(err);
+        return res.status(200).send();
+});
           
       onlineUsers.delete(req.params.id);
       return res.status(200).send();
