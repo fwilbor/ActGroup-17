@@ -204,8 +204,20 @@ const getAllFriends = async (req, res, next) => {
   }
 
 };
+
+const checkIfEmailExists = async (req, res) => {
+  const { email } = req.body
+      const email_exists = await userModel.findOne({email: { $eq: email }})
+return res.json({ exists: !!email_exists });
+  }
+  
+  const checkIfUsernameExists = async (req, res) => {
+    const { username } = req.body
+        const username_exists = await userModel.findOne({username: { $eq: username }})
+  return { exists: !!username_exists };
+  }
     
 
 //}
 
-export {signupUser, childsignup, loginUser, getAllUsers, setAvatar, logOut, getAllChildren, addFriend, getAllFriends}
+export {signupUser, childsignup, loginUser, getAllUsers, setAvatar, logOut, getAllChildren, addFriend, getAllFriends, checkIfEmailExists, checkIfUsernameExists}

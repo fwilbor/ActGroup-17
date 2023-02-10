@@ -97,14 +97,28 @@ const getChats = async (req, res, next) => {
 //   next(ex);
 // }
 
-const { id } = req.params
+// const { id } = req.params
 
-  const link = await userModel.findById(id)
-  console.log(link.parentLink)
-  if (!link) {
-    return res.status(404).json({error: 'No such workout'})
-  }
-  res.status(200).json(link);
+//   const link = await userModel.findById(id)
+//   console.log(link.parentLink)
+//   if (!link) {
+//     return res.status(404).json({error: 'No such workout'})
+//   }
+//   res.status(200).json(link);
+
+PostMessage.find({
+  users: {
+    $all: [req.params.id],
+  },
+}).sort({ updatedAt: 1 }).then(messages => {
+  const projectedMessages = messages.map((msg) => {
+    return {
+      fromSelf: msg.sender.toString() === req.params.id,
+      message: msg.message.text,
+    };
+  });
+  res.json(projectedMessages);
+});
 };
 
 // get all messages

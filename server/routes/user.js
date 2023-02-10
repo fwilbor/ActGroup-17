@@ -1,7 +1,7 @@
 import express from "express";
 
 //controller functions
-import { loginUser, signupUser, childsignup, getAllUsers, setAvatar, logOut, getAllChildren, addFriend, getAllFriends } from "../Controllers/userController";
+import { loginUser, signupUser, childsignup, getAllUsers, setAvatar, logOut, getAllChildren, addFriend, getAllFriends, checkIfEmailExists, checkIfUsernameExists } from "../Controllers/userController";
 
 
 const urouter = express.Router()
@@ -18,7 +18,11 @@ urouter.get("/allfriends/:id", getAllFriends);
 urouter.post("/setavatar/:id", setAvatar);
 urouter.get("/logout/:id", logOut);
 urouter.patch("/addfriend/:id", addFriend);
+// check if email exists route
+urouter.get("/checkemail/:email", checkIfEmailExists);
 
+// check if username exists route
+urouter.get("/checkusername/:username", checkIfUsernameExists);
 
 
 
