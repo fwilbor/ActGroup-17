@@ -1,12 +1,12 @@
 # ActGroup-17
 
-#Kidzsnap
+# Kidzsnap
 
 KidzSnap is a secure social media platform for kids, designed to help parents monitor and educate their children on safe online practices. Parents utilize our Dashboad Tool for valuable
 information on their kids.  Children are able to utillize a fun messenger with their friends and also send "Snap" images.  Data collection is minimal and constantly
 removed from our database, keeping families data safe.  
 
-##Dependencies
+## Dependencies
 
 The project uses the following dependencies:
 
@@ -33,12 +33,13 @@ The project uses the following dependencies:
 "socket.io-client": "^4.5.3",
 "validator": "^13.7.0"
 
-##Getting started
+## Getting started
+
 Clone the repository: https://github.com/ActGroup-17
 Install the dependencies: npm install
 Start the development server: npm run dev
 
-##Available Scripts
+## Available Scripts
 In the project directory, you can run:
 
 npm run start
@@ -47,10 +48,10 @@ Runs the app in the development mode.
 npm run dev
 Starts the development server and reloads the page on changes.
 
-##Architecture
+## Architecture
 The application consists of an express backend server and a react frontend. The server communicates with a MongoDB database using Mongoose as an Object Document Mapper (ODM) library.
 
-##Endpoints
+## Endpoints
 The following endpoints are available in the application:
 
 /uploadimage
@@ -58,8 +59,8 @@ The following endpoints are available in the application:
 /user
 /messengerTest
 
-##Contributions
+## Contributions
 This is an open-source project, and contributions are welcome.
 
-License
+## License
 This project is licensed under the ISC license.
