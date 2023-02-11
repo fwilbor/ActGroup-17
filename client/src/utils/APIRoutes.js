@@ -14,3 +14,4 @@ export const addFriend = `${host}/api/user/addfriend`;
 export const addImage = `${host}/api/uploads/addimage`;
 export const checkIfEmailExists = `${host}/api/user/checkemail/:email`;
 export const checkIfUsernameExists = `${host}/api/user/checkusername/:username`;
+export const checkIfPasswordMatch = `${host}/api/user/checkpasswordmatch/:username/:password`;

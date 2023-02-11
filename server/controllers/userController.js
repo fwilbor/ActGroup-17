@@ -1,6 +1,7 @@
 
 import userModel from "../models/userModel"
 import jsonwebtoken from "jsonwebtoken"
+import bcrypt from "bcrypt"
 //import childModel from "../models/childModel"
 //import childModel from "../models/childModel"
 let start_time 
@@ -221,8 +222,22 @@ return res.json(Boolean(email_exists));
         const username_exists = await userModel.exists({username: { $eq: req.params.username }})
         return res.json(Boolean(username_exists));
   }
+
+  const checkIfPasswordMatch = async (req, res) => {
+    const { username, password } = req.params;
+    console.log(req.params)
+        const username_exists = await userModel.findOne({ username })
+        //console.log(username_exists)
+        if (!username_exists) {
+          return res.json({ error: "User not found" });
+        }
+
+        const match = await bcrypt.compare(req.params.password, username_exists.password)
+        //return res.json(Boolean(match));
+        return res.json(match);
+  }
     
 
 //}
 
-export {signupUser, childsignup, loginUser, getAllUsers, setAvatar, logOut, getAllChildren, addFriend, getAllFriends, checkIfEmailExists, checkIfUsernameExists}
+export {signupUser, childsignup, loginUser, getAllUsers, setAvatar, logOut, getAllChildren, addFriend, getAllFriends, checkIfEmailExists, checkIfUsernameExists, checkIfPasswordMatch}

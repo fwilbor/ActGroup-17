@@ -5,7 +5,7 @@ import { useNavigate, Link } from "react-router-dom";
 import Logo from "../assets/logo.png";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { loginRoute, checkIfUsernameExists } from "../utils/APIRoutes";
+import { loginRoute, checkIfUsernameExists, checkIfPasswordMatch } from "../utils/APIRoutes";
 
 
 export default function Login() {
@@ -56,9 +56,25 @@ export default function Login() {
       }
       return false;      
     }
-    if (error.message === "Invalid Password") {
-      toast.error("Invalid Password", toastOptions);
-      return false;        
+
+    // check if password match
+    try {
+      console.log(username)
+      const passwordResponse = await fetch (`${checkIfPasswordMatch.replace(':username', username).replace(':password', password)}`);
+      console.log("passwordResponse:", passwordResponse);
+      const passwordMatch = (await passwordResponse.json());
+      console.log("passwordMatch:", passwordMatch);
+      
+
+      if (passwordMatch === false) {
+        throw new Error("Invalid Password");
+      }
+    } catch (error) {
+      if (error.message === "Invalid Password") {
+        toast.error("Invalid Password", toastOptions);
+        
+      }
+      return false;
     }
     
     return true;
