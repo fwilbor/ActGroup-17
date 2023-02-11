@@ -6,7 +6,7 @@ import dotenv from "dotenv";
 //import bodyParser from "body-parser";
 //import path from "path";
 //import ejs from "ejs";
-import GridFsStorage from "multer-gridfs-storage";
+//import GridFsStorage from "multer-gridfs-storage";
 
 dotenv.config()
 const app = express()
@@ -41,7 +41,7 @@ const Storage = multer.memoryStorage();
 
 const upload = multer({
     storage:Storage
-}).single('testImage')
+}).single('image')
 
 // Create storage engine
 // const storage = new GridFsStorage({
@@ -94,7 +94,9 @@ const getImage = async (req, res) => {
     // }
 
     const imageData = await PostImage.find()
+    //const imageData = await PostImage.findOne({_id: "63c1fbb816e5f6152ac92e20"})
     res.json(imageData)
+
 
 }
   
@@ -161,25 +163,53 @@ const getImage = async (req, res) => {
 //   });
 
 const createImage = app.post = async (req, res) => {
+
+    //const image = Object.values(req.body)
+    //PostImage.image.data = req.body.PostImage.image
+    
+
+    // const postImage = new PostImage()
+    // const image = req.body.postImage;
+
+    // img_data = image[req.body];
+    // const split = img_data.split(',');
+    // base64string = split[1];
+    // const buffer = Buffer.from(base64string, 'base64');
+
+    // postImage.image.data = buffer;
+
+    //const imageSave = await PostImage.create({ image: new Buffer.from(imageSrc.split(',')[1], 'base64') });
+    //const imageData = await PostImage.findOne({_id: "63c1fbb816e5f6152ac92e20"})
+    //console.log(imageSave)
+    //res.json(imageSave)
+
     upload(req, res, (err) => {
+        if (!req.file) {
+            return res.status(400).send('No file was uploaded.');
+          }
         if (err) {
             console.log(err);
         } else {
-            //res.send(req.files);
             const newImage = new PostImage({
                 name: req.body.name,
                 image: {
-                    data:req.file.buffer,
-                    contentType: "image/png",
+                    data: req.file.buffer,
+                    contentType: req.file.mimetype,
                 },
+                mimetype: "image/png",
             });
             newImage
                 .save()
                 .then(() => res.send("successfully uploaded"))
                 .catch((err) => console.log(err));
-        }
+        console.log(newImage.image)
+            }
     });
 };
+
+
+
+
 //}
 
 // GeekbyGeek tutorial

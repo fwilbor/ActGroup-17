@@ -96,6 +96,7 @@ export default function ChatContainer({ currentChat, socket }) {
           </div>
         </div>
         <Logout />
+
       </div>
 
       <div className="chat-messages">
@@ -117,6 +118,7 @@ export default function ChatContainer({ currentChat, socket }) {
         })}
       </div>
       <ChatInput handleSendMsg={handleSendMsg} />
+      
     </Container>
   );
 }

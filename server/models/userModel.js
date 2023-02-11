@@ -38,10 +38,21 @@ const userSchema = mongoose.Schema({
         default: "",
       },
 
+<<<<<<< HEAD
       child: Array,
       friends: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "User",
+=======
+    //   friends: Array,
+    //   friend: {
+    //     type: String,
+    //     ref: "User",
+    //   },
+      friends: {
+        type: Array,
+        default: [],
+>>>>>>> main
       },
 
 })
@@ -79,6 +90,7 @@ userSchema.statics.signup = async function (username, email, password) {
 
     // creates new user with hashed password
     const user = await this.create({ username, email, password: hash })
+    console.log(user)
 
     return user
 }
@@ -129,6 +141,23 @@ userSchema.statics.login = async function (username, password) {
 
     if (!match) {
         throw Error("Invalid Password")
+    }
+
+    return user
+}
+
+// static login method
+userSchema.statics.addFriend = async function (username) {
+    
+    if (!username) {
+        throw Error("You must add a username!")
+    }
+
+    const user = await this.findOne({username})
+    
+
+    if (!user) {
+        throw Error("Invalid Username")
     }
 
     return user

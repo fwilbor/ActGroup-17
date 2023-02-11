@@ -106,10 +106,21 @@ export default function Register() {
       
       return false;
     }
+
+    // Need unique username error in toast  
+  //   else if (error.code === 401) {
+  //   toast.error(
+  //     "Username already exists",
+  //     toastOptions
+  //   );
     
-    else if(username.length > 6){
+  //   return false;
+  // }
+
+    
+    else if(username.length > 10){
       toast.error(
-        "Username should not more than 6 characters.",
+        "Username should not more than 10 characters.",
         toastOptions
       );
       

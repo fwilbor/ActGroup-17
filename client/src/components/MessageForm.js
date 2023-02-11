@@ -41,7 +41,16 @@ const MessageForm = () => {
       );
       const parentLink = parent_data._id
         const data = await axios.get(`${getAllChildren}/${parentLink}`);
-        console.log(data)
+        //console.log(data.data[0].username)
+        // let entries = Object.keys(data.data)
+        // console.log(entries)
+        const data_array = data.data
+        const children = data_array.values();
+        for (const name of children) {
+          console.log(name.username)
+          console.log(name.avatarImage)
+        }
+
 
   }
   fetchData();
