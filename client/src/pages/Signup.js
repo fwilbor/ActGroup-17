@@ -126,29 +126,38 @@ export default function Register() {
     
         // check if username exists
         try {
-          const usernameResponse = await checkIfUsernameExists(':username', username);
+          const usernameResponse = await fetch (`${checkIfUsernameExists.replace(':username', username)}`);
+          //const usernameResponse = await axios.get(`${checkIfUsernameExists}/${username}`);
           console.log("usernameResponse:", usernameResponse);
-          if (usernameResponse.exists) {
+          const usernameExists = (await usernameResponse.json());
+          console.log("usernameExists:", usernameExists);
+          
+          
+          //console.log("usernameExists:", usernameExists);
+          if (usernameExists === true) {
             throw new Error("Username already exists");
           }
         } catch (error) {
-          console.log(error)
-          toast.error(error.message, toastOptions);
+          if (error.message === "Username already exists") {
+            toast.error("Username already exists", toastOptions);
+            
+          }
           return false;
         }
     
     // check if email exists
     try {
-      //const emailResponse = await axios.get(checkIfEmailExists.replace(":email", email));
-
-      const emailResponse = await checkIfEmailExists(':email', email);
-      console.log("emailResponse:", emailResponse);
-      if (emailResponse.exists) {
+      const emailResponse = await fetch (`${checkIfEmailExists.replace(':email', email)}`);
+          console.log("emailResponse:", emailResponse);
+          const emailExists = (await emailResponse.json());
+	        console.log("emailExists:", emailExists);
+      if (emailExists === true) {
         throw new Error("Email already exists");
       }
     } catch (error) {
-      console.log(error)
-      toast.error(error.message, toastOptions);
+      if (error.message === "Email already exists") {
+        toast.error("Email already exists", toastOptions);
+      }
       return false;
     }
     

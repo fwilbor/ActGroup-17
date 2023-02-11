@@ -212,14 +212,14 @@ const getAllFriends = async (req, res, next) => {
 
 const checkIfEmailExists = async (req, res) => {
   const { email } = req.body
-      const email_exists = await userModel.findOne({email: { $eq: email }})
-return res.json({ exists: !!email_exists });
+      const email_exists = await userModel.exists({email: { $eq: req.params.email }})
+return res.json(Boolean(email_exists));
   }
   
   const checkIfUsernameExists = async (req, res) => {
     const { username } = req.body
-        const username_exists = await userModel.findOne({username: { $eq: username }})
-  return { exists: !!username_exists };
+        const username_exists = await userModel.exists({username: { $eq: req.params.username }})
+        return res.json(Boolean(username_exists));
   }
     
 
