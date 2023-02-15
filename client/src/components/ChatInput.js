@@ -2,11 +2,13 @@ import React, { useState } from "react";
 import { BsEmojiSmileFill } from "react-icons/bs";
 import { IoMdSend } from "react-icons/io";
 import styled from "styled-components";
-import Picker from "emoji-picker-react";
+import Picker from 'emoji-picker-react';
 
 export default function ChatInput({ handleSendMsg }) {
   const [msg, setMsg] = useState("");
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
+  const [hasAddedEmoji, setHasAddedEmoji] = useState(false);
+  
   const handleEmojiPickerhideShow = () => {
     setShowEmojiPicker(!showEmojiPicker);
   };
@@ -17,9 +19,29 @@ export default function ChatInput({ handleSendMsg }) {
   //   setMsg(message);
   // };
 
-  const handleEmojiClick = (event, emojiObject) => {
-    setMsg(prevInput => prevInput + emojiObject.emoji);
-    
+  const handleEmojiClick = (emojiObject, event) => {
+    if (showEmojiPicker) {
+      console.log(emojiObject.emoji);
+      console.log(event.target);
+      const emoji = emojiObject ? emojiObject.emoji : '';
+      console.log(emoji)
+      setMsg(prevMsg => {
+        if (prevMsg.endsWith(' ') || prevMsg === '') {
+          // If there is a space before the cursor or the message is empty,
+          // add the emoji directly
+          return prevMsg + emoji;
+        } else if (!hasAddedEmoji) {
+          // If an emoji hasn't been added before, add it directly and set
+          // the hasAddedEmoji flag to true
+          setHasAddedEmoji(true);
+          return prevMsg + emoji;
+        } else {
+          // If an emoji has been added before, add a space before adding
+          // the emoji
+          return prevMsg + ' ' + emoji;
+        }
+      });
+    }
   };
 
   const sendChat = (event) => {

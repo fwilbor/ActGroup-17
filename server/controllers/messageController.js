@@ -53,58 +53,6 @@ const getChats = async (req, res, next) => {
 
   //get child messages
   const getChildMessages = async (req, res) => {
-//     try {
-//       const {parentChildLink} = req.params
-//     //const childname = req.user.creator TestNMD.units = req.params.units.split(',')
-
-//     const childmessages = await PostMessage.find({users: { $eq: userModel.parentChildLink }}).sort({createdAt: -1})
-//     res.status(200).json(childmessages)
-// } catch (error){
-//     res.status(404).json({ message: error.message});
-  
-//       const messages = await PostMessage.find({
-//         users: {
-//           $all: [from, to],
-//         },
-//       }).sort({ updatedAt: 1 });
-  
-//       const projectedMessages = messages.map((msg) => {
-//         return {
-//           fromSelf: msg.sender.toString() === children,
-//           message: msg.message.text,
-//         };
-//       });
-//       res.json(projectedMessages);
-//     } catch (ex) {
-//       next(ex);
-//     }
-//   };
-
-
-// try {
-//   const { id } = req.params
-
-//   if (!mongoose.Types.ObjectId.isValid(id)) {
-//     return res.status(404).json({error: 'No such workout'})
-//   }
-//   const link = await userModel.findById(id)
-//   console.log(link)
-//   if (!link) {
-//     return res.status(404).json({error: 'No such workout'})
-//   }
-//   return res.status(200).json(link);
-// } catch (ex) {
-//   next(ex);
-// }
-
-// const { id } = req.params
-
-//   const link = await userModel.findById(id)
-//   console.log(link.parentLink)
-//   if (!link) {
-//     return res.status(404).json({error: 'No such workout'})
-//   }
-//   res.status(200).json(link);
 
 PostMessage.find({
   users: {
