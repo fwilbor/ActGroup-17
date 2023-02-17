@@ -54,6 +54,10 @@ const userSchema = mongoose.Schema({
         default: [],
 >>>>>>> main
       },
+      sessionTime: {
+        type: Number,
+        default: 0
+        }
 
 })
 
@@ -72,18 +76,6 @@ userSchema.statics.signup = async function (username, email, password) {
     if (!validator.isStrongPassword(password)) {
         throw Error("Password is not strong enough Parent signup")
     }
-
-    const exists = await this.findOne({email})
-
-    if (exists) {
-        throw Error("Email alredy exists")
-    }
-
-    const exists_username = await this.findOne({username})
-    
-    if (exists_username) {
-        throw Error("Username alredy exists")
-    }
     //used to add hash code to value can increase value but slows system
     const salt = await bcrypt.genSalt(10)
     const hash = await bcrypt.hash(password, salt)
@@ -94,6 +86,8 @@ userSchema.statics.signup = async function (username, email, password) {
 
     return user
 }
+
+
 
 // child signup method
 userSchema.statics.childsignup = async function (username, password, parentLink) {

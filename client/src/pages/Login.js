@@ -5,7 +5,7 @@ import { useNavigate, Link } from "react-router-dom";
 import Logo from "../assets/logo.png";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { loginRoute } from "../utils/APIRoutes";
+import { loginRoute, checkIfUsernameExists, checkIfPasswordMatch } from "../utils/APIRoutes";
 
 
 export default function Login() {
@@ -28,7 +28,7 @@ export default function Login() {
     setValues({ ...values, [event.target.name]: event.target.value });
   };
 
-  const validateForm = () => {
+  const validateForm  = async () => {
     const { username, password } = values;
     if (username === "") {
       toast.error("Email and Password is required.", toastOptions);
@@ -37,6 +37,46 @@ export default function Login() {
       toast.error("Email and Password is required.", toastOptions);
       return false;
     }
+    // check if username exists
+    try {
+      const usernameResponse = await fetch (`${checkIfUsernameExists.replace(':username', username)}`);
+      //const usernameResponse = await axios.get(`${checkIfUsernameExists}/${username}`);
+      console.log("usernameResponse:", usernameResponse);
+      const usernameExists = (await usernameResponse.json());
+      console.log("usernameExists:", usernameExists);
+      
+      
+      //console.log("usernameExists:", usernameExists);
+      if (usernameExists === false) {
+        throw new Error("Invalid Username");
+      }
+    } catch (error) {
+      if (error.message === "Invalid Username") {
+        toast.error("Invalid Username", toastOptions);        
+      }
+      return false;      
+    }
+
+    // check if password match
+    try {
+      console.log(username)
+      const passwordResponse = await fetch (`${checkIfPasswordMatch.replace(':username', username).replace(':password', password)}`);
+      console.log("passwordResponse:", passwordResponse);
+      const passwordMatch = (await passwordResponse.json());
+      console.log("passwordMatch:", passwordMatch);
+      
+
+      if (passwordMatch === false) {
+        throw new Error("Invalid Password");
+      }
+    } catch (error) {
+      if (error.message === "Invalid Password") {
+        toast.error("Invalid Password", toastOptions);
+        
+      }
+      return false;
+    }
+    
     return true;
   };
 

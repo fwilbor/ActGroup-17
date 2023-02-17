@@ -62,7 +62,7 @@ import { useNavigate, Link } from "react-router-dom";
 import Logo from "../assets/logo.png";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { registerRoute } from "../utils/APIRoutes";
+import { registerRoute, checkIfEmailExists, checkIfUsernameExists } from "../utils/APIRoutes";
 
 export default function Register() {
   const navigate = useNavigate();
@@ -90,7 +90,7 @@ export default function Register() {
     setValues({ ...values, [event.target.name]: event.target.value });
   };
 
-  const handleValidation = () => {
+  const handleValidation = async () => {
     const { password, confirmPassword, username, email } = values;
     if (password !== confirmPassword) {
       toast.error(
@@ -103,30 +103,14 @@ export default function Register() {
         "Username should be greater than 3 characters.",
         toastOptions
       );
-      
       return false;
-    }
-
-    // Need unique username error in toast  
-  //   else if (error.code === 401) {
-  //   toast.error(
-  //     "Username already exists",
-  //     toastOptions
-  //   );
-    
-  //   return false;
-  // }
-
-    
-    else if(username.length > 10){
+    } else if(username.length > 10){
       toast.error(
         "Username should not more than 10 characters.",
         toastOptions
       );
-      
       return false;
-    }
-    else if (password.length < 8) {
+    } else if (password.length < 8) {
       toast.error(
         "Password should be equal or greater than 8 characters.",
         toastOptions
@@ -135,10 +119,53 @@ export default function Register() {
     } else if (email === "") {
       toast.error("Email is required.", toastOptions);
       return false;
+    } //else if (!/^(?=.\d)(?=.[a-z])(?=.*[A-Z]).{6,20}$/.test(password)) {
+      //toast.error("Password is not strong enough", toastOptions);
+      //return false;
+    //}
+    
+        // check if username exists
+        try {
+          const usernameResponse = await fetch (`${checkIfUsernameExists.replace(':username', username)}`);
+          //const usernameResponse = await axios.get(`${checkIfUsernameExists}/${username}`);
+          console.log("usernameResponse:", usernameResponse);
+          const usernameExists = (await usernameResponse.json());
+          console.log("usernameExists:", usernameExists);
+          
+          
+          //console.log("usernameExists:", usernameExists);
+          if (usernameExists === true) {
+            throw new Error("Username already exists");
+          }
+        } catch (error) {
+          if (error.message === "Username already exists") {
+            toast.error("Username already exists", toastOptions);
+            
+          }
+          return false;
+        }
+    
+    // check if email exists
+    try {
+      const emailResponse = await fetch (`${checkIfEmailExists.replace(':email', email)}`);
+          console.log("emailResponse:", emailResponse);
+          const emailExists = (await emailResponse.json());
+	        console.log("emailExists:", emailExists);
+      if (emailExists === true) {
+        throw new Error("Email already exists");
+      }
+    } catch (error) {
+      if (error.message === "Email already exists") {
+        toast.error("Email already exists", toastOptions);
+      }
+      return false;
     }
+    
 
+    
     return true;
-  };
+    
+    };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -151,6 +178,7 @@ export default function Register() {
       });
 
       if (data.status === false) {
+        console.log(data.status)
         toast.error(data.msg, toastOptions);
       }
       if (data.status === true) {

@@ -26,11 +26,12 @@ AppWidgetSummary.propTypes = {
   color: PropTypes.string,
   icon: PropTypes.string,
   username: PropTypes.string,
-  avatarImage: PropTypes.string.isRequired,
+  avatarimage: PropTypes.string.isRequired,
   sx: PropTypes.object,
+  onClick: PropTypes.func,
 };
 
-export default function AppWidgetSummary({ title, username, icon, color = 'primary', sx, ...other }) {
+export default function AppWidgetSummary({ title, username, avatarimage, onClick, color = 'primary', sx, ...other }) {
   return (
     <Card
       sx={{
@@ -52,8 +53,13 @@ export default function AppWidgetSummary({ title, username, icon, color = 'prima
               0.24
             )} 100%)`,
         }}
+        onClick={onClick}
       >
-        <Iconify icon={icon} width={24} height={24} />
+        {avatarimage.startsWith("data:image/svg+xml;base64") ? (
+<img src={avatarimage} alt="Avatar image" />
+) : (
+<Iconify icon={avatarimage} width={24} height={24} />
+)}
       </StyledIcon>
 
       <Typography variant="h3">{(username)}</Typography>
@@ -61,6 +67,9 @@ export default function AppWidgetSummary({ title, username, icon, color = 'prima
       <Typography variant="subtitle2" sx={{ opacity: 0.72 }}>
         {title}
       </Typography>
+      <button style={{ width: '50px', height: '25px' }} onClick={onClick}>
+      Click me
+    </button>
     </Card>
   );
 }

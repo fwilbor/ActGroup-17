@@ -29,7 +29,7 @@ const __dirname = path.dirname(__filename);
 const app = express()
 // code for hiding global variables in .env file
 dotenv.config()
-app.use(cors());
+app.use(cors({ credentials: true }));
 
 
 
@@ -38,7 +38,8 @@ app.use(cors());
 const CONNECTION_URL = process.env.MONGO_URI
 
 
-const PORT = process.env.PORT 
+const PORT = process.env.PORT
+const APP_PORT = process.env.APP_PORT;
 
 
 mongoose.connect(process.env.MONGO_URI, {useNewUrlParser: true, useUnifiedTopology: true})
@@ -118,7 +119,13 @@ app.use("/api/messages", router)
 app.use("/api/uploads", userRouter)
 app.use("/api/user", urouter)
 
+app.listen(APP_PORT, () => {
+  console.log(`App running on port ${APP_PORT}`);
+});
 
+// httpServer.listen(PORT, () => {
+//   console.log(`Server running on port ${PORT}`);
+// });
 //listen for requests 
 // app.listen(PORT, () => {
 //     console.log("listening on port " , process.env.PORT)

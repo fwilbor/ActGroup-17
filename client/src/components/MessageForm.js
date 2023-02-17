@@ -33,7 +33,7 @@ const MessageForm = () => {
     }
   }, [navigate]);
 
-  // get childs username and info to parent dashboard
+    // get childs username and info to parent dashboard
   useEffect(() => {
     const fetchData=async()=>{
       const parent_data = await JSON.parse(
@@ -41,9 +41,6 @@ const MessageForm = () => {
       );
       const parentLink = parent_data._id
         const data = await axios.get(`${getAllChildren}/${parentLink}`);
-        //console.log(data.data[0].username)
-        // let entries = Object.keys(data.data)
-        // console.log(entries)
         const data_array = data.data
         const children = data_array.values();
         for (const name of children) {

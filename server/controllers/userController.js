@@ -1,6 +1,7 @@
 
 import userModel from "../models/userModel"
 import jsonwebtoken from "jsonwebtoken"
+import bcrypt from "bcrypt"
 //import childModel from "../models/childModel"
 //import childModel from "../models/childModel"
 let start_time 
@@ -142,6 +143,11 @@ const getAllFriends = async (req, res, next) => {
 
       let session = (convert_logout - convert_login);
       console.log(session)
+
+      userModel.findByIdAndUpdate(req.params.id, { $inc: { sessionTime: session } }, { new: true }, function(err, user) {
+        if (err) return next(err);
+        return res.status(200).send();
+});
           
       onlineUsers.delete(req.params.id);
       return res.status(200).send();
@@ -204,8 +210,34 @@ const getAllFriends = async (req, res, next) => {
   }
 
 };
+
+const checkIfEmailExists = async (req, res) => {
+  const { email } = req.body
+      const email_exists = await userModel.exists({email: { $eq: req.params.email }})
+return res.json(Boolean(email_exists));
+  }
+  
+  const checkIfUsernameExists = async (req, res) => {
+    const { username } = req.body
+        const username_exists = await userModel.exists({username: { $eq: req.params.username }})
+        return res.json(Boolean(username_exists));
+  }
+
+  const checkIfPasswordMatch = async (req, res) => {
+    const { username, password } = req.params;
+    console.log(req.params)
+        const username_exists = await userModel.findOne({ username })
+        //console.log(username_exists)
+        if (!username_exists) {
+          return res.json({ error: "User not found" });
+        }
+
+        const match = await bcrypt.compare(req.params.password, username_exists.password)
+        //return res.json(Boolean(match));
+        return res.json(match);
+  }
     
 
 //}
 
-export {signupUser, childsignup, loginUser, getAllUsers, setAvatar, logOut, getAllChildren, addFriend, getAllFriends}
+export {signupUser, childsignup, loginUser, getAllUsers, setAvatar, logOut, getAllChildren, addFriend, getAllFriends, checkIfEmailExists, checkIfUsernameExists, checkIfPasswordMatch}

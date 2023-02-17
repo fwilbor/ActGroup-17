@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom'
 // @mui
 import { useTheme } from '@mui/material/styles';
 import { Grid, Container, Typography } from '@mui/material';
-import { getAllChildren } from 'src/utils/APIRoutes';
+import { getAllChildren, getChildMessages } from 'src/utils/APIRoutes';
 import MessageForm from '../components/MessageForm';
 import GetAllMsgs from "../components/GetAllMsgs.js"
 import axios from 'axios';
@@ -30,11 +30,24 @@ export default function DashboardAppPage() {
   const [CurID, setCurID] = useState("");
   const [CurUser, setCurUser] = useState(0);
   const [children, setChildren] = useState([]);
+  const [selectedUser, setSelectedUser] = React.useState(null);
 
   const parent_id = JSON.parse(
     localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)
   )._id;
   console.log(parent_id)
+
+  const handleClick = async (user) => {
+    setSelectedUser(user);
+    const response = await fetch(`${getChildMessages.replace(':id', user._id)}`);
+    const messages = await response.json();
+    if (Array.isArray(messages) && messages.length === 0) {
+      console.error(`${user.username} has not sent or received messages`);
+      return;
+      }
+    
+    console.log(messages);
+  };
 
   useEffect(() => {
   const fetchData=async()=>{
@@ -74,26 +87,28 @@ fetchData();
 
       <Container maxWidth="xl">
         <Typography variant="h4" sx={{ mb: 5 }}>
-        Hi {CurUser}, Welcome back<br />
+        Hi {CurUser}, Welcome back <br />
         {
         //Hi {CurUser.toUpperCase()}, Welcome back<br />
         }
           { CurID }<br />
           
         </Typography>
-
+        <Grid container spacing={3}>
         {children.map((child, index) => (
+  
   <React.Fragment key={index}>
-    <Grid container spacing={3}>
+    
       <Grid item xs={12} sm={6} md={3}>
-        <AppWidgetSummary username={child.username} avatarImage={<img src={`data:image/png;base64,${child.avatarImage}`} />}  />
+        <AppWidgetSummary username={child.username} avatarimage={`data:image/svg+xml;base64,${child.avatarImage}`} onClick={() => handleClick(child)} />
       </Grid>
-    </Grid>
+    
     {index !== children.length - 1 && <br />}
   </React.Fragment>
 ))}
 
-        <Grid container spacing={3}>
+
+  
           
           <Grid item xs={12} md={6} lg={8}>
             <AppWebsiteVisits
@@ -167,13 +182,14 @@ fetchData();
                 postedAt: faker.date.recent(),
               }))}
             />
-                
+            </Grid>
+            </Grid>    
         <div>
         <MessageForm />
         </div>
-          </Grid>
+          
 
-        </Grid>
+        
       </Container>
     </>
   );
