@@ -85,20 +85,27 @@ userSchema.statics.signup = async function (username, email, password) {
 // child signup method
 userSchema.statics.childsignup = async function (username, password, parentLink) {
 
+    let error = null;
+
     // validation
     if (!username || !password) {
-        throw Error("All fields must be filled Signup")
+        error = "All fields must be filled Signup";
     }
 
     if (!validator.isStrongPassword(password)) {
-        throw Error("Password is not strong enough")
+        error = "Password is not strong enough Signup";
     }
 
     const exists_username = await this.findOne({username})
     
     if (exists_username) {
-        throw Error("Username alredy exists")
+        error = "Username already exists Signup";
     }
+
+    if (error) {
+        return null;
+      }
+
     //used to add hash code to value can increase value but slows system
     const salt = await bcrypt.genSalt(10)
     const hash = await bcrypt.hash(password, salt)

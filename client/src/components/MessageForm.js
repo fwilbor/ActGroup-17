@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 // import { useMessagesContext } from "../hooks/useMessagesContext"
 // import { useAuthContext } from '../hooks/useAuthContext'
 import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import validator from "validator"
 import { getAllChildren, registerChild, checkIfUsernameExists } from "../utils/APIRoutes";
@@ -66,91 +66,65 @@ const MessageForm = () => {
   const validateForm  = async () => {
     const { username, password } = values;
     try {
-      if (username === "") {
-        throw new Error("Username is required.");
-      } else if (password === "") {
-        throw new Error("Password is required.");
+      if (username.trim() === "") {
+        toast.error("Username is required.6", toastOptions);
+        return false;
+      } else if (password.trim() === "") {
+        toast.error("Password is required.3", toastOptions);
+        return false;
       }
-    
+  
       // check if username exists
-      const usernameResponse = await fetch (`${checkIfUsernameExists.replace(':username', username)}`);
-      const usernameExists = await usernameResponse.json();
-      if (usernameExists === false) {
-        throw new Error("Invalid Username");
+      const usernameResponse = await fetch(`${checkIfUsernameExists.replace(':username', username)}`);
+      const exists = await usernameResponse.json();
+      if (exists) {
+        toast.error("Username already exists.9", toastOptions);
+        return false;
       }
-    
+  
       // check if password strong
       if (!validator.isStrongPassword(password)) {
-        throw new Error("Password is not strong enough");
+        toast.error("Password is not strong enough.8", toastOptions);
+        return false;
       }
+  
+      return true;
     } catch (error) {
-      toast.error(error.message, toastOptions);
+      toast.error("Something went wrong.", toastOptions);
       return false;
     }
-    
-    return true;
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    if (validateForm()) {
-
-    const parent_data = await JSON.parse(
-      localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)
-    );
-    const parentLink = parent_data._id
-        
-    // eslint-disable-next-line
-    const {username, password} = values
-   
-    const { data } = await axios.post(registerChild, {
-      username,
-      password,
-      parentLink,
-    });
-    console.log(data)
-
-    if (data.status === false) {
-      console.log("Error making child account")
+    try {
+      if (validateForm()) {
+        const parent_data = await JSON.parse(
+          localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)
+        );
+        const parentLink = parent_data._id;
+        const { username, password } = values;
+        const { data } = await axios.post(registerChild, {
+          username,
+          password,
+          parentLink,
+        });
+        console.log(data)
+        if (data.status === false) {
+          throw new Error("Error making child account", toastOptions);
+        }
+        if (data.status === true) {
+          console.log("Child added")
+        }
+      }
+    } catch (error) {
+      toast.error(error.message, toastOptions);
     }
-    if (data.status === true) {
-      // localStorage.setItem(
-      //   process.env.REACT_APP_LOCALHOST_KEY,
-      //   JSON.stringify(data.user)
-      // );
-      console.log("Child added")
-    }
-  }
-
-    
-    
-    // const { children_data } = await axios.post(getAllChildren, {
-    //   username,
-    //   avatarImage,
-    //   _id,
-    // });
-    // console.log(children_data)
-
-
-
-    // const json = await response.json()
-
-    // if (!response.ok) {
-    //   setError(json.error)
-    // }
-    // if (response.ok) {
-    //   setError(null)
-    //   setEmail('')
-    //   setMessage('')
-    //   setCreator('')
-    //   setsendTo('')
-    //   console.log('new message added:', json)
-    //   dispatch({type: "CREATE_MESSAGE", payload: json })
-    // }
-
-  }
+  };
 
   return (
+    <div>
+    <ToastContainer />
     <form className="create" onSubmit={handleSubmit}> 
       <h3>Add Child</h3>
 
@@ -171,6 +145,7 @@ const MessageForm = () => {
       <button>Add child</button>
       
     </form>
+    </div>
   )
 
 }

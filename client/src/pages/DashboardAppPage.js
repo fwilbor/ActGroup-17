@@ -10,6 +10,7 @@ import MessageForm from '../components/MessageForm';
 import GetAllMsgs from "../components/GetAllMsgs.js"
 import axios from 'axios';
 import React from 'react';
+import { toast } from "react-toastify";
 
 // sections
 import {
@@ -31,6 +32,14 @@ export default function DashboardAppPage() {
   const [CurUser, setCurUser] = useState(0);
   const [children, setChildren] = useState([]);
   const [selectedUser, setSelectedUser] = React.useState(null);
+
+  const toastOptions = {
+    position: "top-center",
+    autoClose: 8000,
+    pauseOnHover: true,
+    draggable: true,
+    theme: "dark",
+  };
 
   const parent_id = JSON.parse(
     localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)
