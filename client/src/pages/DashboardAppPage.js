@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom'
 // @mui
 import { useTheme } from '@mui/material/styles';
 import { Grid, Container, Typography } from '@mui/material';
-import { getAllChildren, getChildMessages } from 'src/utils/APIRoutes';
+import { getAllChildren, getChildMessages, getSessionTime } from 'src/utils/APIRoutes';
 import MessageForm from '../components/MessageForm';
 import GetAllMsgs from "../components/GetAllMsgs.js"
 import axios from 'axios';
@@ -39,6 +39,7 @@ export default function DashboardAppPage() {
 
   const handleClick = async (user) => {
     setSelectedUser(user);
+
     const response = await fetch(`${getChildMessages.replace(':id', user._id)}`);
     const messages = await response.json();
     if (Array.isArray(messages) && messages.length === 0) {
@@ -47,6 +48,12 @@ export default function DashboardAppPage() {
       }
     
     console.log(messages);
+
+    const session = await fetch(`${getSessionTime.replace(':id', user._id)}`);
+    const data = await session.json();
+console.log(data);
+
+            
   };
 
   useEffect(() => {

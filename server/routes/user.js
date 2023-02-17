@@ -1,7 +1,7 @@
 import express from "express";
 
 //controller functions
-import { loginUser, signupUser, childsignup, getAllUsers, setAvatar, logOut, getAllChildren, addFriend, getAllFriends, checkIfEmailExists, checkIfUsernameExists, checkIfPasswordMatch } from "../Controllers/userController";
+import { loginUser, signupUser, childsignup, getAllUsers, setAvatar, logOut, getAllChildren, addFriend, getAllFriends, checkIfEmailExists, checkIfUsernameExists, checkIfPasswordMatch, getSessionTime } from "../Controllers/userController";
 
 
 const urouter = express.Router()
@@ -26,6 +26,9 @@ urouter.get("/checkusername/:username", checkIfUsernameExists);
 
 // check if password match in login
 urouter.get("/checkpasswordmatch/:username/:password", checkIfPasswordMatch);
+
+// get child session time
+urouter.get("/getsession/:id", getSessionTime);
 
 
 

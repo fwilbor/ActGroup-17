@@ -65,7 +65,7 @@ const childsignup = async (req, res) => {
       // passing back token and not _id here
       res.status(200).json({ status: true, user})
   } catch (error) {
-      res.status(402).json({error: error.message})
+      res.status(400).json({error: error.message})
   }
   
 }
@@ -142,7 +142,7 @@ const getAllFriends = async (req, res, next) => {
           console.log(convert_logout)
 
       let session = (convert_logout - convert_login);
-      console.log(session)
+      //console.log(session)
 
       userModel.findByIdAndUpdate(req.params.id, { $inc: { sessionTime: session } }, { new: true }, function(err, user) {
         if (err) return next(err);
@@ -236,8 +236,18 @@ return res.json(Boolean(email_exists));
         //return res.json(Boolean(match));
         return res.json(match);
   }
+
+  const getSessionTime = async (req, res) => {
+      const user = await userModel.findOne({ _id: req.params.id });
+      if (!user) {
+        return res.status(404).json({ error: 'User not found' });
+      }
+      const sessionTime = user.sessionTime;
+      return res.status(200).json({ sessionTime });
+
+  };
     
 
 //}
 
-export {signupUser, childsignup, loginUser, getAllUsers, setAvatar, logOut, getAllChildren, addFriend, getAllFriends, checkIfEmailExists, checkIfUsernameExists, checkIfPasswordMatch}
+export {signupUser, childsignup, loginUser, getAllUsers, setAvatar, logOut, getAllChildren, addFriend, getAllFriends, checkIfEmailExists, checkIfUsernameExists, checkIfPasswordMatch, getSessionTime}

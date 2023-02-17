@@ -2,7 +2,10 @@ import React, { useState, useEffect } from "react";
 // import { useMessagesContext } from "../hooks/useMessagesContext"
 // import { useAuthContext } from '../hooks/useAuthContext'
 import { useNavigate } from "react-router-dom";
-import { getAllChildren, registerChild } from "../utils/APIRoutes";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import validator from "validator"
+import { getAllChildren, registerChild, checkIfUsernameExists } from "../utils/APIRoutes";
 import axios from "axios";
 
 const MessageForm = () => {
@@ -21,6 +24,13 @@ const MessageForm = () => {
     username: "",
     password: "",
   });
+  const toastOptions = {
+    position: "top-center",
+    autoClose: 8000,
+    pauseOnHover: true,
+    draggable: true,
+    theme: "dark",
+  };
 
   const handleChange = (event) => {
     setValues({ ...values, [event.target.name]: event.target.value });
@@ -53,8 +63,37 @@ const MessageForm = () => {
   fetchData();
   }, []);
 
+  const validateForm  = async () => {
+    const { username, password } = values;
+    try {
+      if (username === "") {
+        throw new Error("Username is required.");
+      } else if (password === "") {
+        throw new Error("Password is required.");
+      }
+    
+      // check if username exists
+      const usernameResponse = await fetch (`${checkIfUsernameExists.replace(':username', username)}`);
+      const usernameExists = await usernameResponse.json();
+      if (usernameExists === false) {
+        throw new Error("Invalid Username");
+      }
+    
+      // check if password strong
+      if (!validator.isStrongPassword(password)) {
+        throw new Error("Password is not strong enough");
+      }
+    } catch (error) {
+      toast.error(error.message, toastOptions);
+      return false;
+    }
+    
+    return true;
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault()
+    if (validateForm()) {
 
     const parent_data = await JSON.parse(
       localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)
@@ -81,6 +120,7 @@ const MessageForm = () => {
       // );
       console.log("Child added")
     }
+  }
 
     
     
