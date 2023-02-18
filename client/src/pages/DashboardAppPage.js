@@ -60,7 +60,16 @@ export default function DashboardAppPage() {
 
     const session = await fetch(`${getSessionTime.replace(':id', user._id)}`);
     const data = await session.json();
-console.log(data);
+    const sessionTimeInSeconds = data.sessionTime;
+
+    const days = Math.floor(sessionTimeInSeconds / (24 * 3600));
+    const hours = Math.floor((sessionTimeInSeconds % (24 * 3600)) / 3600);
+    const minutes = Math.floor((sessionTimeInSeconds % 3600) / 60);
+    const seconds = Math.floor(sessionTimeInSeconds % 60);
+
+    const formattedSessionTime = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+
+    console.log(formattedSessionTime);
 
             
   };
