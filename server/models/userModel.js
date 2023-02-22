@@ -38,21 +38,10 @@ const userSchema = mongoose.Schema({
         default: "",
       },
 
-<<<<<<< HEAD
       child: Array,
       friends: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "User",
-=======
-    //   friends: Array,
-    //   friend: {
-    //     type: String,
-    //     ref: "User",
-    //   },
-      friends: {
-        type: Array,
-        default: [],
->>>>>>> main
       },
       sessionTime: {
         type: Number,
