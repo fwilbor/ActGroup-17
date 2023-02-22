@@ -106,7 +106,10 @@ export default function DashboardAppPage() {
             </React.Fragment>
             
           ))}
-
+          
+          <GetRecentMessages p_id={parent_id} c_id={childId} />
+          <GetPieChart p_id={parent_id} c_id={childId} />
+          
           <Grid item xs={12} md={6} lg={8}>
             <AppWebsiteVisits
               title="Child Usage"
@@ -146,9 +149,8 @@ export default function DashboardAppPage() {
               ]}
             />
           </Grid>
-
-          <GetPieChart p_id={parent_id} c_id={childId} />
-          <GetRecentMessages p_id={parent_id} c_id={childId} />
+          
+          
 
           <Grid item xs={12} md={6} lg={8}>
             <AppConversionRates
