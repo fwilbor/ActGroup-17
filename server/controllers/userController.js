@@ -107,7 +107,6 @@ const getAllFriends = async (req, res, next) => {
 
     try {
       const users = await userModel.find({ _id: { $in: link.friends } }).select([
-        "email",
         "username",
         "avatarImage",
         "_id",

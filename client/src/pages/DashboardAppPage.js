@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom'
 // @mui
 import { useTheme } from '@mui/material/styles';
 import { Grid, Container, Typography } from '@mui/material';
-import { getAllChildren, getChildMessages, getSessionTime } from 'src/utils/APIRoutes';
+import { getAllChildren, getChildMessages, getSessionTime, getAllFriends } from 'src/utils/APIRoutes';
 import MessageForm from '../components/MessageForm';
 import GetAllMsgs from "../components/GetAllMsgs.js"
 import axios from 'axios';
@@ -49,6 +49,15 @@ export default function DashboardAppPage() {
   const handleClick = async (user) => {
     setSelectedUser(user);
 
+    if (user) {
+      const friends_list = await axios.get(`${getAllFriends}/${user._id}`);
+      for (let i=0; i < friends_list.data.length; i++) {
+      console.log(friends_list.data[i].username)
+      }
+      //setContacts(data.data);
+    }
+
+    // Get all child messages
     const response = await fetch(`${getChildMessages.replace(':id', user._id)}`);
     const messages = await response.json();
     if (Array.isArray(messages) && messages.length === 0) {
@@ -58,6 +67,7 @@ export default function DashboardAppPage() {
     
     console.log(messages);
 
+    // Get child session time
     const session = await fetch(`${getSessionTime.replace(':id', user._id)}`);
     const data = await session.json();
     const sessionTimeInSeconds = data.sessionTime;
