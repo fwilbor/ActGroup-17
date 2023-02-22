@@ -7,7 +7,6 @@ import Picker from 'emoji-picker-react';
 export default function ChatInput({ handleSendMsg }) {
   const [msg, setMsg] = useState("");
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
-  const [hasAddedEmoji, setHasAddedEmoji] = useState(false);
   
   const handleEmojiPickerhideShow = () => {
     setShowEmojiPicker(!showEmojiPicker);
@@ -19,29 +18,12 @@ export default function ChatInput({ handleSendMsg }) {
   //   setMsg(message);
   // };
 
-  const handleEmojiClick = (emojiObject, event) => {
-    if (showEmojiPicker) {
-      console.log(emojiObject.emoji);
-      console.log(event.target);
-      const emoji = emojiObject ? emojiObject.emoji : '';
-      console.log(emoji)
-      setMsg(prevMsg => {
-        if (prevMsg.endsWith(' ') || prevMsg === '') {
-          // If there is a space before the cursor or the message is empty,
-          // add the emoji directly
-          return prevMsg + emoji;
-        } else if (!hasAddedEmoji) {
-          // If an emoji hasn't been added before, add it directly and set
-          // the hasAddedEmoji flag to true
-          setHasAddedEmoji(true);
-          return prevMsg + emoji;
-        } else {
-          // If an emoji has been added before, add a space before adding
-          // the emoji
-          return prevMsg + ' ' + emoji;
-        }
-      });
-    }
+  const handleEmojiClick = (event, emojiObject) => {
+      console.log(emojiObject.emoji)
+      let message = msg;
+      message += emojiObject.emoji;
+      setMsg(message);
+
   };
 
   const sendChat = (event) => {
@@ -57,7 +39,7 @@ export default function ChatInput({ handleSendMsg }) {
       <div className="button-container">
         <div className="emoji">
           <BsEmojiSmileFill onClick={handleEmojiPickerhideShow} />
-          {showEmojiPicker && <Picker onEmojiClick={handleEmojiClick} />}
+          { showEmojiPicker && <Picker onEmojiClick={handleEmojiClick} /> }
         </div>
       </div>
       <form className="input-container" onSubmit={(event) => sendChat(event)}>
@@ -108,6 +90,8 @@ const Container = styled.div`
       }
       .emoji-picker-react {
         position: absolute;
+        height={350}
+        overflow-y: auto;
         top: -350px;
         background-color: #080420;
         box-shadow: 0 5px 10px #9a86f3;
@@ -127,6 +111,7 @@ const Container = styled.div`
         .emoji-search {
           background-color: transparent;
           border-color: #9a86f3;
+          color: white;
         }
         .emoji-group:before {
           background-color: #080420;
