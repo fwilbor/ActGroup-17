@@ -31,10 +31,10 @@ export default function Login() {
   const validateForm  = async () => {
     const { username, password } = values;
     if (username === "") {
-      toast.error("Email and Password is required.", toastOptions);
+      toast.error("Username and Password is required.", toastOptions);
       return false;
     } else if (password === "") {
-      toast.error("Email and Password is required.", toastOptions);
+      toast.error("Username and Password is required.", toastOptions);
       return false;
     }
     // check if username exists

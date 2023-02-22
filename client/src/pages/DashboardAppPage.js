@@ -5,11 +5,12 @@ import { useNavigate } from 'react-router-dom'
 // @mui
 import { useTheme } from '@mui/material/styles';
 import { Grid, Container, Typography } from '@mui/material';
-import { getAllChildren, getChildMessages } from 'src/utils/APIRoutes';
+import { getAllChildren, getChildMessages, getSessionTime } from 'src/utils/APIRoutes';
 import MessageForm from '../components/MessageForm';
 import GetAllMsgs from "../components/GetAllMsgs.js"
 import axios from 'axios';
 import React from 'react';
+import { toast } from "react-toastify";
 
 // sections
 import {
@@ -32,6 +33,14 @@ export default function DashboardAppPage() {
   const [children, setChildren] = useState([]);
   const [selectedUser, setSelectedUser] = React.useState(null);
 
+  const toastOptions = {
+    position: "top-center",
+    autoClose: 8000,
+    pauseOnHover: true,
+    draggable: true,
+    theme: "dark",
+  };
+
   const parent_id = JSON.parse(
     localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)
   )._id;
@@ -39,6 +48,7 @@ export default function DashboardAppPage() {
 
   const handleClick = async (user) => {
     setSelectedUser(user);
+
     const response = await fetch(`${getChildMessages.replace(':id', user._id)}`);
     const messages = await response.json();
     if (Array.isArray(messages) && messages.length === 0) {
@@ -47,6 +57,21 @@ export default function DashboardAppPage() {
       }
     
     console.log(messages);
+
+    const session = await fetch(`${getSessionTime.replace(':id', user._id)}`);
+    const data = await session.json();
+    const sessionTimeInSeconds = data.sessionTime;
+
+    const days = Math.floor(sessionTimeInSeconds / (24 * 3600));
+    const hours = Math.floor((sessionTimeInSeconds % (24 * 3600)) / 3600);
+    const minutes = Math.floor((sessionTimeInSeconds % 3600) / 60);
+    const seconds = Math.floor(sessionTimeInSeconds % 60);
+
+    const formattedSessionTime = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+
+    console.log(formattedSessionTime);
+
+            
   };
 
   useEffect(() => {
