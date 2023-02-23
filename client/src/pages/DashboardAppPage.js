@@ -118,12 +118,14 @@ export default function DashboardAppPage() {
           ))}
           </Grid>
           <Grid container spacing={3} style = {{ paddingTop : 25 }}>
-          <GetRecentMessages p_id={parent_id} c_id={childId} />
-          <GetPieChart p_id={parent_id} c_id={childId} />
-          
           <Grid item xs={12} md={6} lg={8}>
           <h1>{childName} Total Time Logged In: {sessionTime}</h1>
           </Grid>
+
+          <GetRecentMessages p_id={parent_id} c_id={childId} />
+          <GetPieChart p_id={parent_id} c_id={childId} />
+          
+          
           
           
 
