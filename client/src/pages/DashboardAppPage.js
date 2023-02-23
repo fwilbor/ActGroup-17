@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom'
 // @mui
 import { useTheme } from '@mui/material/styles';
 import { Grid, Container, Typography } from '@mui/material';
-import { getAllChildren, getChildMessages, getSessionTime } from 'src/utils/APIRoutes';
+import { getAllChildren, getChildMessages, getSessionTime, getAllFriends } from 'src/utils/APIRoutes';
 import MessageForm from '../components/MessageForm';
 import GetPieChart from "../components/GetPieChart.js"
 import GetRecentMessages from "../components/GetRecentMessages.js"
@@ -52,6 +52,14 @@ export default function DashboardAppPage() {
 
   const handleClick = async (user) => {
     setSelectedUser(user);
+
+    if (user) {
+      const friends_list = await axios.get(`${getAllFriends}/${user._id}`);
+      for (let i = 0; i < friends_list.data.length; i++) {
+        console.log(friends_list.data[i].username);
+      }
+    }
+
     setChildId(user._id);
     const response = await fetch(`${getChildMessages.replace(':id', user._id)}`);
     const messages = await response.json();
@@ -108,7 +116,8 @@ export default function DashboardAppPage() {
             </React.Fragment>
             
           ))}
-          
+          </Grid>
+          <Grid container spacing={3} style = {{ paddingTop : 25 }}>
           <GetRecentMessages p_id={parent_id} c_id={childId} />
           <GetPieChart p_id={parent_id} c_id={childId} />
           
