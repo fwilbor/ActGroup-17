@@ -27,6 +27,8 @@ import {
 export default function DashboardAppPage() {
 
   const navigate = useNavigate();
+  const [sessionTime, setSessionTime] = useState("");
+  const [childName, setChildName] = useState("");
   const [currentUser, setCurrentUser] = useState("");
   var [childUser, setChildUser] = useState("");
   const [children, setChildren] = useState([]);
@@ -66,14 +68,15 @@ export default function DashboardAppPage() {
     const messages = await response.json();
     if (Array.isArray(messages) && messages.length === 0) {
       console.error(`${user.username} has not sent or received messages`);
-      return;
+      //return;
       }
     
     console.log(messages);
 
     // Get child session time
     
-    //console.log(user);
+    setChildName(user.username)
+    // session time needs to be fixed regarding how it's added/multiplied/divided
     const session = await fetch(`${getSessionTime.replace(':id', user._id)}`);
     const data = await session.json();
     const sessionTimeInSeconds = data.sessionTime;
@@ -82,7 +85,8 @@ export default function DashboardAppPage() {
     const minutes = Math.floor((sessionTimeInSeconds % 3600) / 60);
     const seconds = Math.floor(sessionTimeInSeconds % 60);
     const formattedSessionTime = `${days}d ${hours}h ${minutes}m ${seconds}s`;
-    //console.log(formattedSessionTime);
+    console.log(formattedSessionTime);
+    setSessionTime(formattedSessionTime);
   };
 
   useEffect(() => {
@@ -121,6 +125,11 @@ export default function DashboardAppPage() {
             </React.Fragment>
             
           ))}
+          </Grid>
+          <Grid container spacing={3} style = {{ paddingTop : 25 }}>
+          <Grid item xs={12} md={6} lg={8}>
+          <h1>{childName} Total Time Logged In: {sessionTime}</h1>
+          </Grid>
           
           <GetRecentMessages p_id={parent_id} c_id={childId} />
           <GetPieChart p_id={parent_id} c_id={childId} />

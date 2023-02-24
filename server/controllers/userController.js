@@ -152,7 +152,7 @@ const getAllFriends = async (req, res, next) => {
           console.log(convert_login)
           console.log(convert_logout)
 
-      let session = (convert_logout - convert_login);
+      let session = (convert_logout - convert_login) / 1000;
       //console.log(session)
 
       userModel.findByIdAndUpdate(req.params.id, { $inc: { sessionTime: session } }, { new: true }, function(err, user) {
