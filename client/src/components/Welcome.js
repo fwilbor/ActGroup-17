@@ -29,9 +29,7 @@ export default function Welcome() {
         Welcome, <span>{userName}!</span>
       </h1>
       <h3>Please select a chat to start messaging. Or click <a href="/addfriend">here</a> to add friends</h3>
-      <div>
-        <h3>Log out<Logout/></h3>
-      </div>
+      <h3 style={{display: "inline-block", margin: 0}}>Log out<Logout/></h3>
     </Container>
   );
 }
