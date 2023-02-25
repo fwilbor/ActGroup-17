@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import Logo from "../assets/logo.png";
+import Logout from "./Logout";
 
 
 export default function Contacts({ contacts, changeChat }) {
@@ -28,6 +29,7 @@ export default function Contacts({ contacts, changeChat }) {
           <div className="brand">
             <img src={Logo} alt="logo" />
             <h3>KIDZSNAP</h3>
+            <h3 style={{display: "inline-block", margin: 0}}><Logout/></h3>
           </div>
           <div className="contacts">
             {contacts.map((contact, index) => {
