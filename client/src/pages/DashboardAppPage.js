@@ -9,6 +9,7 @@ import { getAllChildren, getChildMessages, getSessionTime, getAllFriends } from 
 import MessageForm from '../components/MessageForm';
 import GetPieChart from "../components/GetPieChart.js"
 import GetRecentMessages from "../components/GetRecentMessages.js"
+import GetFriends from "../components/GetFriends.js"
 import axios from 'axios';
 import React from 'react';
 import { toast } from "react-toastify";
@@ -33,6 +34,7 @@ export default function DashboardAppPage() {
   const [children, setChildren] = useState([]);
   const [selectedUser, setSelectedUser] = React.useState(null);
   const [childId, setChildId] = useState("");
+  const [friendsList, setFriendslist] = useState("");
   
   const toastOptions = {
     position: "top-center",
@@ -55,9 +57,10 @@ export default function DashboardAppPage() {
     
     if (user) {
       const friends_list = await axios.get(`${getAllFriends}/${user._id}`);
-      for (let i = 0; i < friends_list.data.length; i++) {
-        console.log(friends_list.data[i].username);
-      }
+      setFriendslist(friends_list);
+      //for (let i = 0; i < friends_list.data.length; i++) {
+      //  console.log(friends_list.data[i].username);
+      //}
     }
 
     setChildId(user._id);
@@ -128,33 +131,8 @@ export default function DashboardAppPage() {
           </Grid>
           <GetRecentMessages p_id={parent_id} c_id={childId} />
           <GetPieChart p_id={parent_id} c_id={childId} />
+          <GetFriends c_id={childId} friends={friendsList} />
           
-          
-          
-          
-
-          <Grid item xs={12} md={6} lg={8}>
-            <AppConversionRates
-              title="Friends List"
-              subheader="(+43%) than last year"
-              chartData={[
-                { label: 'Italy', value: 400 },
-                { label: 'Japan', value: 430 },
-                { label: 'China', value: 448 },
-                { label: 'Canada', value: 470 },
-                { label: 'France', value: 540 },
-                { label: 'Germany', value: 580 },
-                { label: 'South Korea', value: 690 },
-                { label: 'Netherlands', value: 1100 },
-                { label: 'United States', value: 1200 },
-                { label: 'United Kingdom', value: 1380 },
-              ]}
-            />
-          </Grid>
-
-          
-
-
         </Grid>
         <div>
           <MessageForm />
