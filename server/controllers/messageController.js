@@ -37,11 +37,13 @@ const getChats = async (req, res, next) => {
   const addMessage = async (req, res, next) => {
     try {
 
-      const { from, to, parentLink, message } = req.body;
+      const { from, to, message, value } = req.body;
+      console.log(value)
       const data = await PostMessage.create({
         message: { text: message, to },
-        users: [from, to, parentLink],
+        users: [from, to],
         sender: from,
+        deleteAfter: value,
         });
   
       if (data) return res.json({ msg: "Message added successfully." });
@@ -54,19 +56,22 @@ const getChats = async (req, res, next) => {
   //get child messages
   const getChildMessages = async (req, res) => {
 
-PostMessage.find({
-  users: {
-    $all: [req.params.id],
-  },
-}).sort({ updatedAt: 1 }).then(messages => {
-  const projectedMessages = messages.map((msg) => {
-    return {
-      fromSelf: msg.sender.toString() === req.params.id,
-      message: msg.message.text,
-    };
-  });
-  res.json(projectedMessages);
-});
+    PostMessage.find({
+      users: {
+        $in: [req.params.username],
+      },
+    }).sort({ updatedAt: 1 }).then(messages => {
+      console.log('Messages:', messages);
+      const projectedMessages = messages.map((msg) => {
+        return {
+          fromSelf: msg.sender === req.params.username,
+          message: msg.message.text,
+          users: msg.users
+        };
+      });
+      console.log('Projected messages:', req.params.username);
+      res.json(projectedMessages);
+    });
 };
 
 // get all messages
@@ -195,20 +200,19 @@ const createMessage = async (req, res) => {
 // delete a message
 
 const deleteMessage = async (req, res) => {
-    const {id} = req.params
+  const { days } = req.params;
 
-    if (!mongoose.Types.ObjectId.isValid(id)) {
-        return res.status(404).json({error: "invalid message id"})
+  // Calculate the date for deletion based on the number of days
+  const deleteDate = new Date();
+  deleteDate.setDate(deleteDate.getDate() - days);
 
-    }
+  // Find all messages that have a deletion date earlier than the current date
+  const messages = await PostMessage.find({ deleteAt: { $lt: new Date() } });
 
-    const message = await PostMessage.findOneAndDelete({_id: id})
+  // Delete all messages that match the query
+  await PostMessage.deleteMany({ deleteAt: { $lt: new Date() } });
 
-    if (!message) {
-        return res.status(404).json({error: "Message not found"})
-    }
-
-    res.status(200).json(message)
+  res.status(200).json({ message: "Messages deleted successfully" });
 
 
 }

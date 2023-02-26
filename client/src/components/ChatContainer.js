@@ -52,7 +52,6 @@ export default function ChatContainer({ currentChat, socket }) {
     await axios.post(sendMessageRoute, {
       from: data.username,
       to: currentChat.username,
-      parentLink: data.parentLink,
       message: msg,
     });
 

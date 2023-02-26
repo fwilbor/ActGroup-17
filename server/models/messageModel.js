@@ -19,12 +19,10 @@ const messageSchema = mongoose.Schema({
       ref: "User",
       required: true,
     },
-//    tags: [String],
-//    selectedFile: String,
-//    likeCount: {
-//     type: Number,
-//     default: 0,
-//    }
+    deleteAfter: {
+      type: Number,
+      default: 30 // Default to deleting messages after 30 days if no value is provided
+    }
 
     
 }, {timestamps: true})

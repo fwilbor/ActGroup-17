@@ -18,7 +18,7 @@ router.get("/:creator", getMessage)
     
     
 // DELETE a message
-router.delete("/:id", deleteMessage)
+router.delete("/deleteMsg", deleteMessage)
 
 
 // UPDATE a message
@@ -27,7 +27,7 @@ router.patch("/:id", updateMessage)
 //chat routes
 router.post("/addmsg/", addMessage);
 router.post("/getmsg/", getChats);
-router.get('/getmsg/:id', getChildMessages)
+router.get('/getmsg/:username', getChildMessages)
 
 export default router
 

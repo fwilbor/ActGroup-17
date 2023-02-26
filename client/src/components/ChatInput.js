@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+//import { deleteAfter } from "src/utils/APIRoutes";
 import { BsEmojiSmileFill } from "react-icons/bs";
 import { IoMdSend } from "react-icons/io";
 import styled from "styled-components";
@@ -7,6 +8,7 @@ import Picker from 'emoji-picker-react';
 export default function ChatInput({ handleSendMsg }) {
   const [msg, setMsg] = useState("");
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
+  const [deleteAfter, setDeleteAfter] = useState(30); // set the initial value of deleteAfter to "30"
   
   const handleEmojiPickerhideShow = () => {
     setShowEmojiPicker(!showEmojiPicker);
@@ -26,10 +28,15 @@ export default function ChatInput({ handleSendMsg }) {
 
   };
 
+  const handleDeleteAfterChange = (event) => {
+    setDeleteAfter(event.target.value); // Update the deleteAfter state variable when the selected option changes
+  };
+
   const sendChat = (event) => {
     event.preventDefault();
     if (msg.length > 0) {
-      handleSendMsg(msg);
+      handleSendMsg(msg, deleteAfter);
+      console.log(deleteAfter)
       setMsg("");
     }
   };
@@ -49,6 +56,14 @@ export default function ChatInput({ handleSendMsg }) {
           onChange={(e) => setMsg(e.target.value)}
           value={msg}
         />
+        <select
+          value={deleteAfter} // Set the value of the select element to the deleteAfter state variable
+          onChange={handleDeleteAfterChange} // Call handleDeleteAfterChange when the selected option changes
+        >
+          <option value="1">Delete after 1 days</option>
+          <option value="2">Delete after 2 days</option>
+          <option value="30">Delete after 30 days</option>
+        </select>
         <button type="submit">
           <IoMdSend />
         </button>

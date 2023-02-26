@@ -52,7 +52,7 @@ export default function DashboardAppPage() {
 
   const handleClick = async (user) => {
     setSelectedUser(user);
-
+    
     if (user) {
       const friends_list = await axios.get(`${getAllFriends}/${user._id}`);
       for (let i = 0; i < friends_list.data.length; i++) {
@@ -61,7 +61,7 @@ export default function DashboardAppPage() {
     }
 
     setChildId(user._id);
-    const response = await fetch(`${getChildMessages.replace(':id', user._id)}`);
+    const response = await fetch(`${getChildMessages.replace(':username', user.username)}`);
     const messages = await response.json();
     if (Array.isArray(messages) && messages.length === 0) {
       console.error(`${user.username} has not sent or received messages`);
