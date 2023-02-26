@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import Robot from "../assets/robot.gif";
-//import { welcome_user } from "../../../server/models/userModel";
-//import dotenv from "dotenv";
+import Logout from "./Logout";
 
-//dotenv.config()
 export default function Welcome() {
   const [userName, setUserName] = useState([]);
   
@@ -30,7 +28,8 @@ export default function Welcome() {
       <h1>
         Welcome, <span>{userName}!</span>
       </h1>
-      <h3>Please select a chat to Start messaging.</h3>
+      <h3>Please select a chat to start messaging. Or click <a href="/addfriend">here</a> to add friends</h3>
+      <h3 style={{display: "inline-block", margin: 0}}>Log out<Logout/></h3>
     </Container>
   );
 }

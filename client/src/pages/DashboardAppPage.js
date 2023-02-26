@@ -5,9 +5,11 @@ import { useNavigate } from 'react-router-dom'
 // @mui
 import { useTheme } from '@mui/material/styles';
 import { Grid, Container, Typography } from '@mui/material';
-import { getAllChildren, getChildMessages, getSessionTime } from 'src/utils/APIRoutes';
+import { getAllChildren, getChildMessages, getSessionTime, getAllFriends } from 'src/utils/APIRoutes';
 import MessageForm from '../components/MessageForm';
-import GetAllMsgs from "../components/GetAllMsgs.js"
+import GetPieChart from "../components/GetPieChart.js"
+import GetRecentMessages from "../components/GetRecentMessages.js"
+import GetFriends from "../components/GetFriends.js"
 import axios from 'axios';
 import React from 'react';
 import { toast } from "react-toastify";
@@ -26,13 +28,14 @@ import {
 export default function DashboardAppPage() {
 
   const navigate = useNavigate();
-  const [currentUser, setCurrentUser] = useState("");
+  const [sessionTime, setSessionTime] = useState("");
+  const [childName, setChildName] = useState("");
   var [childUser, setChildUser] = useState("");
-  const [CurID, setCurID] = useState("");
-  const [CurUser, setCurUser] = useState(0);
   const [children, setChildren] = useState([]);
   const [selectedUser, setSelectedUser] = React.useState(null);
-
+  const [childId, setChildId] = useState("");
+  const [friendsList, setFriendslist] = useState("");
+  
   const toastOptions = {
     position: "top-center",
     autoClose: 8000,
@@ -44,64 +47,60 @@ export default function DashboardAppPage() {
   const parent_id = JSON.parse(
     localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)
   )._id;
-  console.log(parent_id)
+  //console.log(parent_id)
+  const parent_username = JSON.parse(
+    localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)
+  ).username;
 
   const handleClick = async (user) => {
     setSelectedUser(user);
+    
+    if (user) {
+      const friends_list = await axios.get(`${getAllFriends}/${user._id}`);
+      setFriendslist(friends_list);
+      //for (let i = 0; i < friends_list.data.length; i++) {
+      //  console.log(friends_list.data[i].username);
+      //}
+    }
 
-    const response = await fetch(`${getChildMessages.replace(':id', user._id)}`);
+    setChildId(user._id);
+    const response = await fetch(`${getChildMessages.replace(':username', user.username)}`);
     const messages = await response.json();
     if (Array.isArray(messages) && messages.length === 0) {
       console.error(`${user.username} has not sent or received messages`);
-      return;
+      //return;
       }
     
     console.log(messages);
 
+    // Get child session time
+    
+    setChildName(user.username)
+    // session time needs to be fixed regarding how it's added/multiplied/divided
     const session = await fetch(`${getSessionTime.replace(':id', user._id)}`);
     const data = await session.json();
     const sessionTimeInSeconds = data.sessionTime;
-
     const days = Math.floor(sessionTimeInSeconds / (24 * 3600));
     const hours = Math.floor((sessionTimeInSeconds % (24 * 3600)) / 3600);
     const minutes = Math.floor((sessionTimeInSeconds % 3600) / 60);
     const seconds = Math.floor(sessionTimeInSeconds % 60);
-
     const formattedSessionTime = `${days}d ${hours}h ${minutes}m ${seconds}s`;
-
-    console.log(formattedSessionTime);
-
-            
+    setSessionTime(formattedSessionTime);
   };
 
   useEffect(() => {
-  const fetchData=async()=>{
-    const parent_data = await JSON.parse(
-      localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)
-    );
-    setCurID(parent_data._id)
-  setCurUser(parent_data.username)
-  setChildUser(parent_data.parentChildLink)
-    const parentLink = parent_data._id
-        const data = await axios.get(`${getAllChildren}/${parentLink}`);
-        const data_array = data.data
-        setChildren(Array.from(data_array));
-        console.log(parentLink)
-  }
-   
-  
-   
-
-fetchData();
-}, []);
-
-//console.log(currentUser)
-//console.log(childUser)
-
-//console.log(currentUser)
-
-//const cfrs = currentUser.friends
-//console.log(cfrs) 
+    const fetchData = async () => {
+      const parent_data = await JSON.parse(
+        localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)
+      );
+      setChildUser(parent_data.parentChildLink)
+      const parentLink = parent_data._id
+      const data = await axios.get(`${getAllChildren}/${parentLink}`);
+      const data_array = data.data
+      setChildren(Array.from(data_array));
+    }
+    fetchData();
+  }, []);
 
   const theme = useTheme();
   return (
@@ -109,113 +108,37 @@ fetchData();
       <Helmet>
         <title> Dashboard | KidsSnap.com </title>
       </Helmet>
-
       <Container maxWidth="xl">
         <Typography variant="h4" sx={{ mb: 5 }}>
-        Hi {CurUser}, Welcome back <br />
-        {
-        //Hi {CurUser.toUpperCase()}, Welcome back<br />
-        }
-          { CurID }<br />
-          
+          Hi {parent_username.toUpperCase()}, Welcome back<br />
+          {/* { parent_id }<br /> */}
         </Typography>
+
         <Grid container spacing={3}>
-        {children.map((child, index) => (
-  
-  <React.Fragment key={index}>
-    
-      <Grid item xs={12} sm={6} md={3}>
-        <AppWidgetSummary username={child.username} avatarimage={`data:image/svg+xml;base64,${child.avatarImage}`} onClick={() => handleClick(child)} />
-      </Grid>
-    
-    {index !== children.length - 1 && <br />}
-  </React.Fragment>
-))}
-
-
-  
-          
-          <Grid item xs={12} md={6} lg={8}>
-            <AppWebsiteVisits
-              title="Child Usage"
-              subheader="(+43%) than last year"
-              chartLabels={[
-                '01/01/2023',
-                '02/01/2023',
-                '03/01/2023',
-                '04/01/2023',
-                '05/01/2023',
-                '06/01/2023',
-                '07/01/2023',
-                '08/01/2023',
-                '09/01/2023',
-                '10/01/2023',
-                '11/01/2023',
-              ]}
-              chartData={[
-                {
-                  name: 'Team A',
-                  type: 'column',
-                  fill: 'solid',
-                  data: [23, 11, 22, 27, 13, 22, 37, 21, 44, 22, 30],
-                },
-                {
-                  name: 'Team B',
-                  type: 'area',
-                  fill: 'gradient',
-                  data: [44, 55, 41, 67, 22, 43, 21, 41, 56, 27, 43],
-                },
-                {
-                  name: 'Team C',
-                  type: 'line',
-                  fill: 'solid',
-                  data: [30, 25, 36, 30, 45, 35, 64, 52, 59, 36, 39],
-                },
-              ]}
-            />
+          {children.map((child, index) => (
+            <React.Fragment key={index}>
+              <Grid item xs={12} sm={6} md={3}>
+                <AppWidgetSummary username={child.username} avatarimage={`data:image/svg+xml;base64,${child.avatarImage}`} onClick={() => handleClick(child)} />
+              </Grid>
+              {index !== children.length - 1 && <br />}
+            </React.Fragment>
+            
+          ))}
           </Grid>
-          
-          { GetAllMsgs('currentUser._id') }
-          
+          <Grid container spacing={3} style = {{ paddingTop : 25 }}>
           <Grid item xs={12} md={6} lg={8}>
-            <AppConversionRates
-              title="Friends List"
-              subheader="(+43%) than last year"
-              chartData={[
-                { label: 'Italy', value: 400 },
-                { label: 'Japan', value: 430 },
-                { label: 'China', value: 448 },
-                { label: 'Canada', value: 470 },
-                { label: 'France', value: 540 },
-                { label: 'Germany', value: 580 },
-                { label: 'South Korea', value: 690 },
-                { label: 'Netherlands', value: 1100 },
-                { label: 'United States', value: 1200 },
-                { label: 'United Kingdom', value: 1380 },
-              ]}
-            />
+          <h1>{childName} Total Time Logged In: {sessionTime}</h1>
           </Grid>
-
-          <Grid item xs={12} md={6} lg={8}>
-            <AppNewsUpdate
-              title="Recent Activity"
-              list={[...Array(5)].map((_, index) => ({
-                id: faker.datatype.uuid(),
-                title: faker.name.jobTitle(),
-                description: faker.name.jobTitle(),
-                image: `/assets/images/covers/cover_${index + 1}.jpg`,
-                postedAt: faker.date.recent(),
-              }))}
-            />
-            </Grid>
-            </Grid>    
+          <GetRecentMessages p_id={parent_id} c_id={childId} />
+          <GetPieChart p_id={parent_id} c_id={childId} />
+          <GetFriends c_id={childId} friends={friendsList} />
+          
+        </Grid>
         <div>
-        <MessageForm />
+          <MessageForm />
         </div>
-          
-
-        
       </Container>
     </>
   );
 }
+
