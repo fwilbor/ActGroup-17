@@ -6,17 +6,18 @@ import { AppNewsUpdate, AppCurrentVisits } from '../sections/@dashboard/app';
 import { getAllChildren, getChildMessages, getSessionTime } from 'src/utils/APIRoutes';
 
 function GetRecentMessages(props) {
+    console.log(props)
     const [messages, setMessages] = useState([]);
     useEffect(() => {
         const fetchData = async () => {
             try {
-                if (props.p_id != "" && props.c_id === "") {
+                if (props.username != "" && props.c_id === "") {
                     setMessages([]);
-                    const response = await fetch('http://localhost:4000/api/messages/getmsg?parentLink=${props.p_id}');
+                    const response = await fetch(`http://localhost:4000/api/messages/getmsg?childUsername=${props.username}`);
                     const data = await response.json();
                     
                     setMessages(data.map(message => {
-                        if (message.users[2] === props.p_id) {
+                        if (message.users[2] === props.username) {
                             return message.message.text.toString();
                         }
                     }));
@@ -31,7 +32,7 @@ function GetRecentMessages(props) {
                         return;
                     }
                        setMessages(data.map(message => {
-                        return message.message;
+                        return SwearWordCheck(message.message);
                         
                     }));
                 }

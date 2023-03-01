@@ -3,11 +3,9 @@ import SwearWordCheck from "../components/SwearWordCheck.js"
 import { Grid} from '@mui/material';
 // sections
 import {
-    AppNewsUpdate,
+ 
     AppCurrentVisits,
-    AppWebsiteVisits,
-    AppWidgetSummary,
-    AppConversionRates,
+   
   } from '../sections/@dashboard/app';
 
 const GetAllMsgs = ({ parentLink }) => {
