@@ -16,4 +16,4 @@ export const checkIfEmailExists = `${host}/api/user/checkemail/:email`;
 export const checkIfUsernameExists = `${host}/api/user/checkusername/:username`;
 export const checkIfPasswordMatch = `${host}/api/user/checkpasswordmatch/:username/:password`;
 export const getSessionTime = `${host}/api/user/getsession/:id`;
-export const deleteAfter = `${host}/api/messages/deleteMsg`;
+export const deleteMessage = `${host}/api/messages/deleteMsg`;

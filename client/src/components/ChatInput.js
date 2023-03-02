@@ -60,8 +60,8 @@ export default function ChatInput({ handleSendMsg }) {
           value={deleteAfter} // Set the value of the select element to the deleteAfter state variable
           onChange={handleDeleteAfterChange} // Call handleDeleteAfterChange when the selected option changes
         >
-          <option value="1">Delete after 1 days</option>
-          <option value="2">Delete after 2 days</option>
+          <option value="7">Delete after 7 days</option>
+          <option value="14">Delete after 14 days</option>
           <option value="30">Delete after 30 days</option>
         </select>
         <button type="submit">

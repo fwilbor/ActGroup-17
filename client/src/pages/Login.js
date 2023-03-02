@@ -5,7 +5,7 @@ import { useNavigate, Link } from "react-router-dom";
 import Logo from "../assets/logo.png";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { loginRoute, checkIfUsernameExists, checkIfPasswordMatch } from "../utils/APIRoutes";
+import { loginRoute, checkIfUsernameExists, checkIfPasswordMatch, deleteMessage } from "../utils/APIRoutes";
 
 
 export default function Login() {
@@ -96,6 +96,18 @@ export default function Login() {
           process.env.REACT_APP_LOCALHOST_KEY,
           JSON.stringify(data.user)
         );
+
+        await axios.delete(deleteMessage, {
+          params: {
+            user_name: data.user.username,
+          },
+        })
+          .then((response) => {
+            console.log(response.data);
+          })
+          .catch((error) => {
+            console.log(error);
+          });
 
         let parent_or_child = await JSON.parse(
           localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)
