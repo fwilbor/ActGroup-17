@@ -37,13 +37,12 @@ const getChats = async (req, res, next) => {
   const addMessage = async (req, res, next) => {
     try {
 
-      const { from, to, message, value } = req.body;
-      console.log(value)
+      const { from, to, message, deleteAfter } = req.body;
       const data = await PostMessage.create({
         message: { text: message, to },
         users: [from, to],
         sender: from,
-        deleteAfter: value,
+        deleteAfter: deleteAfter,
         });
   
       if (data) return res.json({ msg: "Message added successfully." });
@@ -200,17 +199,27 @@ const createMessage = async (req, res) => {
 // delete a message
 
 const deleteMessage = async (req, res) => {
-  const { days } = req.params;
+  const user_name = req.query.user_name; // assuming you have user authentication and get the user ID from the request
+  console.log(user_name)
 
-  // Calculate the date for deletion based on the number of days
-  const deleteDate = new Date();
-  deleteDate.setDate(deleteDate.getDate() - days);
+  const messages = await PostMessage.find({
+    users: {
+      $in: [user_name],
+    },
+  });
+  console.log(messages)
 
-  // Find all messages that have a deletion date earlier than the current date
-  const messages = await PostMessage.find({ deleteAt: { $lt: new Date() } });
-
-  // Delete all messages that match the query
-  await PostMessage.deleteMany({ deleteAt: { $lt: new Date() } });
+  messages.forEach(async (message) => {
+    const deleteAfter = message.deleteAfter;
+    const deleteDate = new Date(message.createdAt);
+    deleteDate.setDate(deleteDate.getDate() + parseInt(deleteAfter));
+    console.log(deleteDate)
+    
+    if (new Date() > deleteDate) {
+      await PostMessage.findByIdAndDelete(message._id);
+      console.log(`Deleted message with ID: ${message._id}`);
+    }
+  });
 
   res.status(200).json({ message: "Messages deleted successfully" });
 

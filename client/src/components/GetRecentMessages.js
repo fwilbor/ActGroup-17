@@ -13,6 +13,7 @@ function GetRecentMessages(props) {
                 if (props.p_id != "" && props.c_id === "") {
                     setMessages([]);
                     const response = await fetch('http://localhost:4000/api/messages/getmsg?parentLink=${props.p_id}');
+                    console.log(response)
                     const data = await response.json();
                     
                     setMessages(data.map(message => {

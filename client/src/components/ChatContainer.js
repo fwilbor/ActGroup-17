@@ -39,7 +39,7 @@ export default function ChatContainer({ currentChat, socket }) {
     getCurrentChat();
   }, [currentChat]);
 
-  const handleSendMsg = async (msg) => {
+  const handleSendMsg = async (msg, deleteAfter) => {
     const data = await JSON.parse(
       localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)
     );
@@ -48,11 +48,13 @@ export default function ChatContainer({ currentChat, socket }) {
       to: currentChat.username,
       from: data.username,
       msg,
+      deleteAfter
     });
     await axios.post(sendMessageRoute, {
       from: data.username,
       to: currentChat.username,
       message: msg,
+      deleteAfter: deleteAfter
     });
 
     const msgs = [...messages];
