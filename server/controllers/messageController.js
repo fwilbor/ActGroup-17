@@ -200,14 +200,12 @@ const createMessage = async (req, res) => {
 
 const deleteMessage = async (req, res) => {
   const user_name = req.query.user_name; // assuming you have user authentication and get the user ID from the request
-  console.log(user_name)
 
   const messages = await PostMessage.find({
     users: {
       $in: [user_name],
     },
   });
-  console.log(messages)
 
   messages.forEach(async (message) => {
     const deleteAfter = message.deleteAfter;
