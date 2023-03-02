@@ -4,6 +4,7 @@ import SwearWordCheck from "../components/SwearWordCheck.js"
 import { Grid } from '@mui/material';
 import { AppNewsUpdate, AppCurrentVisits } from '../sections/@dashboard/app';
 import { getAllChildren, getChildMessages, getSessionTime } from 'src/utils/APIRoutes';
+import { ContactsOutlined } from '@material-ui/icons';
 
 function GetRecentMessages(props) {
     console.log(props)
@@ -11,16 +12,17 @@ function GetRecentMessages(props) {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                if (props.username != "" && props.c_id === "") {
+                if (props.c_id !== "") {
                     setMessages([]);
-                    const response = await fetch(`http://localhost:4000/api/messages/getmsg?childUsername=${props.username}`);
+                    const response = await fetch(`http://localhost:4000/api/messages/getmsg?${props.c_id}`);
                     const data = await response.json();
+                    if (Array.isArray(data) && data.length === 0) {
+                        console.error(`${props.c_id} has not sent or received messages`);
+                        return;
+                    }
                     
-                    setMessages(data.map(message => {
-                        if (message.users[2] === props.username) {
-                            return message.message.text.toString();
-                        }
-                    }));
+                    setMessages(data.filter(message => message.users.includes(props.username)).map(message => SwearWordCheck(message.message)));
+                
                 }
                 else if (props.c_id != "") {
                     

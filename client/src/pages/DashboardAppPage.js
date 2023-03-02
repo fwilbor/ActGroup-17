@@ -2,8 +2,9 @@ import { Helmet } from 'react-helmet-async';
 import { faker } from '@faker-js/faker';
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { format, differenceInSeconds } from 'date-fns';
 // @mui
-import { useTheme } from '@mui/material/styles';
+import { useTheme, styled } from '@mui/material/styles';
 import { Grid, Container, Typography } from '@mui/material';
 import { getAllChildren, getChildMessages, getSessionTime, getAllFriends } from 'src/utils/APIRoutes';
 import MessageForm from '../components/MessageForm';
@@ -43,6 +44,13 @@ export default function DashboardAppPage() {
     draggable: true,
     theme: "dark",
   };
+
+  const Clock = styled('div')({
+    fontFamily: 'monospace',
+    fontSize: '4rem',
+    fontWeight: 'bold',
+    color: '#333',
+  });
 
   const parent_id = JSON.parse(
     localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)
@@ -127,7 +135,7 @@ export default function DashboardAppPage() {
           </Grid>
           <Grid container spacing={3} style = {{ paddingTop : 25 }}>
           <Grid item xs={12} md={6} lg={8}>
-          <h1>{childName} Total Time Logged In: {sessionTime}</h1>
+          <h1>{childName} Total Time Logged In: <Clock>{sessionTime}</Clock></h1>
           </Grid>
           <GetRecentMessages p_id={parent_id} c_id={childId} />
           <GetPieChart p_id={parent_id} c_id={childId} />
