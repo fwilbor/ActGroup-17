@@ -21,7 +21,7 @@ function GetFriends(props) {
   });
 
   if (friendsList.length <= 0) {
-    return null; // or return some default value or error message
+    return <div>Child has not made Friends</div>; // or return some default value or error message
   }
 
   return (

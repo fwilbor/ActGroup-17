@@ -72,8 +72,9 @@ export default function DashboardAppPage() {
     }
 
     setChildId(user._id);
-    const response = await fetch(`${getChildMessages.replace(':username', user.username)}`);
-    const messages = await response.json();
+    const messages = await getChildMessages(user._id);
+    // const response = await fetch(`${getChildMessages.replace(':username', user.username)}`);
+    // const messages = await response.json();
     if (Array.isArray(messages) && messages.length === 0) {
       console.error(`${user.username} has not sent or received messages`);
       //return;
@@ -137,7 +138,7 @@ export default function DashboardAppPage() {
           <Grid item xs={12} md={6} lg={8}>
           <h1>{childName} Total Time Logged In: <Clock>{sessionTime}</Clock></h1>
           </Grid>
-          <GetRecentMessages p_id={parent_id} c_id={childId} />
+          <GetRecentMessages username={parent_id} c_id={childId} />
           <GetPieChart p_id={parent_id} c_id={childId} />
           <GetFriends c_id={childId} friends={friendsList} />
           
