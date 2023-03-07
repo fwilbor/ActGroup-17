@@ -26,12 +26,13 @@ AppWidgetSummary.propTypes = {
   color: PropTypes.string,
   icon: PropTypes.string,
   username: PropTypes.string,
+  currentnummsg: PropTypes.number,
   avatarimage: PropTypes.string.isRequired,
   sx: PropTypes.object,
   onClick: PropTypes.func,
 };
 
-export default function AppWidgetSummary({ title, username, avatarimage, onClick, color = 'primary', sx, ...other }) {
+export default function AppWidgetSummary({ title, username, avatarimage, currentnummsg, onClick, color = 'primary', sx, ...other }) {
   return (
     <Card
       sx={{
@@ -63,6 +64,7 @@ export default function AppWidgetSummary({ title, username, avatarimage, onClick
       </StyledIcon>
 
       <Typography variant="h3">{(username)}</Typography>
+      <Typography variant="h3">{(currentnummsg)}</Typography>
 
       <Typography variant="subtitle2" sx={{ opacity: 0.72 }}>
         {title}

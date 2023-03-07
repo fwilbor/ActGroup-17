@@ -74,7 +74,7 @@ fetchData();
           }),
         }}
       >
-        <Avatar src={currentUser.avatarImage} alt="photoURL" />
+        <Avatar src={currentUser.avatarImage} alt={currentUser.username ? currentUser.username.charAt(0) : ''} />
       </IconButton>
 
       <Popover
