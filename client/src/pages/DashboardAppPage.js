@@ -34,6 +34,7 @@ export default function DashboardAppPage() {
   const [children, setChildren] = useState([]);
   const [selectedUser, setSelectedUser] = React.useState(null);
   const [childId, setChildId] = useState("");
+  const [childAvatar, setChildAvatar] = useState("");
   const [friendsList, setFriendslist] = useState("");
   
   const toastOptions = {
@@ -62,8 +63,8 @@ export default function DashboardAppPage() {
       //  console.log(friends_list.data[i].username);
       //}
     }
-
-    setChildId(user._id);
+    setChildAvatar(user.avatarImage);
+    setChildId(user.username);
     const response = await fetch(`${getChildMessages.replace(':username', user.username)}`);
     const messages = await response.json();
     if (Array.isArray(messages) && messages.length === 0) {
@@ -71,7 +72,7 @@ export default function DashboardAppPage() {
       //return;
       }
     
-    console.log(messages);
+    //console.log(messages);
 
     // Get child session time
     
@@ -111,7 +112,6 @@ export default function DashboardAppPage() {
       <Container maxWidth="xl">
         <Typography variant="h4" sx={{ mb: 5 }}>
           Hi {parent_username.toUpperCase()}, Welcome back<br />
-          {/* { parent_id }<br /> */}
         </Typography>
 
         <Grid container spacing={3}>
@@ -127,11 +127,11 @@ export default function DashboardAppPage() {
           </Grid>
           <Grid container spacing={3} style = {{ paddingTop : 25 }}>
           <Grid item xs={12} md={6} lg={8}>
-          <h1>{childName} Total Time Logged In: {sessionTime}</h1>
+            <h1>{childName} Total Time Logged In: {sessionTime}</h1>
           </Grid>
-          <GetRecentMessages p_id={parent_id} c_id={childId} />
-          <GetPieChart p_id={parent_id} c_id={childId} />
-          <GetFriends c_id={childId} friends={friendsList} />
+          <GetRecentMessages childNameID={childId} childAvatarId={childAvatar} childs={children} />
+          <GetPieChart childNameID={childId} childs={children} />
+          <GetFriends childNameID={childId} friends={friendsList} />
           
         </Grid>
         <div>
