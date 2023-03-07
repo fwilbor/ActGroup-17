@@ -30,6 +30,8 @@ export default function DashboardAppPage() {
 
   const navigate = useNavigate();
   const [sessionTime, setSessionTime] = useState("");
+  const [sender, setSender] = useState("");
+  const [message, setMessages] = useState([]);
   const [childName, setChildName] = useState("");
   var [childUser, setChildUser] = useState("");
   const [children, setChildren] = useState([]);
@@ -72,15 +74,26 @@ export default function DashboardAppPage() {
     }
 
     setChildId(user._id);
-    const messages = await getChildMessages(user._id);
-    // const response = await fetch(`${getChildMessages.replace(':username', user.username)}`);
-    // const messages = await response.json();
+   
+    const response = await fetch(`${getChildMessages.replace(':username', user.username)}`);
+    const messages = await response.json();
     if (Array.isArray(messages) && messages.length === 0) {
       console.error(`${user.username} has not sent or received messages`);
       //return;
       }
     
-    console.log(messages);
+      else {
+        const messageList = data.map((message) => {
+          return {
+            text: message.text,
+            sender: message.sender
+          };
+        });
+        setMessages(messageList);
+      }
+      
+
+  
 
     // Get child session time
     
