@@ -15,41 +15,32 @@ function GetPieChart(props) {
             try {
                 let totalMsg = 0;
                 let swearWords = 0;
-
-                if (props.p_id != "" && props.c_id === "") {
-                    const response = await fetch('http://localhost:4000/api/messages/getmsg?parentLink=${props.p_id}');
-                    const data = await response.json();
-                    data.forEach(message => {
-                        let messageText = message.message.text.toString();
-                        if (message.users[2] === props.p_id) {
-                            //console.log(messageText);
-                            if (SwearWordCheck(messageText) === "Yes") {
-                                swearWords++;
-                            }
-                            totalMsg++;
-                        }
-                    });
+                let usernames = [];
+                let avatarimages = [];
+                
+                if (props.childNameID) {
+                    usernames[0] = props.childNameID;
+                    avatarimages[0] = props.childNameID;
                 }
-                else if (props.c_id != "") {
-                    
-                    const response = await fetch(`${getChildMessages.replace(':id', props.c_id)}`);
-                    const data = await response.json();
-                    if (Array.isArray(data) && data.length === 0) {
-                        console.error(`${props.c_id} has not sent or received messages`);
-                        return;
+                else {
+                    for (let i = 0; i < props.childs.length; i++) {
+                        usernames[i] = props.childs[i].username;
+                        avatarimages[i] = props.childs[i].avatarimage;
                     }
-                    data.forEach(message => {
-                        let messageText = message.message;
+                }
+
+                const response = await fetch('http://localhost:4000/api/messages/getmsg?parentLink=${props.p_id}');
+                const data = await response.json();
+                data.forEach(message => {
+                    let messageText = message.message.text.toString();
+                    if (usernames.includes(message.sender)) {
+                        //console.log(messageText);
                         if (SwearWordCheck(messageText) === "Yes") {
                             swearWords++;
                         }
                         totalMsg++;
-                    });
-                }
-                else {
-                    swearWords = 1;
-                    totalMsg = 5;
-                }
+                    }
+                });
                 setTotalMessages(totalMsg);
                 setTotalSwearWords(swearWords);
             } catch (error) { console.error(error); }
