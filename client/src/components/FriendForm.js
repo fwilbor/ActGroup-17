@@ -63,7 +63,7 @@ const FriendForm = () => {
       // if(err){
       //   console.log(err)
       // } else{
-      const new_friend = friend_array.push(username);
+      const new_friend = friend_array.push(user);
       console.log(new_friend)
       //new_friend
              //.save()
@@ -169,7 +169,6 @@ const FormContainer = styled.div`
       text-transform: uppercase;
     }
   }
-
   form {
     display: flex;
     flex-direction: column;
