@@ -105,6 +105,7 @@ const MessageForm = () => {
         );
         const parentLink = parent_data._id;
         const { username, password } = values;
+        
         const { data } = await axios.post(registerChild, {
           username,
           password,
@@ -147,8 +148,8 @@ const MessageForm = () => {
       
     </form>
     </div>
-  )
+  );
 
-}
+};
 
 export default MessageForm

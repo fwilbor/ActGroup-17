@@ -58,7 +58,6 @@ const childsignup = async (req, res) => {
 
   try {
     const user = await userModel.childsignup(username, password, parentLink);
-    //console.log(user)
 
     // create a token
     //const token = createToken(user._id)

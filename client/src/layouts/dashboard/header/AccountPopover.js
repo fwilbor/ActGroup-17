@@ -20,6 +20,7 @@ const MENU_OPTIONS = [
   {
     label: 'Settings',
     icon: 'eva:settings-2-fill',
+    link: '/settings',
   },
 ];
 
@@ -109,9 +110,12 @@ fetchData();
 
         <Stack sx={{ p: 1 }}>
           {MENU_OPTIONS.map((option) => (
-            <MenuItem key={option.label} onClick={handleClose}>
-              {option.label}
-            </MenuItem>
+           <MenuItem key={option.label} onClick={() => {
+            handleClose();
+            navigate(option.link);
+          }}>
+            {option.label}
+          </MenuItem>
           ))}
         </Stack>
 
