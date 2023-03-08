@@ -12,7 +12,7 @@ import GetRecentMessages from "../components/GetRecentMessages.js"
 import GetFriends from "../components/GetFriends.js"
 import axios from 'axios';
 import React from 'react';
-import defaultAvatar from "../assets/defaultAvatar.png";
+import defaultAvatar from "../assets/logo-80x80.png";
 import { toast } from "react-toastify";
 
 // sections
@@ -37,12 +37,11 @@ export default function DashboardAppPage() {
   const [childId, setChildId] = useState("");
   const [childAvatar, setChildAvatar] = useState("");
   const [friendsList, setFriendslist] = useState("");
-  const fileReader = new FileReader();
-
+ 
 // load the default avatar image
 const split = defaultAvatar.split(',');
     const base64string = split[1];
-    console.log(base64string)
+    console.log(defaultAvatar)
   
   const toastOptions = {
     position: "top-center",

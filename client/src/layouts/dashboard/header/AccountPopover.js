@@ -10,12 +10,9 @@ import axios from "axios";
 
 const MENU_OPTIONS = [
   {
-    label: 'Home',
+    label: 'Dashboard',
     icon: 'eva:home-fill',
-  },
-  {
-    label: 'Profile',
-    icon: 'eva:person-fill',
+    link: '/dashboard/app',
   },
   {
     label: 'Settings',
