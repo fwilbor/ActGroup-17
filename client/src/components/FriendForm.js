@@ -63,8 +63,9 @@ const FriendForm = () => {
       // if(err){
       //   console.log(err)
       // } else{
-      const new_friend = friend_array.push(user);
-      console.log(new_friend)
+        console.log(username);
+      friend_array.push(username);
+      console.log(friend_array);
       //new_friend
              //.save()
              //.then(()=>console.log("successful friend upload????"))
