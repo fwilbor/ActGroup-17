@@ -114,7 +114,7 @@ const split = defaultAvatar.split(',');
   return (
     <>
       <Helmet>
-        <title> Dashboard | KidsSnap.com </title>
+        <title> Dashboard | KidzSnap.com </title>
       </Helmet>
       <Container maxWidth="xl">
         <Typography variant="h4" sx={{ mb: 5 }}>
