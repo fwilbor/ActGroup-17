@@ -46,7 +46,11 @@ const userSchema = mongoose.Schema({
       sessionTime: {
         type: Number,
         default: 0
-        }
+        },
+      recentMessages: {
+            type: Number,
+            default: 10
+            },
 
 })
 

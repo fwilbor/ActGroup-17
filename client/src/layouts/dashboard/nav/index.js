@@ -79,7 +79,7 @@ fetchData();
       <Box sx={{ mb: 5, mx: 2.5 }}>
         <Link underline="none">
           <StyledAccount>
-            <Avatar src={currentUser.avatarImage} alt="photoURL" />
+          <Avatar src={currentUser.avatarImage} alt={currentUser.username ? currentUser.username.charAt(0) : ''} />
 
             <Box sx={{ ml: 2 }}>
               <Typography variant="subtitle2" sx={{ color: 'text.primary' }}>

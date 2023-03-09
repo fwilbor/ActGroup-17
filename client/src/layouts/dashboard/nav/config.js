@@ -11,40 +11,36 @@ const navConfig = [
     path: '/dashboard/app',
     icon: icon('ic_analytics'),
   },
-  {
-    title: 'user',
-    path: '/dashboard/user',
-    icon: icon('ic_user'),
-  },
+  // {
+  //   title: 'user',
+  //   path: '/dashboard/user',
+  //   icon: icon('ic_user'),
+  // },
   {
     title: 'chat',
     path: '/chat',
     icon: icon('ic_blog'),
   },
+  // {
+  //   title: 'kids messenger',
+  //   path: '/messenger',
+  //   icon: icon('ic_blog'),
+  // },
   {
-    title: 'kids messenger',
-    path: '/messenger',
-    icon: icon('ic_blog'),
-  },
-  {
-    title: 'add kids friend',
+    title: 'add friend',
     path: '/addfriend',
     icon: icon('ic_blog'),
   },
-  {
-    title: 'login',
-    path: '/login',
-    icon: icon('ic_lock'),
-  },
-  {
-    title: 'add Image',
-    path: '/addimage',
-    icon: icon('ic_disabled'),
-  },
+  // {
+  //   title: 'add Image',
+  //   path: '/addimage',
+  //   icon: icon('ic_disabled'),
+  // },
+ // How do I change icon to camera?
   {
     title: 'set avatar',
     path: '/setavatar',
-    icon: icon('ic_disabled'),
+    icon: icon('ic_user'),
   },
   {
     title: 'Logout',

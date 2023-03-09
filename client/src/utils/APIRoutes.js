@@ -17,3 +17,4 @@ export const checkIfUsernameExists = `${host}/api/user/checkusername/:username`;
 export const checkIfPasswordMatch = `${host}/api/user/checkpasswordmatch/:username/:password`;
 export const getSessionTime = `${host}/api/user/getsession/:id`;
 export const deleteMessage = `${host}/api/messages/deleteMsg`;
+export const recentMessages = `${host}/api/user/recentmessages/:id`;

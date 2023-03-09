@@ -12,6 +12,7 @@ import GetRecentMessages from "../components/GetRecentMessages.js"
 import GetFriends from "../components/GetFriends.js"
 import axios from 'axios';
 import React from 'react';
+import defaultAvatar from "../assets/logo-80x80.png";
 import { toast } from "react-toastify";
 
 // sections
@@ -36,6 +37,11 @@ export default function DashboardAppPage() {
   const [childId, setChildId] = useState("");
   const [childAvatar, setChildAvatar] = useState("");
   const [friendsList, setFriendslist] = useState("");
+ 
+// load the default avatar image
+const split = defaultAvatar.split(',');
+    const base64string = split[1];
+    console.log(defaultAvatar)
   
   const toastOptions = {
     position: "top-center",
@@ -63,6 +69,7 @@ export default function DashboardAppPage() {
       //  console.log(friends_list.data[i].username);
       //}
     }
+       
     setChildAvatar(user.avatarImage);
     setChildId(user.username);
     const response = await fetch(`${getChildMessages.replace(':username', user.username)}`);
@@ -107,7 +114,7 @@ export default function DashboardAppPage() {
   return (
     <>
       <Helmet>
-        <title> Dashboard | KidsSnap.com </title>
+        <title> Dashboard | KidzSnap.com </title>
       </Helmet>
       <Container maxWidth="xl">
         <Typography variant="h4" sx={{ mb: 5 }}>
@@ -118,7 +125,7 @@ export default function DashboardAppPage() {
           {children.map((child, index) => (
             <React.Fragment key={index}>
               <Grid item xs={12} sm={6} md={3}>
-                <AppWidgetSummary username={child.username} avatarimage={`data:image/svg+xml;base64,${child.avatarImage}`} onClick={() => handleClick(child)} />
+              <AppWidgetSummary username={child.username} avatarimage={`data:image/svg+xml;base64,${child.avatarImage ? child.avatarImage : base64string}`} onClick={() => handleClick(child)} />
               </Grid>
               {index !== children.length - 1 && <br />}
             </React.Fragment>

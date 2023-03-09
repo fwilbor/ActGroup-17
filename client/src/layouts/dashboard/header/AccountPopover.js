@@ -10,16 +10,14 @@ import axios from "axios";
 
 const MENU_OPTIONS = [
   {
-    label: 'Home',
+    label: 'Dashboard',
     icon: 'eva:home-fill',
-  },
-  {
-    label: 'Profile',
-    icon: 'eva:person-fill',
+    link: '/dashboard/app',
   },
   {
     label: 'Settings',
     icon: 'eva:settings-2-fill',
+    link: '/settings',
   },
 ];
 
@@ -74,7 +72,7 @@ fetchData();
           }),
         }}
       >
-        <Avatar src={currentUser.avatarImage} alt="photoURL" />
+        <Avatar src={currentUser.avatarImage} alt={currentUser.username ? currentUser.username.charAt(0) : ''} />
       </IconButton>
 
       <Popover
@@ -109,9 +107,12 @@ fetchData();
 
         <Stack sx={{ p: 1 }}>
           {MENU_OPTIONS.map((option) => (
-            <MenuItem key={option.label} onClick={handleClose}>
-              {option.label}
-            </MenuItem>
+           <MenuItem key={option.label} onClick={() => {
+            handleClose();
+            navigate(option.link);
+          }}>
+            {option.label}
+          </MenuItem>
           ))}
         </Stack>
 

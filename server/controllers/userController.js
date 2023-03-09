@@ -58,7 +58,6 @@ const childsignup = async (req, res) => {
 
   try {
     const user = await userModel.childsignup(username, password, parentLink);
-    //console.log(user)
 
     // create a token
     //const token = createToken(user._id)
@@ -175,6 +174,7 @@ const getAllFriends = async (req, res, next) => {
       const users = await userModel.find({ parentLink: { $eq: req.params.id } }).select([
         "username",
         "avatarImage",
+        "recentMessages",
       ]);
       return res.json(users);
     } catch (ex) {
@@ -257,8 +257,35 @@ return res.json(Boolean(email_exists));
       return res.status(200).json({ sessionTime });
 
   };
+
+  const recentMessages = async (req, res) => {
+    //const user = await userModel.findOne({ _id: req.params.id });
+    const { recentMessages } = req.body; // extract numRecentMessages from request body
+  console.log(recentMessages);
+    try {
+      // Retrieve user from the database
+      const user = await userModel.findOne({ _id: req.params.id });
+      if (!user) {
+        return res.status(404).json({ error: 'User not found' });
+      }
+  
+      // Update user's recent messages
+      user.recentMessages = recentMessages;
+      //console.log(user.recentMessages)
+  
+      // Save updated user to the database
+      await user.save();
+  
+      // Return success response
+      return res.status(200).json({ message: 'Recent messages updated successfully' });
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({ error: 'Error updating recent messages' });
+    }
+
+};
     
 
 //}
 
-export {signupUser, childsignup, loginUser, getAllUsers, setAvatar, logOut, getAllChildren, addFriend, getAllFriends, checkIfEmailExists, checkIfUsernameExists, checkIfPasswordMatch, getSessionTime}
+export {signupUser, childsignup, loginUser, getAllUsers, setAvatar, logOut, getAllChildren, addFriend, getAllFriends, checkIfEmailExists, checkIfUsernameExists, checkIfPasswordMatch, getSessionTime, recentMessages}
