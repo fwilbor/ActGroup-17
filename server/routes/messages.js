@@ -1,40 +1,16 @@
-<<<<<<< HEAD
-import express from 'express';
-import { createMessage, getMessages, getMessage, deleteMessage, updateMessage } from '../Controllers/MessageController.js';
-import PostMessage from "../models/Messages.js";
-
-
-const router = express.Router()
-
-// GET all messages
-router.get('/', getMessages)
-
-// GET a single message
-router.get('/:id', getMessage)
-
-// POST a new message
-router.post('/', createMessage)
-
-// DELETE a message
-router.delete('/:id', deleteMessage)
-
-// UPDATE a message
-router.patch('/:id', updateMessage)
-  
-export default router;
-=======
 import express from "express";
-import {createMessage, getMessage, getMessages, deleteMessage, updateMessage} from "../controllers/messageController";
+import {createMessage, getMessage, getMessages, deleteMessage, updateMessage, addMessage, getChats, getChildMessages} from "../controllers/messageController";
+//import requireAuth from "../middleware/requireauth";
 
 const router = express.Router()
-
-import PostMessage from "../models/messageModel"
+// require Authorization for all message routes
+//router.use(requireAuth)
 
 // GET all messages
 router.get("/", getMessages)
 
 // GET a single message
-router.get("/:id", getMessage)
+router.get("/:creator", getMessage)
 
 
 // POST a new message
@@ -42,11 +18,16 @@ router.get("/:id", getMessage)
     
     
 // DELETE a message
-router.delete("/:id", deleteMessage)
+router.delete("/deleteMsg", deleteMessage)
 
 
 // UPDATE a message
 router.patch("/:id", updateMessage)
 
+//chat routes
+router.post("/addmsg/", addMessage);
+router.post("/getmsg/", getChats);
+router.get('/getmsg/:username', getChildMessages)
+
 export default router
->>>>>>> franklinbranch
+

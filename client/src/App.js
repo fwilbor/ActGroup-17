@@ -1,54 +1,24 @@
-<<<<<<< HEAD
 import React from "react";
 
-const App = () => {
-    return (
-    <div>
-        <h1>"Cool React Components Go Here!!!"</h1>
-    </div>
-    );
-}
+// routes
+import Router from './routes';
+// theme
+import ThemeProvider from './theme';
+// components
+import ScrollToTop from './components/scroll-to-top';
+import { StyledChart } from './components/chart';
 
-export default App;
-=======
-import { BrowserRouter, Routes, Route } from "react-router-dom"
-
-
-
-// pages & components
-
-import Home from "./pages/Home"
-import  Navbar from "./components/Navbar"
 
 function App() {
+  //const { user } = useAuthContext()
   return (
-    <div className="App">
-      <BrowserRouter>
-      <Navbar /> 
-        <div className="pages">
-          <Routes>
-
-            <Route  
-            
-            path = "/"
-            element = {<Home />}
-      
-            
-            
-            />
-
-          </Routes>
-
-
-
-
-        </div>
-      
-      </BrowserRouter>
-      
-    </div>
+    <ThemeProvider>
+      <ScrollToTop />
+      <StyledChart />
+      <Router />
+    </ThemeProvider>
   );
 }
 
 export default App;
->>>>>>> franklinbranch
+

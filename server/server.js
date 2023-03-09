@@ -1,107 +1,136 @@
-<<<<<<< HEAD
-import dotenv from "dotenv";
-import express from "express";
-//import messageroute from 'server\routes\messages.js';
-//import { router } from '../routes/messages';
-import router from "./routes/messages.js";
-import bodyParser from "body-parser";
-import mongoose from "mongoose";
-import cors from "cors";
-
-dotenv.config(); 
-
-mongoose.connect(process.env.CONNECTION_URL, { useNewUrlParser: true, useUnifiedTopology: true })
-    .then(() => app.listen(PORT, () => console.log(`Server Running on Port: http://localhost:${PORT}`)))
-    .catch((error) => console.log(`${error} did not connect`));
 
 
-// const express = require('express')
 
-// express app
-const app = express()
-//const mongoose = require('mongoose')
-//const DiffRoutes = router()
-const PORT = process.env.PORT
-
-//app.use('/messages', messageroute);
-//app.use(bodyParser.json({ limit: '30mb', extended: true }))
-//app.use(bodyParser.urlencoded({ limit: '30mb', extended: true }))
-//app.use(cors());
-
-// middleware
-app.use(express.json())
-
-app.use((req, res, next) => {
-    console.log(req.path, req.method)
-    next()
-  })
-
-// routes
-//app.use('/api/messages/', DiffRoutes)
-app.get('/', (req, res) => {
-    res.json({mssg: 'Welcome to the app'})
-  })
-
-app.use('/api/messages', router)
-
-// listen for requests
-//app.listen(process.env.PORT, () => {
-  //console.log('listening on port', process.env.PORT)
-//})
-=======
 import express from "express";
 import bodyParser from "body-parser";
 import mongoose from "mongoose";
 import cors from "cors";
 import dotenv from "dotenv";
+import userRouter from "./routes/uploadimage";
 
 import router from "./routes/messages";
+import multer from "multer";
+
+import urouter from "./routes/user";
+
+import mrouter from "./routes/messengerTest";
+//import socket from "socket.io";
+import http from "http";
+import { Server, Socket } from "socket.io";
+//import socket from "socket.io";//check this
+import path from "path";
+import { fileURLToPath } from "url";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 
+//express app
+const app = express()
+// code for hiding global variables in .env file
 dotenv.config()
+app.use(cors({ credentials: true }));
 
 
 
-// ***Old method const express = require("express")*****
-
-// const messageRoutes = require("./routes/messages.js")
 
 
 const CONNECTION_URL = process.env.MONGO_URI
 
 
-//express app
-const app = express()
-
-const PORT = process.env.PORT 
+const PORT = process.env.PORT
+const APP_PORT = process.env.APP_PORT;
 
 
 mongoose.connect(process.env.MONGO_URI, {useNewUrlParser: true, useUnifiedTopology: true})
-.then(() => app.listen(PORT, () => console.log(`Server running on port: ${PORT}`)))
+.then(() => httpServer.listen(PORT, () => console.log(`Server running on port: ${PORT}`)))
 .catch((error) => console.log(error.message));
+
+//Chat Socket IO Template
+const httpServer = http.createServer(app);
+const io = new Server(httpServer, {
+    cors: {
+        origin:["http://localhost:3000"],
+    },
+});
+  
+  global.onlineUsers = new Map();
+  io.on("connection", (socket) => {
+    global.chatSocket = socket;
+    socket.on("add-user", (userId) => {
+      onlineUsers.set(userId, socket.id);
+    });
+  
+    socket.on("send-msg", (data) => {
+      const sendUserSocket = onlineUsers.get(data.to);
+      if (sendUserSocket) {
+        socket.to(sendUserSocket).emit("msg-recieve", data.msg);
+      }
+    });
+  });
+
+//  const httpServer = http.createServer(app);
+//   const io = new Server(httpServer, {
+//     cors: {
+//         origin:["http://localhost:3000"],
+//     },
+// });
+
+  // io.on('connection', (socket) => {
+//     console.log("on connection", socket.id);
+//     socket.on('ding', (ding) => {
+//         console.log(ding);
+//         socket.emit("update_user", {key: "value"});
+//     });
+
+//     socket.on('chat', function(data){
+//         // console.log(data);
+//         io.sockets.emit('chat', data);
+//     });
+
+//     socket.on('disconnect', () => {
+
+//         console.log("disconnected");
+//     });
+
+//     socket.on('userChat', (data) => {
+
+//         console.log(data);
+//     });
+// })
 
 // mongoose.set("useFindAndModify", false); FIND FIX 
 
 //middleware
-app.use(express.json())
+app.use(express.json({ limit: '2MB' }))
 app.use((req, res, next) => {
-    console.log(req.path, req.method)
+    //console.log("asad test")
+    //console.log(req.path, req.method)
     next()
 })
 
 //Routes
 app.get("/", (req, res)=> {
-    res.json({msg: "Welcome to KidzSnap Backend Database Support"});
+    //res.json({msg: "Welcome to KidzSnap Backend Database Support"});
+    res.sendFile(__dirname + '/index.html');
 })
 
 app.use("/api/messages", router)
+app.use("/api/uploads", userRouter)
+app.use("/api/user", urouter)
 
+app.listen(APP_PORT, () => {
+  console.log(`App running on port ${APP_PORT}`);
+});
 
-//listen for requests *make change to .env file*
+// httpServer.listen(PORT, () => {
+//   console.log(`Server running on port ${PORT}`);
+// });
+//listen for requests 
 // app.listen(PORT, () => {
 //     console.log("listening on port " , process.env.PORT)
 // })
 
 
 
->>>>>>> franklinbranch
+
