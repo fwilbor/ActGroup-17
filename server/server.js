@@ -39,7 +39,7 @@ const CONNECTION_URL = process.env.MONGO_URI
 
 
 const PORT = process.env.PORT
-const APP_PORT = process.env.APP_PORT;
+//const APP_PORT = process.env.APP_PORT;
 
 
 mongoose.connect(process.env.MONGO_URI, {useNewUrlParser: true, useUnifiedTopology: true})
@@ -119,9 +119,9 @@ app.use("/api/messages", router)
 app.use("/api/uploads", userRouter)
 app.use("/api/user", urouter)
 
-app.listen(APP_PORT, () => {
-  console.log(`App running on port ${APP_PORT}`);
-});
+// app.listen(APP_PORT, () => {
+//   console.log(`App running on port ${APP_PORT}`);
+// });
 
 // httpServer.listen(PORT, () => {
 //   console.log(`Server running on port ${PORT}`);
