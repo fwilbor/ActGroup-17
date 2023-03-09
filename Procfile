@@ -1,1 +1,1 @@
-web: node $PWD/server/server.js
+web: node /server/server.js
