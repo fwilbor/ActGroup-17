@@ -5,6 +5,17 @@ import styled from "styled-components";
 //import { useNavigate } from "react-router-dom";
 import { addFriend } from "../utils/APIRoutes";
 import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
+const toastOptions = {
+  position: "bottom-right",
+  autoClose: 8000,
+  pauseOnHover: true,
+  draggable: true,
+  theme: "dark",
+};
+const setError = (error) => {
+  toast.error(error, toastOptions);
+};
 
 const FriendForm = () => {
     // const { dispatch } = useMessagesContext()
@@ -42,86 +53,27 @@ const FriendForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault()
 
-  //   const user_data = await JSON.parse(
-  //     localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)
-  //   );
-  //   const user_username = user_data.username
-  //     const data = await axios.get(`${addFriend}/${user_username}`);
-  //     console.log(data)
-
     const user_data = await JSON.parse(
       localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)
     );
     const friend_array = user_data.friends
-    //const current_user = user_data.username
-
-  
-        
-    // eslint-disable-next-line
     const username = user
-    const newFriend = ({addFriend},(req,res)=> {
-      // if(err){
-      //   console.log(err)
-      // } else{
-      const new_friend = friend_array.push(username);
-      console.log(new_friend)
-      //new_friend
-             //.save()
-             //.then(()=>console.log("successful friend upload????"))
-             //.catch((err) => console.log(err));
-      //}
-          
-    })
-    newFriend();
-    
 
-    //console.log(username)
-
-    const { data } = await axios.patch(`${addFriend}/${user_data._id}`, {
-      username
-    });
-    console.log(data)
-   
- 
-    if (data.status === false) {
-      console.log("Error making friend account")
+    try {
+      const { data } = await axios.patch(`${addFriend}/${user_data._id}`, {
+        username
+      });
+      if (data.error) {
+        setError(data.error, toastOptions);
+      } else {
+        const new_friend = friend_array.push(username);
+        toast.success("You have added a friend!", toastOptions);
+      }
+    } catch (err) {
+      console.error(err);
+      setError("Error adding friend. Please try again later.", toastOptions);
     }
-    if (data.status === true) {
-
-      //friend_array.push(current_user)
-      console.log("You might have added a friend")
-
-
-      
-    }
-
-    
-    
-    // const { children_data } = await axios.post(getAllChildren, {
-    //   username,
-    //   avatarImage,
-    //   _id,
-    // });
-    // console.log(children_data)
-
-
-
-    // const json = await response.json()
-
-    // if (!response.ok) {
-    //   setError(json.error)
-    // }
-    // if (response.ok) {
-    //   setError(null)
-    //   setEmail('')
-    //   setMessage('')
-    //   setCreator('')
-    //   setsendTo('')
-    //   console.log('new message added:', json)
-    //   dispatch({type: "CREATE_MESSAGE", payload: json })
-    // }
-
-  }
+  };
 
   return (
     <FormContainer>

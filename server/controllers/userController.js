@@ -67,11 +67,11 @@ const childsignup = async (req, res) => {
     if (error.message === "Username already exists Signup") {
       // Display toast message for invalid username
       const toastOptions = { type: "error", duration: 5000 };
-      toast("Invalid username.1", toastOptions);
+      toast("Invalid username.", toastOptions);
     } else if (error.message === "Password is not strong enough Signup") {
       // Display toast message for invalid password
       const toastOptions = { type: "error", duration: 5000 };
-      toast("Invalid password.2", toastOptions);
+      toast("Invalid password.", toastOptions);
     } else {
       // Display toast message for other errors
       const toastOptions = { type: "error", duration: 5000 };
@@ -185,41 +185,26 @@ const getAllFriends = async (req, res, next) => {
     // Add Friend 
     const addFriend = async (req, res) => {
     
-      const { username } = req.body
-      const friend_add = await userModel.findOne({username: { $eq: username }})
-      //console.log(friend_add)
+      const { username } = req.body;
+    try {
+        const friend_add = await userModel.findOne({username: { $eq: username }});
+        if (!friend_add) {
+            throw new Error("User not found");
+        }
+        
+        const { id } = req.params;
+        const user = await userModel.findById(id);
 
-      const { id } = req.params;
+        const results = user.friends.push(friend_add.id);
+        await user.save();
 
-      const user = await userModel.findById(id)
-      //console.log(user)
-      
+        const connect_friend = friend_add.friends.push(user.id);
+        await friend_add.save();
 
-   try {
-
-      const results = user.friends.push(friend_add.id)
-      
-      
-      await user.save()
-      console.log(user.friends)
-
-      const connect_friend = friend_add.friends.push(user.id)
-      
-      
-      await friend_add.save()
-      console.log(connect_friend)
-
-      // create a token
-      //const token = createToken(user._id)
-      // passing back token and not _id here
-            
-      
-
-      res.status(200).json({ status: true})
+        res.status(200).json({ status: true});
     } catch (error) {
-      res.status(403).json({error: error.message})
-  }
-
+        res.status(406).json({ error: error.message });
+    }
 };
 
 const checkIfEmailExists = async (req, res) => {

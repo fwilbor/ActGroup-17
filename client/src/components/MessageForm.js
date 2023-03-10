@@ -68,10 +68,10 @@ const MessageForm = () => {
     const { username, password } = values;
     try {
       if (username.trim() === "") {
-        toast.error("Username is required.6", toastOptions);
+        toast.error("Username is required.", toastOptions);
         return false;
       } else if (password.trim() === "") {
-        toast.error("Password is required.3", toastOptions);
+        toast.error("Password is required.", toastOptions);
         return false;
       }
   
@@ -79,13 +79,13 @@ const MessageForm = () => {
       const usernameResponse = await fetch(`${checkIfUsernameExists.replace(':username', username)}`);
       const exists = await usernameResponse.json();
       if (exists) {
-        toast.error("Username already exists.9", toastOptions);
+        toast.error("Username already exists.", toastOptions);
         return false;
       }
   
       // check if password strong
       if (!validator.isStrongPassword(password)) {
-        toast.error("Password is not strong enough.8", toastOptions);
+        toast.error("Password is not strong enough.", toastOptions);
         return false;
       }
   
