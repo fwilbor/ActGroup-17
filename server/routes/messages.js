@@ -1,5 +1,5 @@
 import express from "express";
-import {createMessage, getMessage, getMessages, deleteMessage, updateMessage, addMessage, getChats, getChildMessages} from "../controllers/messageController";
+import {createMessage, getMessage, getMessages, deleteMessage, updateMessage, addMessage, getChats, getChildMessages} from "../controllers/messageController.js";
 //import requireAuth from "../middleware/requireauth";
 
 const router = express.Router()

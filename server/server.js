@@ -6,14 +6,13 @@ import bodyParser from "body-parser";
 import mongoose from "mongoose";
 import cors from "cors";
 import dotenv from "dotenv";
-import userRouter from "./routes/uploadimage";
+import userRouter from "./routes/uploadimage.js";
 
-import router from "./routes/messages";
+import router from "./routes/messages.js";
 import multer from "multer";
 
-import urouter from "./routes/user";
+import urouter from "./routes/user.js";
 
-import mrouter from "./routes/messengerTest";
 //import socket from "socket.io";
 import http from "http";
 import { Server, Socket } from "socket.io";

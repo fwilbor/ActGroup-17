@@ -5,132 +5,60 @@ import styled from "styled-components";
 //import { useNavigate } from "react-router-dom";
 import { addFriend } from "../utils/APIRoutes";
 import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
+const toastOptions = {
+  position: "bottom-right",
+  autoClose: 8000,
+  pauseOnHover: true,
+  draggable: true,
+  theme: "dark",
+};
 
 const FriendForm = () => {
-    // const { dispatch } = useMessagesContext()
-    // const { user } = useAuthContext();
-  
-    const [user, setUser] = useState('')
-    // const [message, setMessage] = useState('')
-    // const [creator, setCreator] = useState('')
-    // const [sendTo, setsendTo] = useState('')
-    //const [error, setError] = useState(null)
-
-    //const navigate = useNavigate();
-
-  // const [values, setValues] = useState({
-  //   username: "",
-  // });
-
-  const handleChange = (event) => {
-    //setValues({ ...values, [event.target.name]: event.target.value });
-    setUser(event.target.value)
-  };
-
-  //  useEffect(() => {
-  //   const fetchData=async()=>{
-  //     const user_data = await JSON.parse(
-  //       localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)
-  //     );
-  //     const current_user = user_data.username
-  //     console.log(current_user)
-
-  // }
-  // fetchData();
-  // }, []);
+  const [username, setUsername] = useState("");
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
-
-  //   const user_data = await JSON.parse(
-  //     localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)
-  //   );
-  //   const user_username = user_data.username
-  //     const data = await axios.get(`${addFriend}/${user_username}`);
-  //     console.log(data)
+    e.preventDefault();
 
     const user_data = await JSON.parse(
       localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)
     );
-    const friend_array = user_data.friends
-    //const current_user = user_data.username
+    const friend_array = user_data.friends;
 
-  
-        
-    // eslint-disable-next-line
-    const username = user
-    const newFriend = ({addFriend},(req,res)=> {
-      // if(err){
-      //   console.log(err)
-      // } else{
-      const new_friend = friend_array.push(username);
-      console.log(new_friend)
-      //new_friend
-             //.save()
-             //.then(()=>console.log("successful friend upload????"))
-             //.catch((err) => console.log(err));
-      //}
-          
-    })
-    newFriend();
-    
-
-    //console.log(username)
-
-    const { data } = await axios.patch(`${addFriend}/${user_data._id}`, {
-      username
-    });
-    console.log(data)
-   
- 
-    if (data.status === false) {
-      console.log("Error making friend account")
+    try {
+      const { data } = await axios.patch(`${addFriend}/${user_data._id}`, {
+        username,
+      });
+      const { error } = data;
+      if (error) {
+        toast.error(error, toastOptions);
+      } else {
+        const new_friend = friend_array.push(username);
+        toast.success("You have added a friend!", toastOptions);
+      }
+    } catch (err) {
+      console.error(err);
+      let error = "An error occurred";
+      if (err.response && err.response.data && err.response.data.error) {
+        error = err.response.data.error;
+      }
+      toast.error(error, toastOptions);
     }
-    if (data.status === true) {
+  };
 
-      //friend_array.push(current_user)
-      console.log("You might have added a friend")
-
-
-      
-    }
-
-    
-    
-    // const { children_data } = await axios.post(getAllChildren, {
-    //   username,
-    //   avatarImage,
-    //   _id,
-    // });
-    // console.log(children_data)
-
-
-
-    // const json = await response.json()
-
-    // if (!response.ok) {
-    //   setError(json.error)
-    // }
-    // if (response.ok) {
-    //   setError(null)
-    //   setEmail('')
-    //   setMessage('')
-    //   setCreator('')
-    //   setsendTo('')
-    //   console.log('new message added:', json)
-    //   dispatch({type: "CREATE_MESSAGE", payload: json })
-    // }
-
-  }
+  const handleChange = (event) => {
+    setUsername(event.target.value);
+  };
 
   return (
     <FormContainer>
+      <ToastContainer />
     <form className="brand" onSubmit={handleSubmit}> 
       <h3>Add Friend</h3>
 
       <input
             type="text"
-            value={user}
+            value={username}
             placeholder="Username"
             name="username"
             onChange={(e) => handleChange(e)}

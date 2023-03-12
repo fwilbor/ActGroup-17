@@ -1,7 +1,7 @@
 import express from "express";
 
 //controller functions
-import { loginUser, signupUser, childsignup, getAllUsers, setAvatar, logOut, getAllChildren, addFriend, getAllFriends, checkIfEmailExists, checkIfUsernameExists, checkIfPasswordMatch, getSessionTime, recentMessages } from "../Controllers/userController";
+import { loginUser, signupUser, childsignup, getAllUsers, setAvatar, logOut, getAllChildren, addFriend, getAllFriends, checkIfEmailExists, checkIfUsernameExists, checkIfPasswordMatch, getSessionTime, recentMessages } from "../Controllers/userController.js";
 
 
 const urouter = express.Router()
