@@ -13,76 +13,52 @@ const toastOptions = {
   draggable: true,
   theme: "dark",
 };
-const setError = (error) => {
-  toast.error(error, toastOptions);
-};
 
 const FriendForm = () => {
-    // const { dispatch } = useMessagesContext()
-    // const { user } = useAuthContext();
-  
-    const [user, setUser] = useState('')
-    // const [message, setMessage] = useState('')
-    // const [creator, setCreator] = useState('')
-    // const [sendTo, setsendTo] = useState('')
-    //const [error, setError] = useState(null)
-
-    //const navigate = useNavigate();
-
-  // const [values, setValues] = useState({
-  //   username: "",
-  // });
-
-  const handleChange = (event) => {
-    //setValues({ ...values, [event.target.name]: event.target.value });
-    setUser(event.target.value)
-  };
-
-  //  useEffect(() => {
-  //   const fetchData=async()=>{
-  //     const user_data = await JSON.parse(
-  //       localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)
-  //     );
-  //     const current_user = user_data.username
-  //     console.log(current_user)
-
-  // }
-  // fetchData();
-  // }, []);
+  const [username, setUsername] = useState("");
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
 
     const user_data = await JSON.parse(
       localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)
     );
-    const friend_array = user_data.friends
-    const username = user
+    const friend_array = user_data.friends;
 
     try {
       const { data } = await axios.patch(`${addFriend}/${user_data._id}`, {
-        username
+        username,
       });
-      if (data.error) {
-        setError(data.error, toastOptions);
+      const { error } = data;
+      if (error) {
+        toast.error(error, toastOptions);
       } else {
         const new_friend = friend_array.push(username);
         toast.success("You have added a friend!", toastOptions);
       }
     } catch (err) {
       console.error(err);
-      setError("Error adding friend. Please try again later.", toastOptions);
+      let error = "An error occurred";
+      if (err.response && err.response.data && err.response.data.error) {
+        error = err.response.data.error;
+      }
+      toast.error(error, toastOptions);
     }
+  };
+
+  const handleChange = (event) => {
+    setUsername(event.target.value);
   };
 
   return (
     <FormContainer>
+      <ToastContainer />
     <form className="brand" onSubmit={handleSubmit}> 
       <h3>Add Friend</h3>
 
       <input
             type="text"
-            value={user}
+            value={username}
             placeholder="Username"
             name="username"
             onChange={(e) => handleChange(e)}

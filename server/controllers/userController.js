@@ -186,25 +186,30 @@ const getAllFriends = async (req, res, next) => {
     const addFriend = async (req, res) => {
     
       const { username } = req.body;
-    try {
-        const friend_add = await userModel.findOne({username: { $eq: username }});
-        if (!friend_add) {
-            throw new Error("User not found");
-        }
-        
-        const { id } = req.params;
-        const user = await userModel.findById(id);
-
-        const results = user.friends.push(friend_add.id);
-        await user.save();
-
-        const connect_friend = friend_add.friends.push(user.id);
-        await friend_add.save();
-
-        res.status(200).json({ status: true});
-    } catch (error) {
-        res.status(406).json({ error: error.message });
+try {
+    const friendToAdd = await userModel.findOne({ username: { $eq: username }});
+    if (!friendToAdd) {
+        throw new Error("User not found");
     }
+    
+    const { id } = req.params;
+    const user = await userModel.findById(id);
+
+    if (user.friends.includes(friendToAdd.id)) {
+        return res.status(400).json({ error: "You are already friends" });
+    }
+
+    user.friends.push(friendToAdd.id);
+    await user.save();
+
+    friendToAdd.friends.push(user.id);
+    await friendToAdd.save();
+
+    res.status(200).json({ status: true });
+} catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Could not add friend" });
+}
 };
 
 const checkIfEmailExists = async (req, res) => {
