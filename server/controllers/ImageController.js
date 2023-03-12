@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 import multer from "multer";
-import PostImage from "../models/Images"
+import PostImage from "../models/imageModel.js"
 import express from "express";
 import dotenv from "dotenv";
 

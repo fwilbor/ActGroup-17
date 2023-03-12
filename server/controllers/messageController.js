@@ -1,7 +1,7 @@
-import PostMessage from "../models/messageModel"
+import PostMessage from "../models/messageModel.js"
 //import mongoose from "mongoose";
-import PostImage from "../models/Images";
-import userModel from "../models/userModel"
+// import PostImage from "../models/Images";
+// import userModel from "../models/userModel"
 //import pkg from "../../client/src/hooks/useAuthContext";
 //import useAuthContext from "../../client/src/hooks/useAuthContext";
 

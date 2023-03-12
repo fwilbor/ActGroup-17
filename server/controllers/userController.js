@@ -1,5 +1,5 @@
 
-import userModel from "../models/userModel"
+import userModel from "../models/userModel.js"
 import jsonwebtoken from "jsonwebtoken"
 import bcrypt from "bcrypt"
 //import childModel from "../models/childModel"
