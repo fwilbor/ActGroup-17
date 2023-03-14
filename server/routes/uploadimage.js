@@ -8,7 +8,11 @@ const userRouter = express.Router()
 userRouter.get("/", getImage)
 
 // Post image route
+<<<<<<< HEAD
 userRouter.post("/addimage", createImage)
+=======
+userRouter.post("/uploads", createImage)
+>>>>>>> 791ac4096 (Image Upload)
 
 
 

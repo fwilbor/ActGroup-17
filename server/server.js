@@ -116,7 +116,10 @@ app.get("/", (req, res)=> {
 
 app.use("/api/messages", router)
 app.use("/api/uploads", userRouter)
+<<<<<<< HEAD
 app.use("/api/user", urouter)
+=======
+>>>>>>> 791ac4096 (Image Upload)
 
 // app.listen(APP_PORT, () => {
 //   console.log(`App running on port ${APP_PORT}`);
