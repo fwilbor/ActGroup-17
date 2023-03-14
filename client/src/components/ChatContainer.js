@@ -124,6 +124,7 @@ export default function ChatContainer({ currentChat, socket }) {
 }
 
 const Container = styled.div`
+  backgroundColor: '#FFDB58',
   display: grid;
   grid-template-rows: 10% 80% 10%;
   gap: 0.1rem;
