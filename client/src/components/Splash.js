@@ -27,6 +27,7 @@ const Splash = () => {
         textAlign: 'center',
       }}>
         <div style={{ display: 'flex', alignItems: 'center', marginBottom: '50px' }}>
+        {/* eslint-disable-next-line */}
           <img 
             src={splashImage} 
             alt="Splash Image" 
