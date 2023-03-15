@@ -1,5 +1,6 @@
 import logo from '../assets/logo.png';
 import splashImage from '../assets/robot.gif';
+import Navbar from './Navbar';
 
 const Splash = () => {
   return (
@@ -27,6 +28,7 @@ const Splash = () => {
         textAlign: 'center',
       }}>
         <div style={{ display: 'flex', alignItems: 'center', marginBottom: '50px' }}>
+        <Navbar/>
         {/* eslint-disable-next-line */}
           <img 
             src={splashImage} 

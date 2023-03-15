@@ -13,7 +13,7 @@ const Navbar = () => {
     return (
         <header>
             <div className="container">
-                <Link to="/">
+                <Link to="/splash">
 
                     <h2>KidzSnap</h2>
                 </Link>
