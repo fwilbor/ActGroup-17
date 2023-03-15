@@ -27,7 +27,7 @@ function GetRecentMessages(props) {
                 //console.log(props.childs);
                 //console.log(avatarimages);
 
-                const response = await fetch('http://localhost:4000/api/messages/getmsg?parentLink=${props.p_id}');
+                const response = await fetch('http://snap-main.herokuapp.com/api/messages/getmsg?parentLink=${props.p_id}');
                 const data = await response.json();
                 setMessages(data.map(message => {
                     if (usernames.includes(message.sender)) {
