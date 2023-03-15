@@ -38,7 +38,6 @@ export default function AppWidgetSummary({ title, username, avatarimage, current
       sx={{
         py: 5,
         boxShadow: 0,
-        width: 150,
         textAlign: 'center',
         color: (theme) => theme.palette[color].darker,
         bgcolor: (theme) => theme.palette[color].lighter,
