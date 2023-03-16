@@ -5,30 +5,22 @@ import Navbar from './Navbar';
 const Splash = () => {
   return (
     <div style={{ 
-      backgroundColor: '#FFDB58', // Set background color to mustard
+      backgroundColor: '#FFF', // Set background color to mustard
       display: 'flex', 
       flexDirection: 'column',
       alignItems: 'center', 
       padding: '50px 0',
-      maxWidth: '1200px',
+      maxWidth: '1600px',
       margin: '0 auto',
     }}>
-      <img 
-        src={logo} 
-        alt="Company Logo" 
-        style={{ 
-          width: '100%',
-          height: 'auto',
-          maxWidth: '700px', 
-          margin: '0 auto 50px',
-        }} 
-      />
+      
       <div style={{ 
         maxWidth: '800px', 
         textAlign: 'center',
       }}>
-        <div style={{ display: 'flex', alignItems: 'center', marginBottom: '50px' }}>
         <Navbar/>
+        <div style={{ display: 'block', alignItems: 'center', marginBottom: '50px' }}>
+        
         {/* eslint-disable-next-line */}
           <img 
             src={splashImage} 
@@ -36,18 +28,21 @@ const Splash = () => {
             style={{ 
               maxWidth: '50%',
               marginRight: '20px',
+              float:'right',
             }}
           />
           <h1 style={{ 
             fontSize: '36px',
             fontWeight: 'bold',
             marginBottom: '30px',
+            
           }}>Welcome to KidzSnap</h1>
         </div>
         <p style={{ 
           fontSize: '18px',
           lineHeight: '1.5',
           marginBottom: '30px',
+          float:'left',
         }}>
           KidzSnap is a secure platform designed to help solve the problem of online safety for children. It provides a solution to the challenges faced by parents and guardians in today's digital age by giving them the tools to monitor and control their children's online activity.
         </p>

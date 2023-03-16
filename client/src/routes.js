@@ -42,7 +42,7 @@ export default function Router() {
 
     {
       path: '*',
-      element: <Navigate to="/login" replace />,
+      element: <Navigate to="/splash" replace />,
     },
     {
       path: "/setAvatar",
