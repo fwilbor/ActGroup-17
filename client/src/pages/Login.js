@@ -169,7 +169,7 @@ const FormContainer = styled.div`
   justify-content: center;
   gap: 1rem;
   align-items: center;
-  background-color: #131324;
+  background-color: #FFF;
   .brand {
     display: flex;
     align-items: center;
@@ -189,7 +189,7 @@ const FormContainer = styled.div`
     display: flex;
     flex-direction: column;
     gap: 2rem;
-    background-color: #00000076;
+    background-color: #FFDB58;
     border-radius: 2rem;
     padding: 5rem;
   }

@@ -14,7 +14,7 @@ const Navbar = () => {
         <header>
             <div className="container" style={{ 
       backgroundColor: '#FFDB58', // Set background color to mustard
-      
+      borderRadius:'10px',     
     }}>
                 <Link to="/splash">
                 <img 
@@ -24,6 +24,7 @@ const Navbar = () => {
           width: '100%',
           height: 'auto',
           maxWidth: '110px', 
+          borderRadius:'20px',
           
         }} 
       />

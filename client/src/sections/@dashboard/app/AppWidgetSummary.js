@@ -17,7 +17,7 @@ const StyledIcon = styled('div')(({ theme }) => ({
   width: theme.spacing(8),
   height: theme.spacing(8),
   justifyContent: 'center',
-  marginBottom: theme.spacing(3),
+  marginBottom: theme.spacing(0.5),
 }));
 
 // ----------------------------------------------------------------------
@@ -39,6 +39,10 @@ export default function AppWidgetSummary({ title, username, avatarimage, current
         py: 5,
         boxShadow: 0,
         textAlign: 'center',
+        //paddingTop: '10px',
+        //paddingBottom: '10px',
+        padding: '5px',
+        cursor: 'pointer',
         color: (theme) => theme.palette[color].darker,
         bgcolor: (theme) => theme.palette[color].lighter,
         ...sx,
@@ -63,13 +67,13 @@ export default function AppWidgetSummary({ title, username, avatarimage, current
 )}
       </StyledIcon>
 
-      <Typography variant="h3">{(username)}</Typography>
+      <Typography variant="h6" onClick={onClick}>{(username)}</Typography>
       <Typography variant="h3">{(currentnummsg)}</Typography>
 
       <Typography variant="subtitle2" sx={{ opacity: 0.72 }}>
         {title}
       </Typography>
-      <button style={{ width: '75px', height: '35px' }} onClick={onClick}>
+      <button style={{ width: '65px', height: '25px', cursor: 'pointer' }} onClick={onClick}>
       Details
     </button>
     </Card>

@@ -124,7 +124,7 @@ const split = defaultAvatar.split(',');
         <Grid container spacing={3}>
           {children.map((child, index) => (
             <React.Fragment key={index}>
-              <Grid item xs={12} sm={6} md={3}>
+              <Grid item xs='auto' sm={2} md={1.5} lg={1.5} xl={1.5}>
               <AppWidgetSummary username={child.username} avatarimage={`data:image/svg+xml;base64,${child.avatarImage ? child.avatarImage : base64string}`} onClick={() => handleClick(child)} />
               </Grid>
               {index !== children.length - 1 && <br />}
@@ -133,7 +133,7 @@ const split = defaultAvatar.split(',');
           ))}
           </Grid>
           <Grid container spacing={3} style = {{ paddingTop : 25 }}>
-          <Grid item xs={12} md={6} lg={8}>
+          <Grid item xs={12} md={12} lg={12}>
             <h1>{childName} Total Time Logged In: {sessionTime}</h1>
           </Grid>
           <GetRecentMessages childNameID={childId} childAvatarId={childAvatar} childs={children} />
