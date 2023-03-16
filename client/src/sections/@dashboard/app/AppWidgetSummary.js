@@ -1,7 +1,7 @@
 // @mui
 import PropTypes from 'prop-types';
 import { alpha, styled } from '@mui/material/styles';
-import { Card, Typography } from '@mui/material';
+import { Card, Typography, Button } from '@mui/material';
 // utils
 // import { fShortenNumber } from '../../../utils/formatNumber';
 // components
@@ -73,9 +73,9 @@ export default function AppWidgetSummary({ title, username, avatarimage, current
       <Typography variant="subtitle2" sx={{ opacity: 0.72 }}>
         {title}
       </Typography>
-      <button style={{ width: '65px', height: '25px', cursor: 'pointer' }} onClick={onClick}>
-      Details
-    </button>
+      <Button variant="contained" style={{ width: '65px', height: '25px', cursor: 'pointer' }} color="primary" onClick={onClick} >
+      Info
+    </Button>
     </Card>
   );
 }
