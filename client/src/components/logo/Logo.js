@@ -41,8 +41,6 @@ const Logo = forwardRef(({ disabledLink = false, sx, ...other }, ref) => {
       {...other}
     >
 
-{console.log(logoav)}
-
       <img src={logo80} alt="Logo" />
     {/*  
       <svg version="1.0" xmlns="http://www.w3.org/2000/svg"
