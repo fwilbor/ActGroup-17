@@ -16,7 +16,7 @@ function GetFriends(props) {
   }
 
   const friendsList = props.friends.data.map((friend) => {
-    console.log(friend);
+    //console.log(friend);
     return {
       friend: friend.username, 
       img: friend.avatarImage,
@@ -38,9 +38,9 @@ const base64string = "PD94bWwgdmVyc2lvbj0iMS4wIiBzdGFuZGFsb25lPSJubyI/Pgo8IURPQ1
         list={[...Array(friendsList.length)].map((_, index) => ({
           id: props.childNameID + index,
           title: friendsList[index].friend,
-          description: friendsList[index].id,
+          description: '',
           image: `data:image/svg+xml;base64,${friendsList[index].img ? friendsList[index].img : base64string }`,
-          //postedAt: faker.date.recent(),
+          postedAt: '',
         }))}
       />     
       </Grid>
