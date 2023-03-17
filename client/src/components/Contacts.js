@@ -27,9 +27,9 @@ export default function Contacts({ contacts, changeChat }) {
       {currentUserImage && currentUserImage && (
         <Container>
           <div className="brand">
-            <img src={Logo} alt="logo" />
-            <h3>KIDZSNAP</h3>
-            <h3 style={{display: "inline-block", margin: 0}}><Logout/></h3>
+            
+            <h3>Chat Room</h3>
+            
           </div>
           <div className="contacts">
             {contacts.map((contact, index) => {
@@ -137,7 +137,7 @@ const Container = styled.div`
   }
 
   .current-user {
-    background-color: Khaki;
+    background-color: #FFDB58;
     display: flex;
     justify-content: center;
     align-items: center;

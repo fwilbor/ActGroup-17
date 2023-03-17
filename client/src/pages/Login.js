@@ -41,9 +41,9 @@ export default function Login() {
     try {
       const usernameResponse = await fetch (`${checkIfUsernameExists.replace(':username', username)}`);
       //const usernameResponse = await axios.get(`${checkIfUsernameExists}/${username}`);
-      console.log("usernameResponse:", usernameResponse);
+      //console.log("usernameResponse:", usernameResponse);
       const usernameExists = (await usernameResponse.json());
-      console.log("usernameExists:", usernameExists);
+      //console.log("usernameExists:", usernameExists);
       
       
       //console.log("usernameExists:", usernameExists);
@@ -59,11 +59,11 @@ export default function Login() {
 
     // check if password match
     try {
-      console.log(username)
+      //console.log(username)
       const passwordResponse = await fetch (`${checkIfPasswordMatch.replace(':username', username).replace(':password', password)}`);
-      console.log("passwordResponse:", passwordResponse);
+      //console.log("passwordResponse:", passwordResponse);
       const passwordMatch = (await passwordResponse.json());
-      console.log("passwordMatch:", passwordMatch);
+      //console.log("passwordMatch:", passwordMatch);
       
 
       if (passwordMatch === false) {
@@ -103,7 +103,7 @@ export default function Login() {
           },
         })
           .then((response) => {
-            console.log(response.data);
+            //console.log(response.data);
           })
           .catch((error) => {
             console.log(error);
@@ -112,7 +112,7 @@ export default function Login() {
         let parent_or_child = await JSON.parse(
           localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)
         ).parentLink;
-        console.log(parent_or_child)
+        //console.log(parent_or_child)
 
         if (parent_or_child === undefined) {
           navigate("/dashboard/app");
@@ -169,7 +169,7 @@ const FormContainer = styled.div`
   justify-content: center;
   gap: 1rem;
   align-items: center;
-  background-color: #131324;
+  background-color: #FFF;
   .brand {
     display: flex;
     align-items: center;
@@ -189,14 +189,14 @@ const FormContainer = styled.div`
     display: flex;
     flex-direction: column;
     gap: 2rem;
-    background-color: #00000076;
+    background-color: #FFDB58;
     border-radius: 2rem;
     padding: 5rem;
   }
   input {
     background-color: transparent;
     padding: 1rem;
-    border: 0.1rem solid #4e0eff;
+    border: 0.1rem solid #080420;
     border-radius: 0.4rem;
     color: white;
     width: 100%;
@@ -207,7 +207,7 @@ const FormContainer = styled.div`
     }
   }
   button {
-    background-color: #4e0eff;
+    background-color: #080420;
     color: white;
     padding: 1rem 2rem;
     border: none;
@@ -224,7 +224,7 @@ const FormContainer = styled.div`
     color: white;
     text-transform: uppercase;
     a {
-      color: #4e0eff;
+      color: #080420;
       text-decoration: none;
       font-weight: bold;
     }

@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom"
-
+import logo from '../assets/logo.png';
 import { useLogout } from "../hooks/useLogout"
 import { useAuthContext } from "../hooks/useAuthContext"
 
@@ -12,10 +12,23 @@ const Navbar = () => {
 
     return (
         <header>
-            <div className="container">
-                <Link to="/">
-
-                    <h2>KidzSnap</h2>
+            <div className="container" style={{ 
+      backgroundColor: '#FFDB58', // Set background color to mustard
+      borderRadius:'10px',     
+    }}>
+                <Link to="/splash">
+                <img 
+        src={logo} 
+        alt="Company Logo" 
+        style={{ 
+          width: '100%',
+          height: 'auto',
+          maxWidth: '110px', 
+          borderRadius:'20px',
+          
+        }} 
+      />
+                    
                 </Link>
 
                 <nav>

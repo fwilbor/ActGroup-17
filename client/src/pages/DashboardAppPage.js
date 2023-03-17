@@ -12,7 +12,6 @@ import GetRecentMessages from "../components/GetRecentMessages.js"
 import GetFriends from "../components/GetFriends.js"
 import axios from 'axios';
 import React from 'react';
-import defaultAvatar from "../assets/logo-80x80.png";
 import { toast } from "react-toastify";
 
 // sections
@@ -39,10 +38,8 @@ export default function DashboardAppPage() {
   const [friendsList, setFriendslist] = useState("");
  
 // load the default avatar image
-const split = defaultAvatar.split(',');
-    const base64string = split[1];
-    console.log(defaultAvatar)
-  
+const base64string = "PD94bWwgdmVyc2lvbj0iMS4wIiBzdGFuZGFsb25lPSJubyI/Pgo8IURPQ1RZUEUgc3ZnIFBVQkxJQyAiLS8vVzNDLy9EVEQgU1ZHIDIwMDEwOTA0Ly9FTiIKICJodHRwOi8vd3d3LnczLm9yZy9UUi8yMDAxL1JFQy1TVkctMjAwMTA5MDQvRFREL3N2ZzEwLmR0ZCI+CjxzdmcgdmVyc2lvbj0iMS4wIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciCiB3aWR0aD0iMTAwLjAwMDAwMHB0IiBoZWlnaHQ9IjEwMC4wMDAwMDBwdCIgdmlld0JveD0iMCAwIDEwMC4wMDAwMDAgMTAwLjAwMDAwMCIKIHByZXNlcnZlQXNwZWN0UmF0aW89InhNaWRZTWlkIG1lZXQiPgoKPGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMC4wMDAwMDAsMTAwLjAwMDAwMCkgc2NhbGUoMC4xMDAwMDAsLTAuMTAwMDAwKSIKZmlsbD0iIzAwMDAwMCIgc3Ryb2tlPSJub25lIj4KPHBhdGggZD0iTTQ2MCA4NzggYy0xMDcgLTMwIC0xNTIgLTE2NyAtODMgLTI0OSA3NSAtODkgMjExIC03OCAyNjUgMjEgMjUgNDUKMjAgMTI5IC05IDE2OCAtNDAgNTMgLTExMSA3OCAtMTczIDYweiBtMTAxIC01OCBjMjQgLTEzIDQ5IC02MSA0OSAtOTQgMCAtNjIKLTQ2IC0xMDYgLTExMyAtMTA2IC05OCAwIC0xMzcgMTM3IC01NiAxOTQgMjYgMTggOTAgMjEgMTIwIDZ6Ii8+CjxwYXRoIGQ9Ik0zOTMgNTExIGMtMTE3IC00MCAtMTc4IC0xMTYgLTE5OCAtMjQ3IC02IC00MSAtNiAtNDEgNDQgLTc0IDE1MwotOTggMzcwIC05OCA1MjMgLTEgbDQ3IDMwIC00IDU1IGMtMTEgMTgzIC0yMjAgMzA0IC00MTIgMjM3eiBtMjMyIC01OCBjNzAKLTM2IDExNSAtOTEgMTI5IC0xNTkgNiAtMjggMyAtMzUgLTI1IC01NSAtMTI1IC04OSAtMzIxIC05MyAtNDM3IC05IC00OCAzNAotNTEgNTMgLTIzIDExNiAyMiA0OCA3OSA5OCAxMzYgMTE5IDU2IDIwIDE2OCAxNCAyMjAgLTEyeiIvPgo8L2c+Cjwvc3ZnPgo="
+      
   const toastOptions = {
     position: "top-center",
     autoClose: 8000,
@@ -124,7 +121,7 @@ const split = defaultAvatar.split(',');
         <Grid container spacing={3}>
           {children.map((child, index) => (
             <React.Fragment key={index}>
-              <Grid item xs={12} sm={6} md={3}>
+              <Grid item xs='auto' sm={2} md={1.5} lg={1.5} xl={1.5}>
               <AppWidgetSummary username={child.username} avatarimage={`data:image/svg+xml;base64,${child.avatarImage ? child.avatarImage : base64string}`} onClick={() => handleClick(child)} />
               </Grid>
               {index !== children.length - 1 && <br />}
@@ -132,12 +129,13 @@ const split = defaultAvatar.split(',');
             
           ))}
           </Grid>
+          
           <Grid container spacing={3} style = {{ paddingTop : 25 }}>
-          <Grid item xs={12} md={6} lg={8}>
-            <h1>{childName} Total Time Logged In: {sessionTime}</h1>
+          <Grid item xs={12} md={6} lg={6}>
+            <h1>{childName.toUpperCase()} Total Time Logged In: {sessionTime}</h1>
           </Grid>
-          <GetRecentMessages childNameID={childId} childAvatarId={childAvatar} childs={children} />
           <GetPieChart childNameID={childId} childs={children} />
+          <GetRecentMessages childNameID={childId} childAvatarId={childAvatar} childs={children} />
           <GetFriends childNameID={childId} friends={friendsList} />
           
         </Grid>

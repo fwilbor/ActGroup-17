@@ -16,8 +16,8 @@ export default function ChatContainer({ currentChat, socket }) {
       const data = await JSON.parse(
         localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)
       );
-      console.log(data.username)
-      console.log(currentChat.username)
+      //console.log(data.username)
+      //console.log(currentChat.username)
       const response = await axios.post(recieveMessageRoute, {
         from: data.username,
         to: currentChat.username,
@@ -99,7 +99,7 @@ export default function ChatContainer({ currentChat, socket }) {
 
       </div>
 
-      <div className="chat-messages">
+      <div className="chat-messages" style={{ height: "78%" }}>
         {messages.map((message) => {
           const flag = SwearWordCheck(message.message)
           return (
@@ -124,6 +124,7 @@ export default function ChatContainer({ currentChat, socket }) {
 }
 
 const Container = styled.div`
+  backgroundColor: '#FFDB58',
   display: grid;
   grid-template-rows: 10% 80% 10%;
   gap: 0.1rem;

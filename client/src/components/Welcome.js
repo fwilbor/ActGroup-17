@@ -28,8 +28,10 @@ export default function Welcome() {
       <h1>
         Welcome, <span>{userName}!</span>
       </h1>
-      <h3>Please select a chat to start messaging. Or click <a href="/addfriend">here</a> to add friends</h3>
-      <h3 style={{display: "inline-block", margin: 0}}>Log out<Logout/></h3>
+      <h3>Please select a contact from left window to start a conversation,
+       Or <a href="/addfriend"><span>click here</span></a> to add friends.</h3>
+       <Logout/>
+       <h3 style={{display: "inline-block", margin: 0}}>Log out</h3>
     </Container>
   );
 }
@@ -44,6 +46,6 @@ const Container = styled.div`
     height: 20rem;
   }
   span {
-    color: #4e0eff;
+    color: #fff;
   }
 `;
