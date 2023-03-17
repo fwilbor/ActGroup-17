@@ -88,6 +88,11 @@ const navConfig = [
     path: "/setavatar",
     icon: icon("ic_user"),
   },
+ /* {
+    title: "settings",
+    path: "/settings",
+    icon: icon("ic_gear"),
+  },*/
   {
     title: "Logout",
     path: "/logout",

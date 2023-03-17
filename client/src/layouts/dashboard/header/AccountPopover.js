@@ -15,6 +15,16 @@ const MENU_OPTIONS = [
     link: '/dashboard/app',
   },
   {
+    label: 'Add Friend',
+    icon: 'eva:settings-2-fill',
+    link: '/addfriend',
+  },
+  {
+    label: 'Set Avatar',
+    icon: 'eva:settings-2-fill',
+    link: '/setavatar',
+  },
+  {
     label: 'Settings',
     icon: 'eva:settings-2-fill',
     link: '/settings',

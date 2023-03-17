@@ -61,7 +61,8 @@ export default function DashboardAppPage() {
       <Helmet>
         <title> Settings | KidzSnap.com </title>
       </Helmet>
-      <Box sx={{ px: 1, py: 1.5, display: 'inline-flex' }}>
+      
+      <Box sx={{ px: 2.5, py: 3, display: 'inline-flex' }}>
         <Logo />
       </Box>
       <Header/>

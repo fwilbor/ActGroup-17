@@ -139,7 +139,7 @@ const split = defaultAvatar.split(',');
           </Grid>
           <Grid container spacing={3} style = {{ paddingTop : 25 }}>
           <Grid item xs={12} md={12} lg={12}>
-            <h1>{childName} Total Time Logged In: {sessionTime}</h1>
+            <h1>{childName.toUpperCase()} Total Time Logged In: {sessionTime}</h1>
           </Grid>
           <GetRecentMessages childNameID={childId} childAvatarId={childAvatar} childs={children} />
           <GetPieChart childNameID={childId} childs={children} />
