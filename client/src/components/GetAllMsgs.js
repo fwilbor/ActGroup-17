@@ -18,7 +18,7 @@ console.log("Parent Link: " + parentLink);
 useEffect(() => {
 const fetchData = async () => {
 try {
-const response = await fetch('http://snap-main.herokuapp.com/api/messages/getmsg?parentLink=${parentLink}');
+const response = await fetch('http://kidzsnap-heroku.herokuapp.com/api/messages/getmsg?parentLink=${parentLink}');
 const data = await response.json();
 setMessages(data);
 //setMessages(data.filter(message => message.users[2] === parentLink));

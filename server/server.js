@@ -49,7 +49,7 @@ mongoose.connect(process.env.MONGO_URI, {useNewUrlParser: true, useUnifiedTopolo
 const httpServer = http.createServer(app);
 const io = new Server(httpServer, {
     cors: {
-        origin:["http://localhost:3000", "http://snap-main.herokuapp.com"],
+        origin:["http://localhost:3000", "http://kidzsnap-heroku.herokuapp.com"],
     },
 });
   

@@ -29,7 +29,7 @@ function GetPieChart(props) {
                     }
                 }
 
-                const response = await fetch('http://snap-main.herokuapp.com/api/messages/getmsg?parentLink=${props.p_id}');
+                const response = await fetch('http://kidzsnap-heroku.herokuapp.com/api/messages/getmsg?parentLink=${props.p_id}');
                 const data = await response.json();
                 data.forEach(message => {
                     let messageText = message.message.text.toString();

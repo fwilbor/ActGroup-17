@@ -1,5 +1,5 @@
 {
-  "proxy": "http://snap-main.herokuapp.com",
+  "proxy": "http://kidzsnap-heroku.herokuapp.com",
   "name": "client",
   "version": "0.1.0",
   "private": true,

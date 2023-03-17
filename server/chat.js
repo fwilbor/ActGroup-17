@@ -1,5 +1,5 @@
 // Make connection
-var socket = io.connect('http://snap-main.herokuapp.com');
+var socket = io.connect('http://kidzsnap-heroku.herokuapp.com');
 
 // Query DOM
 var message = document.getElementById('message'),
