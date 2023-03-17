@@ -129,12 +129,13 @@ const base64string = "PD94bWwgdmVyc2lvbj0iMS4wIiBzdGFuZGFsb25lPSJubyI/Pgo8IURPQ1
             
           ))}
           </Grid>
+          
           <Grid container spacing={3} style = {{ paddingTop : 25 }}>
-          <Grid item xs={12} md={12} lg={12}>
+          <Grid item xs={12} md={6} lg={6}>
             <h1>{childName.toUpperCase()} Total Time Logged In: {sessionTime}</h1>
           </Grid>
-          <GetRecentMessages childNameID={childId} childAvatarId={childAvatar} childs={children} />
           <GetPieChart childNameID={childId} childs={children} />
+          <GetRecentMessages childNameID={childId} childAvatarId={childAvatar} childs={children} />
           <GetFriends childNameID={childId} friends={friendsList} />
           
         </Grid>

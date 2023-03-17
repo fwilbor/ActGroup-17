@@ -56,7 +56,7 @@ if (messages.length > 5) {
   A = messages.length;
 }
     return (
-        <Grid item xs={12} md={6} lg={8}>
+        <Grid item xs={12} md={6} lg={6}>
             <AppNewsUpdate
                 title="Recent Messages"
                 list={[...Array(A)].map((_, index) => ({

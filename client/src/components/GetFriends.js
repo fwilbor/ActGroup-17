@@ -32,7 +32,7 @@ const base64string = "PD94bWwgdmVyc2lvbj0iMS4wIiBzdGFuZGFsb25lPSJubyI/Pgo8IURPQ1
 
   return (
 
-    <Grid item xs={12} md={6} lg={8}>
+    <Grid item xs={12} md={6} lg={6}>
       <AppNewsUpdate
         title="Friends List"
         list={[...Array(friendsList.length)].map((_, index) => ({
