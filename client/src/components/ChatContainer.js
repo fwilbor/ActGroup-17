@@ -16,8 +16,8 @@ export default function ChatContainer({ currentChat, socket }) {
       const data = await JSON.parse(
         localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)
       );
-      console.log(data.username)
-      console.log(currentChat.username)
+      //console.log(data.username)
+      //console.log(currentChat.username)
       const response = await axios.post(recieveMessageRoute, {
         from: data.username,
         to: currentChat.username,
