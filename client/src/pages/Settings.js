@@ -3,13 +3,15 @@ import { useState, useEffect, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 // @mui
 import { useTheme } from '@mui/material/styles';
-import { Grid, Container } from '@mui/material';
+import { Box, Grid, Container } from '@mui/material';
 import { getAllChildren } from 'src/utils/APIRoutes';
 import axios from 'axios';
 import React from 'react';
 import AppSettingSummary from 'src/sections/@dashboard/app/AppSettingSummary';
-import DashboardLayout from '../layouts/dashboard/header';
+//import DashboardLayout from '../layouts/dashboard/header';
+import Header from '../layouts/dashboard/header';
 import defaultAvatar from "../assets/logo-80x80.png";
+import Logo from '../components/logo';
 
 export default function DashboardAppPage() {
   const navigate = useNavigate();
@@ -59,18 +61,17 @@ export default function DashboardAppPage() {
       <Helmet>
         <title> Settings | KidzSnap.com </title>
       </Helmet>
+      <Box sx={{ px: 1, py: 1.5, display: 'inline-flex' }}>
+        <Logo />
+      </Box>
+      <Header/>
       <Container maxWidth="xl">
         <Grid container spacing={3}>
-          <Grid item xs={12} sm={6} md={3}>
-            {/* Add code for left side of dashboard here */}
-          </Grid>
-          <Grid item xs={12} sm={6} md={9}>
-            <Grid container spacing={3}>
-            <DashboardLayout/>
+          
               {children.map((child, index) => (
                 <React.Fragment key={index}>
-                  <Grid item xs={12} sm={6} md={3}>
-                    <br></br>
+                  <Grid item xs={12} sm={6} md={2}>
+                    <br />
                     <AppSettingSummary
                       username={child.username}
                       avatarimage={`data:image/svg+xml;base64,${child.avatarImage ? child.avatarImage : base64string}`}
@@ -83,8 +84,8 @@ export default function DashboardAppPage() {
                   {index !== children.length - 1 && <br />}
                 </React.Fragment>
               ))}
-            </Grid>
-          </Grid>
+            
+          
         </Grid>
       </Container>
     </>

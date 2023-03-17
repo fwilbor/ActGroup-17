@@ -83,8 +83,8 @@ export default function AppSettingSummary({ title, username, avatarimage, curren
         )}
       </StyledIcon>
 
-      <Typography variant="h3">{(username)}</Typography>
-      <Typography variant="h3">{(numRecentMessages)}</Typography>
+      <Typography variant="h4">{(username)}</Typography>
+      <Typography variant="strong">Recent Messages: {(numRecentMessages)}</Typography>
 
       <Typography variant="subtitle2" sx={{ opacity: 0.72 }}>
         {title}

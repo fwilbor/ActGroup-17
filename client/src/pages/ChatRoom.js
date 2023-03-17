@@ -7,7 +7,9 @@ import { getAllFriends, host } from "../utils/APIRoutes";
 import ChatContainer from "../components/ChatContainer";
 import Contacts from "../components/Contacts";
 import Welcome from "../components/Welcome";
-import Header from '../layouts/dashboard/header/AccountPopover';
+import Header from '../layouts/dashboard/header';
+import Logo from '../components/logo';
+import { Box } from '@mui/material';
 
 export default function Chat() {
   const navigate = useNavigate();
@@ -16,18 +18,18 @@ export default function Chat() {
   const [currentChat, setCurrentChat] = useState(undefined);
   const [currentUser, setCurrentUser] = useState(undefined);
   useEffect(() => {
-    const fetchData=async()=>{
-    if (!localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)) {
-      navigate("/login");
-    } else {
-      setCurrentUser(
-        await JSON.parse(
-          localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)
-        )
-      );
+    const fetchData = async () => {
+      if (!localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)) {
+        navigate("/login");
+      } else {
+        setCurrentUser(
+          await JSON.parse(
+            localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)
+          )
+        );
+      }
     }
-  }
-  fetchData();
+    fetchData();
   }, [navigate]);
   useEffect(() => {
     if (currentUser) {
@@ -37,17 +39,17 @@ export default function Chat() {
   }, [currentUser]);
 
   useEffect(() => {
-    const fetchData=async()=>{
-    if (currentUser) {
-      if (currentUser.isAvatarImageSet) {
-        const data = await axios.get(`${getAllFriends}/${currentUser._id}`);
-        setContacts(data.data);
-      } else {
-        navigate("/setAvatar");
+    const fetchData = async () => {
+      if (currentUser) {
+        if (currentUser.isAvatarImageSet) {
+          const data = await axios.get(`${getAllFriends}/${currentUser._id}`);
+          setContacts(data.data);
+        } else {
+          navigate("/setAvatar");
+        }
       }
     }
-  }
-  fetchData();
+    fetchData();
   }, [currentUser, navigate]);
   const handleChatChange = (chat) => {
     setCurrentChat(chat);
@@ -55,11 +57,23 @@ export default function Chat() {
   };
   return (
     <>
-    {currentUser && currentUser.parentLink === undefined ? (
-      <Header />
-    ) : null}
+      <Box sx={{ px: 1, py: 1.5, display: 'inline-flex' }}>
+        <Logo />
+      </Box>
+
+
+
+      {currentUser && currentUser.parentLink === undefined ? (
+        <Header />
+
+      ) : null}
       <Container>
+
+
+
+
         <div className="container" >
+
           <Contacts contacts={contacts} changeChat={handleChatChange} />
           {currentChat === undefined ? (
             <Welcome />
