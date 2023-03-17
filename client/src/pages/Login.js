@@ -41,9 +41,9 @@ export default function Login() {
     try {
       const usernameResponse = await fetch (`${checkIfUsernameExists.replace(':username', username)}`);
       //const usernameResponse = await axios.get(`${checkIfUsernameExists}/${username}`);
-      console.log("usernameResponse:", usernameResponse);
+      //console.log("usernameResponse:", usernameResponse);
       const usernameExists = (await usernameResponse.json());
-      console.log("usernameExists:", usernameExists);
+      //console.log("usernameExists:", usernameExists);
       
       
       //console.log("usernameExists:", usernameExists);
@@ -59,11 +59,11 @@ export default function Login() {
 
     // check if password match
     try {
-      console.log(username)
+      //console.log(username)
       const passwordResponse = await fetch (`${checkIfPasswordMatch.replace(':username', username).replace(':password', password)}`);
-      console.log("passwordResponse:", passwordResponse);
+      //console.log("passwordResponse:", passwordResponse);
       const passwordMatch = (await passwordResponse.json());
-      console.log("passwordMatch:", passwordMatch);
+      //console.log("passwordMatch:", passwordMatch);
       
 
       if (passwordMatch === false) {
@@ -103,7 +103,7 @@ export default function Login() {
           },
         })
           .then((response) => {
-            console.log(response.data);
+            //console.log(response.data);
           })
           .catch((error) => {
             console.log(error);
@@ -112,7 +112,7 @@ export default function Login() {
         let parent_or_child = await JSON.parse(
           localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)
         ).parentLink;
-        console.log(parent_or_child)
+        //console.log(parent_or_child)
 
         if (parent_or_child === undefined) {
           navigate("/dashboard/app");

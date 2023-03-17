@@ -21,7 +21,7 @@ export default function ChatInput({ handleSendMsg }) {
   // };
 
   const handleEmojiClick = (event, emojiObject) => {
-      console.log(emojiObject.emoji)
+      //console.log(emojiObject.emoji)
       let message = msg;
       message += emojiObject.emoji;
       setMsg(message);
@@ -36,7 +36,7 @@ export default function ChatInput({ handleSendMsg }) {
     event.preventDefault();
     if (msg.length > 0) {
       handleSendMsg(msg, deleteAfter);
-      console.log(deleteAfter)
+      //console.log(deleteAfter)
       setMsg("");
     }
   };
@@ -52,7 +52,7 @@ export default function ChatInput({ handleSendMsg }) {
       <form className="input-container" onSubmit={(event) => sendChat(event)}>
         <input
           type="text"
-          placeholder="type your message here"
+          placeholder="Type your message here..."
           onChange={(e) => setMsg(e.target.value)}
           value={msg}
         />
@@ -166,6 +166,8 @@ const Container = styled.div`
       align-items: center;
       background-color: #9a86f3;
       border: none;
+      margin-right: 10px;
+      padding-right: 25px;
       @media screen and (min-width: 390px) and (max-width: 720px) {
         width:100%;
         padding-left:0.1rem;

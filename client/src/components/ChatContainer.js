@@ -99,7 +99,7 @@ export default function ChatContainer({ currentChat, socket }) {
 
       </div>
 
-      <div className="chat-messages">
+      <div className="chat-messages" style={{ height: "78%" }}>
         {messages.map((message) => {
           const flag = SwearWordCheck(message.message)
           return (
