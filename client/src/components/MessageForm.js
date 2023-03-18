@@ -99,7 +99,8 @@ const MessageForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault()
     try {
-      if (validateForm()) {
+      const formValid = await validateForm();
+    if (formValid) {
         const parent_data = await JSON.parse(
           localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)
         );
@@ -111,11 +112,12 @@ const MessageForm = () => {
           password,
           parentLink,
         });
-        console.log(data)
+        console.log(data.status)
         if (data.status === false) {
           throw new Error("Error making child account", toastOptions);
         }
         if (data.status === true) {
+          toast.success("You have added a friend!", toastOptions);
           console.log("Child added")
         }
       }

@@ -70,7 +70,7 @@ const Splash = () => {
         </ul>
         <p>It is also important to educate your children on internet safety. Here are some resources that can help:</p>
         <ul style={{ listStylePosition: 'inside' }}>
-          <li><a href="https://www.netsmartz.org/">NetSmartz</a></li>
+          <li><a href="https://www.missingkids.org/netsmartz/home">NetSmartz</a></li>
           <li><a href="https://www.kidshealth.org/en/parents/net-safety.html">KidsHealth: Internet Safety</a></li>
           <li><a href="https://www.commonsensemedia.org/blog/parents-ultimate-guide-to-parental-controls">Common Sense Media: Parental Controls Guide</a></li>
         </ul>
