@@ -21,6 +21,6 @@ const imageSchema = mongoose.Schema({
 }, {timestamps: true})
 
 
-var PostImage = mongoose.model("PostImage", imageSchema);
+var PostImage = mongoose.model("ImageModel", imageSchema);
 
 export default PostImage

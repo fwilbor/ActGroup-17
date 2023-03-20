@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 import multer from "multer";
-import PostImage from "../models/Images"
+import PostImage from "../models/imageModel.js"
 import express from "express";
 import dotenv from "dotenv";
 
@@ -9,8 +9,6 @@ dotenv.config()
 
 const app = express()
 
-// Step 4 - set up EJS
-  
 //app.use(bodyParser.urlencoded({ extended: false }))
 //app.use(bodyParser.json())
   

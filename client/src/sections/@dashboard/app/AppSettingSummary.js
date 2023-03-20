@@ -60,6 +60,8 @@ export default function AppSettingSummary({ title, username, avatarimage, curren
         py: 5,
         boxShadow: 0,
         textAlign: 'center',
+        paddingTop: '10px',
+        paddingBottom: '10px',
         color: (theme) => theme.palette[color].darker,
         bgcolor: (theme) => theme.palette[color].lighter,
         ...sx,
@@ -83,20 +85,20 @@ export default function AppSettingSummary({ title, username, avatarimage, curren
         )}
       </StyledIcon>
 
-      <Typography variant="h3">{(username)}</Typography>
-      <Typography variant="h3">{(numRecentMessages)}</Typography>
+      <Typography variant="h4">{(username)}</Typography>
+      <Typography variant="strong">Recent Messages: {(numRecentMessages)}</Typography>
 
       <Typography variant="subtitle2" sx={{ opacity: 0.72 }}>
         {title}
       </Typography>
 
-      <Select value={numRecentMessages} onChange={(event) => handleChange(event)} sx={{ mt: 2 }}>
+      <Select value={numRecentMessages} onChange={(event) => handleChange(event)} sx={{ mt: 1 }}>
         <MenuItem value={5}>5</MenuItem>
         <MenuItem value={10}>10</MenuItem>
         <MenuItem value={15}>15</MenuItem>
       </Select>
-
-      <Button variant="contained" color="primary" onClick={handleApplyMsg} sx={{ mt: 2 }}>
+<br />
+      <Button variant="contained" color="primary" onClick={handleApplyMsg} sx={{ mt: 1 }}>
         Apply
       </Button>
     </Card>

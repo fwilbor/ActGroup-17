@@ -1,3 +1,4 @@
+import { Helmet } from 'react-helmet-async';
 import React, { useEffect, useState, useRef } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -7,7 +8,9 @@ import { getAllFriends, host } from "../utils/APIRoutes";
 import ChatContainer from "../components/ChatContainer";
 import Contacts from "../components/Contacts";
 import Welcome from "../components/Welcome";
-import Header from '../layouts/dashboard/header/AccountPopover';
+import Header from '../layouts/dashboard/header';
+import Logo from '../components/logo';
+import { Box } from '@mui/material';
 
 export default function Chat() {
   const navigate = useNavigate();
@@ -16,18 +19,18 @@ export default function Chat() {
   const [currentChat, setCurrentChat] = useState(undefined);
   const [currentUser, setCurrentUser] = useState(undefined);
   useEffect(() => {
-    const fetchData=async()=>{
-    if (!localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)) {
-      navigate("/login");
-    } else {
-      setCurrentUser(
-        await JSON.parse(
-          localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)
-        )
-      );
+    const fetchData = async () => {
+      if (!localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)) {
+        navigate("/login");
+      } else {
+        setCurrentUser(
+          await JSON.parse(
+            localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)
+          )
+        );
+      }
     }
-  }
-  fetchData();
+    fetchData();
   }, [navigate]);
   useEffect(() => {
     if (currentUser) {
@@ -37,17 +40,17 @@ export default function Chat() {
   }, [currentUser]);
 
   useEffect(() => {
-    const fetchData=async()=>{
-    if (currentUser) {
-      if (currentUser.isAvatarImageSet) {
-        const data = await axios.get(`${getAllFriends}/${currentUser._id}`);
-        setContacts(data.data);
-      } else {
-        navigate("/setAvatar");
+    const fetchData = async () => {
+      if (currentUser) {
+        if (currentUser.isAvatarImageSet) {
+          const data = await axios.get(`${getAllFriends}/${currentUser._id}`);
+          setContacts(data.data);
+        } else {
+          navigate("/setAvatar");
+        }
       }
     }
-  }
-  fetchData();
+    fetchData();
   }, [currentUser, navigate]);
   const handleChatChange = (chat) => {
     setCurrentChat(chat);
@@ -55,16 +58,23 @@ export default function Chat() {
   };
   return (
     <>
-    {currentUser && currentUser.parentLink === undefined ? (
-      <Header />
-    ) : null}
+      <Helmet>
+        <title> Chat Room | KidzSnap.com </title>
+      </Helmet>
+      <Box sx={{ px: 2.5, py: 3, display: 'inline-flex' }}>
+        <Logo />
+      </Box>
+      {currentUser && currentUser.parentLink === undefined ? (
+        <Header />
+
+      ) : null}
       <Container>
         <div className="container">
-          <Contacts contacts={contacts} changeChat={handleChatChange} />
+        <Contacts contacts={contacts} changeChat={handleChatChange} />
           {currentChat === undefined ? (
             <Welcome />
           ) : (
-            <ChatContainer currentChat={currentChat} socket={socket} />
+          <ChatContainer currentChat={currentChat} socket={socket} />
           )}
         </div>
       </Container>
@@ -73,18 +83,18 @@ export default function Chat() {
 }
 
 const Container = styled.div`
-  height: 100vh;
-  width: 100vw;
+
+  
   display: flex;
   flex-direction: column;
   justify-content: center;
   gap: 1rem;
   align-items: center;
-  background-color: #131324;
+  background-color: '#080420';
   .container {
     height: 85vh;
-    width: 85vw;
-    background-color: #00000076;
+    width: 99vw;
+    background-color: #080420;
     display: grid;
     grid-template-columns: 25% 75%;
     @media screen and (min-width: 720px) and (max-width: 1080px) {

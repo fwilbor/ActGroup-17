@@ -49,7 +49,7 @@ function GetPieChart(props) {
     }, [props]);
 
     return (
-        <Grid item xs={12} md={6} lg={4}>
+        <Grid item xs={12} md={6} lg={6}>
             <AppCurrentVisits
                 title="Flagged Messages"
                 chartData={[

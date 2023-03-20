@@ -6,14 +6,13 @@ import bodyParser from "body-parser";
 import mongoose from "mongoose";
 import cors from "cors";
 import dotenv from "dotenv";
-import userRouter from "./routes/uploadimage";
+import userRouter from "./routes/uploadimage.js";
 
-import router from "./routes/messages";
+import router from "./routes/messages.js";
 import multer from "multer";
 
-import urouter from "./routes/user";
+import urouter from "./routes/user.js";
 
-import mrouter from "./routes/messengerTest";
 //import socket from "socket.io";
 import http from "http";
 import { Server, Socket } from "socket.io";
@@ -39,7 +38,7 @@ const CONNECTION_URL = process.env.MONGO_URI
 
 
 const PORT = process.env.PORT
-const APP_PORT = process.env.APP_PORT;
+//const APP_PORT = process.env.APP_PORT;
 
 
 mongoose.connect(process.env.MONGO_URI, {useNewUrlParser: true, useUnifiedTopology: true})
@@ -119,9 +118,9 @@ app.use("/api/messages", router)
 app.use("/api/uploads", userRouter)
 app.use("/api/user", urouter)
 
-app.listen(APP_PORT, () => {
-  console.log(`App running on port ${APP_PORT}`);
-});
+// app.listen(APP_PORT, () => {
+//   console.log(`App running on port ${APP_PORT}`);
+// });
 
 // httpServer.listen(PORT, () => {
 //   console.log(`Server running on port ${PORT}`);
