@@ -10,6 +10,8 @@ import {
 } from '../sections/@dashboard/app';
 
 function GetFriends(props) {
+  console.log(props.friends)
+  console.log(props.friends.data)
   
   if (!props.friends || !props.friends.data) {
     return null; // or return some default value or error message
