@@ -117,8 +117,7 @@ const MessageForm = () => {
           throw new Error("Error making child account", toastOptions);
         }
         if (data.status === true) {
-          toast.success("You have added a friend!", toastOptions);
-          console.log("Child added")
+          toast.success("You have added a child!", toastOptions);
         }
       }
     } catch (error) {

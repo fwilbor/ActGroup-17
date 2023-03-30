@@ -2,13 +2,14 @@
 import userModel from "../models/userModel.js"
 import jsonwebtoken from "jsonwebtoken"
 import bcrypt from "bcrypt"
-//import childModel from "../models/childModel"
-//import childModel from "../models/childModel"
+
 let start_time 
+let sessionTimes = [];
 // mongoDb uses _id for unique id generated
 const createToken = (_id) => {
     return jsonwebtoken.sign({_id}, process.env.SECRET, { expiresIn: "3d"})
 }
+
 
 // login user 
 const loginUser = async (req, res) => {
@@ -16,20 +17,21 @@ const loginUser = async (req, res) => {
     const {username, password} = req.body
 
     try {
-        const user = await userModel.login(username, password)
-        //console.log(user)
-        // create a token
-        const token = createToken(user._id)
-        // passing back token and not _id here
-        res.status(200).json({status: true, user, token})
-        let currentTimestamp = Date.now()
-          console.log(currentTimestamp); // get current timestamp
-          let login_date = new Intl.DateTimeFormat('en-US', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit' }).format(currentTimestamp)
-          //console.log(login_date)
-          start_time = login_date
-    } catch (error) {
-        res.status(400).json({error: error.message})
-    }
+      const user = await userModel.login(username, password)
+      //console.log(user)
+      // create a token
+      const token = createToken(user._id)
+      // passing back token and not _id here
+      res.status(200).json({status: true, user, token})
+      let currentTimestamp = Date.now()
+        console.log(currentTimestamp); // get current timestamp
+        let login_date = new Intl.DateTimeFormat('en-US', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit' }).format(currentTimestamp)
+        //console.log(login_date)
+        start_time = new Date(login_date)
+        sessionTimes.push({login: start_time, logout: null, duration: null}) // add new login/logout event to array
+  } catch (error) {
+      res.status(400).json({error: error.message})
+  }
 
 }
 
@@ -141,26 +143,29 @@ const getAllFriends = async (req, res, next) => {
   const logOut = (req, res, next) => {
     try {
       if (!req.params.id) return res.json({ msg: "User id is required " });
-      console.log(start_time)
-
-      let currentTimestamp = Date.now()
-          console.log(currentTimestamp); // get current timestamp
-          let logout_date = new Intl.DateTimeFormat('en-US', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit' }).format(currentTimestamp)
-          var convert_logout = new Date(logout_date);
-          var convert_login = new Date(start_time);
-          console.log(convert_login)
-          console.log(convert_logout)
-
-      let session = (convert_logout - convert_login) / 1000;
-      //console.log(session)
-
-      userModel.findByIdAndUpdate(req.params.id, { $inc: { sessionTime: session } }, { new: true }, function(err, user) {
+      const currentTimestamp = Date.now()
+      const logout_date = new Intl.DateTimeFormat('en-US', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit' }).format(currentTimestamp)
+      const end_time = new Date(logout_date)
+  
+      const lastSession = sessionTimes[sessionTimes.length-1]; // get the last login/logout event from array
+      lastSession.logout = end_time; // update the logout time
+      lastSession.duration = (lastSession.logout - lastSession.login) / 1000; // calculate session duration
+      lastSession.loginStr = new Intl.DateTimeFormat('en-US', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true }).format(lastSession.login); // create readable login date string
+  
+      const totalSession = [];
+      if (lastSession.login) {
+        totalSession.push({
+          name: "Time Login",
+          login: lastSession.loginStr,
+          duration: lastSession.duration
+        });
+      }
+  
+      userModel.findByIdAndUpdate(req.params.id, { $push: { totalSession: { $each: totalSession } } }, { new: true }, function(err, user) {
         if (err) return next(err);
+        onlineUsers.delete(req.params.id);
         return res.status(200).send();
-});
-          
-      onlineUsers.delete(req.params.id);
-      return res.status(200).send();
+      });
     } catch (ex) {
       next(ex);
     }
@@ -175,6 +180,7 @@ const getAllFriends = async (req, res, next) => {
         "username",
         "avatarImage",
         "recentMessages",
+        "totalSession",
       ]);
       return res.json(users);
     } catch (ex) {
