@@ -96,7 +96,7 @@ export default function AppWebsiteVisits({ title, subheader, chartLabels, chartD
       <CardHeader title={title} subheader={subheader} />
 
       <Box sx={{ p: 3, pb: 1 }} dir="ltr">
-        <ReactApexChart type="line" series={[{ name: '', data: sessionData }]} options={chartOptions} height={364} />
+        <ReactApexChart type="line" series={[{ name: '', data: sessionData }]} options={chartOptions} height={264} />
       </Box>
     </Card>
   );

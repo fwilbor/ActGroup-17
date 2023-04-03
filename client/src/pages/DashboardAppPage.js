@@ -129,14 +129,11 @@ const base64string = "PD94bWwgdmVyc2lvbj0iMS4wIiBzdGFuZGFsb25lPSJubyI/Pgo8IURPQ1
         <title> Dashboard | KidzSnap.com </title>
       </Helmet>
       <Container maxWidth="xl">
-        <Typography variant="h4" sx={{ mb: 5 }}>
-          Hi {parent_username.toUpperCase()}, Welcome back<br />
-        </Typography>
-
+        
         <Grid container spacing={3}>
           {children.map((child, index) => (
             <React.Fragment key={index}>
-              <Grid item xs='auto' sm={2} md={1.5} lg={1.5} xl={1.5}>
+              <Grid item  xs='auto' sm={2} md={1.2} lg={1.1} xl={1} style = {{ paddingTop : '10px', paddingLeft : '10px'}}>
               <AppWidgetSummary username={child.username} avatarimage={`data:image/svg+xml;base64,${child.avatarImage ? child.avatarImage : base64string}`} onClick={() => handleClick(child)} />
               </Grid>
               {index !== children.length - 1 && <br />}
@@ -145,22 +142,13 @@ const base64string = "PD94bWwgdmVyc2lvbj0iMS4wIiBzdGFuZGFsb25lPSJubyI/Pgo8IURPQ1
           ))}
           </Grid>
 
-          <Grid item xs={12} md={6} lg={6 }style = {{ paddingTop : 25 }}>
-          <GetSession childNameID={childId} totalSession={totalSession} />
+          <Grid container spacing={3} style = {{ paddingTop : '10px'}}>
+            <GetPieChart childNameID={childId} childs={children} />
+            <GetSession childNameID={childId} totalSession={totalSession} />
+            <GetRecentMessages childNameID={childId} childAvatarId={childAvatar} childs={children} />
+            <GetFriends childNameID={childId} friends={friendsList} />
           </Grid>
-          
-          <Grid container spacing={3} style = {{ paddingTop : 25 }}>
-          <GetPieChart childNameID={childId} childs={children} />
-          <GetRecentMessages childNameID={childId} childAvatarId={childAvatar} childs={children} />
-          <GetFriends childNameID={childId} friends={friendsList} />
-          <Grid item xs={12} md={6} lg={6}>
-            <h1>{childName.toUpperCase()} Total Time Logged In: {sessionTime}</h1>
-          </Grid>
-                    
-        </Grid>
-        <div>
-          <MessageForm />
-        </div>
+        
       </Container>
     </>
   );

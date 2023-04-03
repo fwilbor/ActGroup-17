@@ -14,8 +14,8 @@ const StyledIcon = styled('div')(({ theme }) => ({
   display: 'flex',
   borderRadius: '50%',
   alignItems: 'center',
-  width: theme.spacing(8),
-  height: theme.spacing(8),
+  width: theme.spacing(6),
+  height: theme.spacing(6),
   justifyContent: 'center',
   marginBottom: theme.spacing(0.5),
 }));
@@ -67,13 +67,13 @@ export default function AppWidgetSummary({ title, username, avatarimage, current
 )}
       </StyledIcon>
 
-      <Typography variant="h6" onClick={onClick}>{(username)}</Typography>
+      <Typography variant="h5" style={{ fontSize: '12px' }} onClick={onClick}>{(username)}</Typography>
       <Typography variant="h3">{(currentnummsg)}</Typography>
 
       <Typography variant="subtitle2" sx={{ opacity: 0.72 }}>
         {title}
       </Typography>
-      <Button variant="contained" style={{ width: '65px', height: '25px', cursor: 'pointer' }} color="primary" onClick={onClick} >
+      <Button variant="contained" style={{ fontSize: '12px', width: '50px', height: '20px', cursor: 'pointer' }} color="primary" onClick={onClick} >
       Info
     </Button>
     </Card>
