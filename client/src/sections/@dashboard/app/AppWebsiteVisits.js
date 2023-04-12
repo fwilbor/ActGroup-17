@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import PropTypes from 'prop-types';
 import ReactApexChart from 'react-apexcharts';
 // @mui
@@ -15,44 +16,74 @@ AppWebsiteVisits.propTypes = {
 };
 
 export default function AppWebsiteVisits({ title, subheader, chartLabels, chartData, ...other }) {
+  const [isDataAvailable, setIsDataAvailable] = useState(false);
+
+  useEffect(() => {
+    if (chartData.length > 0) {
+      setIsDataAvailable(true);
+    }
+  }, [chartData]);
+
+  // if (!isDataAvailable) {
+  //   return <div>Loading...</div>;
+  // }
+  console.log(chartLabels)
   const chartOptions = useChart({
     plotOptions: { bar: { columnWidth: '16%' } },
     fill: { type: chartData.map((i) => i.fill) },
     labels: chartData.map((data) => data.login),
-
-    xaxis: { 
+    xaxis: {
       categories: chartData.map((data) => {
-        const login = data.login;
-        const loginWithBreaks = [];
-        for (let i = 0; i < login.length; i += 5) {
-          loginWithBreaks.push(login.slice(i, i + 5));
-        }
-        console.log(loginWithBreaks)
-        return loginWithBreaks.join('\n');
+        const [date, time] = [
+          new Date(data.login).toLocaleDateString('en-US', {
+            month: '2-digit',
+            day: '2-digit',
+            year: 'numeric',
+          }),
+          new Date(data.login).toLocaleTimeString('en-US', {
+            hour: 'numeric',
+            minute: 'numeric',
+            second: 'numeric',
+            hour12: true,
+          })
+        ];
+        return `${date} ${time}`;
       }),
       labels: {
-        rotate: 0,
-        offsetY: 0,
-        offsetX: 0,
+        rotate: -45,
+        trim: true,
+        maxHeight: 150,
         style: {
-          fontSize: '12px',
+          fontSize: '10px',
+        },
+        offsetX: -5,
+        formatter: function (value) {
+          if (typeof value === 'undefined') {
+            return '';
+          }
+          const [date, time] = value.split(' ');
+          const formattedDate = new Date(date).toLocaleDateString('en-US', {
+            month: '2-digit',
+            day: '2-digit',
+          });
+          return formattedDate;
         },
       },
     },
     yaxis: {
       title: {
-        text: 'Duration (min:sec)'
+        text: 'Duration (min:sec)',
       },
       labels: {
         formatter: (value) => {
           const minutes = Math.floor(value / 60);
           const seconds = value % 60;
           return `${minutes}:${seconds.toString().padStart(2, '0')}`;
-        }
-      }
+        },
+      },
     },
     tooltip: {
-      shared: true,
+      shared: false,
       intersect: false,
       y: {
         formatter: (y, { dataPointIndex }) => {
@@ -66,7 +97,7 @@ export default function AppWebsiteVisits({ title, subheader, chartLabels, chartD
               year: 'numeric',
               hour: 'numeric',
               minute: '2-digit',
-              hour12: true
+              hour12: true,
             });
             return `Time Login: <br/>${durationString}, at <br/>${date}`;
           }
@@ -77,27 +108,28 @@ export default function AppWebsiteVisits({ title, subheader, chartLabels, chartD
   });
 
   const sessionData = chartData.map((totalSession) => {
-    const xarray = new Date(totalSession.login).toLocaleString('en-US', {
+    const loginTime = new Date(totalSession.login).toLocaleString('en-US', {
       month: '2-digit',
       day: '2-digit',
+      year: 'numeric',
       hour: 'numeric',
       minute: 'numeric',
+      second: 'numeric',
       hour12: true,
     });
     
     return {
-      x: xarray,
+      x: loginTime,
       y: totalSession.duration,
     };
   });
 
    return (
+    <Box sx={{ width: '100%' }}>
     <Card {...other}>
       <CardHeader title={title} subheader={subheader} />
-
-      <Box sx={{ p: 3, pb: 1 }} dir="ltr">
-        <ReactApexChart type="line" series={[{ name: '', data: sessionData }]} options={chartOptions} height={264} />
-      </Box>
+    <ReactApexChart type="line" series={[{ name: '', data: sessionData }]} options={chartOptions} width={432} height={264} />
     </Card>
+    </Box>
   );
 }

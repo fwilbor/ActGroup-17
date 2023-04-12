@@ -140,7 +140,11 @@ const getAllFriends = async (req, res, next) => {
     }
   };
   
-  const logOut = (req, res, next) => {
+  const logOut = async  (req, res, next) => {
+    const { id } = req.params
+
+    const user = await userModel.findById(id)
+
     try {
       if (!req.params.id) return res.json({ msg: "User id is required " });
       const currentTimestamp = Date.now()
@@ -148,24 +152,47 @@ const getAllFriends = async (req, res, next) => {
       const end_time = new Date(logout_date)
   
       const lastSession = sessionTimes[sessionTimes.length-1]; // get the last login/logout event from array
+      console.log(lastSession.login)
       lastSession.logout = end_time; // update the logout time
       lastSession.duration = (lastSession.logout - lastSession.login) / 1000; // calculate session duration
+      
+
+      const newSession = [];
+if (sessionTimes.length > 0) {
+  if (user.totalSession && user.totalSession.length > 0) {
+    const lastLogin = new Date(user.totalSession[user.totalSession.length - 1].login);
+    console.log(lastLogin);
+    if (lastLogin && lastLogin.getMinutes() === lastSession.logout.getMinutes() && lastLogin.getHours() === lastSession.logout.getHours() && lastLogin.getDate() === lastSession.logout.getDate() && lastLogin.getMonth() === lastSession.logout.getMonth()) {
+      console.log(lastSession.login);
+      lastSession.login.setMinutes(lastSession.login.getMinutes() + 1); // add a minute to login time
       lastSession.loginStr = new Intl.DateTimeFormat('en-US', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true }).format(lastSession.login); // create readable login date string
+      console.log(lastSession.loginStr);
+    } else {
+      lastSession.loginStr = new Intl.DateTimeFormat('en-US', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true }).format(lastSession.login); // create readable login date string
+    }
+  }
   
-      const totalSession = [];
-      if (lastSession.login) {
-        totalSession.push({
-          name: "Time Login",
-          login: lastSession.loginStr,
-          duration: lastSession.duration
-        });
-      }
-  
-      userModel.findByIdAndUpdate(req.params.id, { $push: { totalSession: { $each: totalSession } } }, { new: true }, function(err, user) {
-        if (err) return next(err);
-        onlineUsers.delete(req.params.id);
-        return res.status(200).send();
-      });
+  newSession.push({
+    login: lastSession.loginStr,
+    duration: lastSession.duration
+  });
+}
+
+if (user.totalSession && user.totalSession.length >= 12) {
+  user.totalSession.shift(); // remove the first element of the array
+}
+
+user.totalSession.push(newSession[0]); // add new object with newSession data
+
+const updatedUser = { ...user.toObject(), totalSession: user.totalSession };
+
+console.log(user.totalSession)
+
+userModel.findByIdAndUpdate(req.params.id, updatedUser, { new: true }, function(err, user) {
+  if (err) return next(err);
+  onlineUsers.delete(req.params.id);
+  return res.status(200).send();
+});
     } catch (ex) {
       next(ex);
     }

@@ -62,21 +62,29 @@ export default function Chat() {
     const logout_user = await JSON.parse(
       localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)
     );
-    event.preventDefault();
-    console.log(logout_user._id)
-    event.returnValue = "";
-    if (socket.current) {
-      socket.current.disconnect();
+
+    if (!logout_user._id) {
+      return;
     }
-    try {
-      console.log(logout_user._id)
-      if (!logout_user._id) return;
-      console.log('if statement in handle read')
-      axios.get(`${logoutRoute}/${logout_user._id}`);
-    } catch (ex) {
-      console.log(ex);
+
+    console.log(event.currentTarget.performance.navigation.type)
+
+    if (event.currentTarget.performance.navigation.type !== 1) {
+      event.preventDefault();
+      event.returnValue = "";
+      if (socket.current) {
+        socket.current.disconnect();
+      }
+      try {
+        console.log(logout_user._id)
+        if (!logout_user._id) return;
+        console.log('if statement in handle read')
+        axios.get(`${logoutRoute}/${logout_user._id}`);
+      } catch (ex) {
+        console.log(ex);
+      }
     }
-};
+  };
   
   useEffect(() => {
     console.log("Adding event listener for beforeunload");

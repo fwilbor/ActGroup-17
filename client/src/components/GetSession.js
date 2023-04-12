@@ -10,11 +10,17 @@ AppConversionRates,
 } from '../sections/@dashboard/app';
 
 function GetSession(props) {
-  if (!props.totalSession) {
+  const [isDataAvailable, setIsDataAvailable] = useState(false);
+
+  useEffect(() => {
+    if (props.totalSession && props.totalSession.length > 0) {
+      setIsDataAvailable(true);
+    }
+  }, [props.totalSession]);
+
+  if (!isDataAvailable) {
     return null; // or return some default value or error message
   }
-
-  const name = "Time Login"
   const sessionData = props.totalSession.map((totalSession) => ({
     login: new Date(totalSession.login).toLocaleString('en-US', {
       month: '2-digit',
@@ -25,8 +31,7 @@ function GetSession(props) {
       second: 'numeric',
       hour12: true,
     }),
-    duration: totalSession.duration,
-    name: name
+    duration: totalSession.duration
   }));
 
   return (
