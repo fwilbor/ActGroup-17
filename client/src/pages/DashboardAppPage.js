@@ -10,6 +10,7 @@ import MessageForm from '../components/MessageForm';
 import GetPieChart from "../components/GetPieChart.js"
 import GetRecentMessages from "../components/GetRecentMessages.js"
 import GetFriends from "../components/GetFriends.js"
+import GetSession from "../components/GetSession.js"
 import axios from 'axios';
 import React from 'react';
 import { toast } from "react-toastify";
@@ -36,6 +37,7 @@ export default function DashboardAppPage() {
   const [childId, setChildId] = useState("");
   const [childAvatar, setChildAvatar] = useState("");
   const [friendsList, setFriendslist] = useState("");
+  const [totalSession, setTotalSession] = useState([]);
  
 // load the default avatar image
 const base64string = "PD94bWwgdmVyc2lvbj0iMS4wIiBzdGFuZGFsb25lPSJubyI/Pgo8IURPQ1RZUEUgc3ZnIFBVQkxJQyAiLS8vVzNDLy9EVEQgU1ZHIDIwMDEwOTA0Ly9FTiIKICJodHRwOi8vd3d3LnczLm9yZy9UUi8yMDAxL1JFQy1TVkctMjAwMTA5MDQvRFREL3N2ZzEwLmR0ZCI+CjxzdmcgdmVyc2lvbj0iMS4wIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciCiB3aWR0aD0iMTAwLjAwMDAwMHB0IiBoZWlnaHQ9IjEwMC4wMDAwMDBwdCIgdmlld0JveD0iMCAwIDEwMC4wMDAwMDAgMTAwLjAwMDAwMCIKIHByZXNlcnZlQXNwZWN0UmF0aW89InhNaWRZTWlkIG1lZXQiPgoKPGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMC4wMDAwMDAsMTAwLjAwMDAwMCkgc2NhbGUoMC4xMDAwMDAsLTAuMTAwMDAwKSIKZmlsbD0iIzAwMDAwMCIgc3Ryb2tlPSJub25lIj4KPHBhdGggZD0iTTQ2MCA4NzggYy0xMDcgLTMwIC0xNTIgLTE2NyAtODMgLTI0OSA3NSAtODkgMjExIC03OCAyNjUgMjEgMjUgNDUKMjAgMTI5IC05IDE2OCAtNDAgNTMgLTExMSA3OCAtMTczIDYweiBtMTAxIC01OCBjMjQgLTEzIDQ5IC02MSA0OSAtOTQgMCAtNjIKLTQ2IC0xMDYgLTExMyAtMTA2IC05OCAwIC0xMzcgMTM3IC01NiAxOTQgMjYgMTggOTAgMjEgMTIwIDZ6Ii8+CjxwYXRoIGQ9Ik0zOTMgNTExIGMtMTE3IC00MCAtMTc4IC0xMTYgLTE5OCAtMjQ3IC02IC00MSAtNiAtNDEgNDQgLTc0IDE1MwotOTggMzcwIC05OCA1MjMgLTEgbDQ3IDMwIC00IDU1IGMtMTEgMTgzIC0yMjAgMzA0IC00MTIgMjM3eiBtMjMyIC01OCBjNzAKLTM2IDExNSAtOTEgMTI5IC0xNTkgNiAtMjggMyAtMzUgLTI1IC01NSAtMTI1IC04OSAtMzIxIC05MyAtNDM3IC05IC00OCAzNAotNTEgNTMgLTIzIDExNiAyMiA0OCA3OSA5OCAxMzYgMTE5IDU2IDIwIDE2OCAxNCAyMjAgLTEyeiIvPgo8L2c+Cjwvc3ZnPgo="
@@ -48,10 +50,19 @@ const base64string = "PD94bWwgdmVyc2lvbj0iMS4wIiBzdGFuZGFsb25lPSJubyI/Pgo8IURPQ1
     theme: "dark",
   };
 
+  const adult_or_child = JSON.parse(
+    localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)
+  ).parentLink;
+  //console.log(parent_or_child)
+
+  if (adult_or_child !== undefined) {
+    navigate("/chat");
+    }
+
   const parent_id = JSON.parse(
     localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)
   )._id;
-  //console.log(parent_id)
+  console.log(parent_id)
   const parent_username = JSON.parse(
     localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)
   ).username;
@@ -62,6 +73,7 @@ const base64string = "PD94bWwgdmVyc2lvbj0iMS4wIiBzdGFuZGFsb25lPSJubyI/Pgo8IURPQ1
     if (user) {
       const friends_list = await axios.get(`${getAllFriends}/${user._id}`);
       setFriendslist(friends_list);
+
       //for (let i = 0; i < friends_list.data.length; i++) {
       //  console.log(friends_list.data[i].username);
       //}
@@ -69,6 +81,7 @@ const base64string = "PD94bWwgdmVyc2lvbj0iMS4wIiBzdGFuZGFsb25lPSJubyI/Pgo8IURPQ1
        
     setChildAvatar(user.avatarImage);
     setChildId(user.username);
+    setTotalSession(user.totalSession);
     const response = await fetch(`${getChildMessages.replace(':username', user.username)}`);
     const messages = await response.json();
     if (Array.isArray(messages) && messages.length === 0) {
@@ -107,6 +120,8 @@ const base64string = "PD94bWwgdmVyc2lvbj0iMS4wIiBzdGFuZGFsb25lPSJubyI/Pgo8IURPQ1
     fetchData();
   }, []);
 
+  console.log(childId)
+
   const theme = useTheme();
   return (
     <>
@@ -114,14 +129,11 @@ const base64string = "PD94bWwgdmVyc2lvbj0iMS4wIiBzdGFuZGFsb25lPSJubyI/Pgo8IURPQ1
         <title> Dashboard | KidzSnap.com </title>
       </Helmet>
       <Container maxWidth="xl">
-        <Typography variant="h4" sx={{ mb: 5 }}>
-          Hi {parent_username.toUpperCase()}, Welcome back<br />
-        </Typography>
-
+        
         <Grid container spacing={3}>
           {children.map((child, index) => (
             <React.Fragment key={index}>
-              <Grid item xs='auto' sm={2} md={1.5} lg={1.5} xl={1.5}>
+              <Grid item  xs='auto' sm={2} md={1.2} lg={1.1} xl={1} style = {{ paddingTop : '10px', paddingLeft : '10px'}}>
               <AppWidgetSummary username={child.username} avatarimage={`data:image/svg+xml;base64,${child.avatarImage ? child.avatarImage : base64string}`} onClick={() => handleClick(child)} />
               </Grid>
               {index !== children.length - 1 && <br />}
@@ -129,19 +141,14 @@ const base64string = "PD94bWwgdmVyc2lvbj0iMS4wIiBzdGFuZGFsb25lPSJubyI/Pgo8IURPQ1
             
           ))}
           </Grid>
-          
-          <Grid container spacing={3} style = {{ paddingTop : 25 }}>
-          <Grid item xs={12} md={6} lg={6}>
-            <h1>{childName.toUpperCase()} Total Time Logged In: {sessionTime}</h1>
+
+          <Grid container spacing={3} style = {{ paddingTop : '10px'}}>
+            <GetPieChart childNameID={childId} childs={children} />
+            <GetSession childNameID={childId} totalSession={totalSession} />
+            <GetRecentMessages childNameID={childId} childAvatarId={childAvatar} childs={children} />
+            <GetFriends childNameID={childId} friends={friendsList} />
           </Grid>
-          <GetPieChart childNameID={childId} childs={children} />
-          <GetRecentMessages childNameID={childId} childAvatarId={childAvatar} childs={children} />
-          <GetFriends childNameID={childId} friends={friendsList} />
-          
-        </Grid>
-        <div>
-          <MessageForm />
-        </div>
+        
       </Container>
     </>
   );

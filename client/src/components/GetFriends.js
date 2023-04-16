@@ -10,6 +10,8 @@ import {
 } from '../sections/@dashboard/app';
 
 function GetFriends(props) {
+  console.log(props.friends)
+  console.log(props.friends.data)
   
   if (!props.friends || !props.friends.data) {
     return null; // or return some default value or error message
@@ -32,7 +34,7 @@ const base64string = "PD94bWwgdmVyc2lvbj0iMS4wIiBzdGFuZGFsb25lPSJubyI/Pgo8IURPQ1
 
   return (
 
-    <Grid item xs={12} md={6} lg={6}>
+    <Grid item xs={12} md={6} lg={6} style = {{ paddingTop : '10px', paddingLeft : '10px'}}>
       <AppNewsUpdate
         title="Friends List"
         list={[...Array(friendsList.length)].map((_, index) => ({

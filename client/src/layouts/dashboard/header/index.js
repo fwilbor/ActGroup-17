@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 // @mui
 import { styled } from '@mui/material/styles';
-import { Box, Stack, AppBar, Toolbar, IconButton } from '@mui/material';
+import { Box, Typography, Stack, AppBar, Toolbar, IconButton } from '@mui/material';
 // utils
 import { bgBlur } from '../../../utils/cssStyles';
 // components
@@ -17,7 +17,7 @@ const NAV_WIDTH = 280;
 
 const HEADER_MOBILE = 64;
 
-const HEADER_DESKTOP = 92;
+const HEADER_DESKTOP = 52;
 
 const StyledRoot = styled(AppBar)(({ theme }) => ({
   ...bgBlur({ color: theme.palette.background.default }),
@@ -31,7 +31,7 @@ const StyledToolbar = styled(Toolbar)(({ theme }) => ({
   minHeight: HEADER_MOBILE,
   [theme.breakpoints.up('lg')]: {
     minHeight: HEADER_DESKTOP,
-    padding: theme.spacing(0, 5),
+    padding: theme.spacing(0, 2),
   },
 }));
 
@@ -42,6 +42,11 @@ Header.propTypes = {
 };
 
 export default function Header({ onOpenNav }) {
+  
+  const parent_username = JSON.parse(
+    localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)
+  ).username;
+
   return (
     <StyledRoot>
       <StyledToolbar>
@@ -56,7 +61,13 @@ export default function Header({ onOpenNav }) {
           <Iconify icon="eva:menu-2-fill" />
         </IconButton>
 
-        <Searchbar />
+        <Typography variant="h4" style={{ color: '#000', marginBottom: '5px', paddingTop: '5px'  }} sx={{ mb: 5 }}>
+          Hi {parent_username.toUpperCase()}, Welcome back
+        </Typography>
+
+        {/* <Searchbar /> */}
+
+
         <Box sx={{ flexGrow: 1 }} />
 
         <Stack

@@ -4,7 +4,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { io } from "socket.io-client";
 import styled from "styled-components";
-import { getAllFriends, host } from "../utils/APIRoutes";
+import { getAllFriends, host, logoutRoute } from "../utils/APIRoutes";
 import ChatContainer from "../components/ChatContainer";
 import Contacts from "../components/Contacts";
 import Welcome from "../components/Welcome";
@@ -18,7 +18,8 @@ export default function Chat() {
   const [contacts, setContacts] = useState([]);
   const [currentChat, setCurrentChat] = useState(undefined);
   const [currentUser, setCurrentUser] = useState(undefined);
-  useEffect(() => {
+
+   useEffect(() => {
     const fetchData = async () => {
       if (!localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)) {
         navigate("/login");
@@ -56,6 +57,45 @@ export default function Chat() {
     setCurrentChat(chat);
     navigate("/chat");
   };
+
+  const handleBeforeUnload = async (event) => {
+    const logout_user = await JSON.parse(
+      localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)
+    );
+
+    if (!logout_user._id) {
+      return;
+    }
+
+    console.log(event.currentTarget.performance.navigation.type)
+
+    if (event.currentTarget.performance.navigation.type !== 1) {
+      event.preventDefault();
+      event.returnValue = "";
+      if (socket.current) {
+        socket.current.disconnect();
+      }
+      try {
+        console.log(logout_user._id)
+        if (!logout_user._id) return;
+        console.log('if statement in handle read')
+        axios.get(`${logoutRoute}/${logout_user._id}`);
+      } catch (ex) {
+        console.log(ex);
+      }
+    }
+  };
+  
+  useEffect(() => {
+    console.log("Adding event listener for beforeunload");
+    window.addEventListener("beforeunload", handleBeforeUnload);
+  
+    return () => {
+      console.log("Removing event listener for beforeunload");
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+    };
+  }, []);
+
   return (
     <>
       <Helmet>

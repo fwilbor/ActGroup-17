@@ -9,13 +9,13 @@ const Splash = () => {
       display: 'flex', 
       flexDirection: 'column',
       alignItems: 'center', 
-      padding: '50px 0',
-      maxWidth: '1600px',
+      padding: '10px 0',
+      maxWidth: '1920px',
       margin: '0 auto',
     }}>
       
       <div style={{ 
-        maxWidth: '800px', 
+        maxWidth: '1000px', 
         textAlign: 'center',
       }}>
         <Navbar/>

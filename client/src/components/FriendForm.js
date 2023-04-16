@@ -1,20 +1,18 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-// import { useMessagesContext } from "../hooks/useMessagesContext"
-// import { useAuthContext } from '../hooks/useAuthContext'
-//import { useNavigate } from "react-router-dom";
 import { addFriend } from "../utils/APIRoutes";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
-const toastOptions = {
-  position: "bottom-right",
-  autoClose: 8000,
-  pauseOnHover: true,
-  draggable: true,
-  theme: "dark",
-};
+function FriendForm() {
 
-const FriendForm = () => {
+  const toastOptions = {
+    position: "bottom-right",
+    autoClose: 8000,
+    pauseOnHover: true,
+    draggable: true,
+    theme: "dark",
+  };
+
   const [username, setUsername] = useState("");
 
   const handleSubmit = async (e) => {
@@ -53,21 +51,21 @@ const FriendForm = () => {
   return (
     <FormContainer>
       <ToastContainer />
-    <form className="brand" onSubmit={handleSubmit}> 
-      <h3>Add Friend</h3>
+      <form className="brand" onSubmit={handleSubmit}>
+        <h3>Add Friend</h3>
 
-      <input
-            type="text"
-            value={username}
-            placeholder="Username"
-            name="username"
-            onChange={(e) => handleChange(e)}
-            min="3"
-          />
+        <input
+          type="text"
+          value={username}
+          placeholder="Username"
+          name="username"
+          onChange={(e) => handleChange(e)}
+          min="3"
+        />
 
-      <button>Add Friend</button>
-      
-    </form>
+        <button>Add Friend</button>
+
+      </form>
     </FormContainer>
 
   )
@@ -75,14 +73,13 @@ const FriendForm = () => {
 }
 
 const FormContainer = styled.div`
-  height: 100vh;
-  width: 100vw;
+  
   display: flex;
   flex-direction: column;
   justify-content: center;
   gap: 1rem;
   align-items: center;
-  background-color: #131324;
+  background-color: #FFF;
   .brand {
     display: flex;
     align-items: center;
@@ -101,14 +98,14 @@ const FormContainer = styled.div`
     display: flex;
     flex-direction: column;
     gap: 2rem;
-    background-color: #00000076;
+    background-color: #FFDB58;
     border-radius: 2rem;
     padding: 5rem;
   }
   input {
     background-color: transparent;
     padding: 1rem;
-    border: 0.1rem solid #4e0eff;
+    border: 0.1rem solid #080420;
     border-radius: 0.4rem;
     color: white;
     width: 100%;
@@ -119,7 +116,7 @@ const FormContainer = styled.div`
     }
   }
   button {
-    background-color: #4e0eff;
+    background-color: #080420;
     color: white;
     padding: 1rem 2rem;
     border: none;
