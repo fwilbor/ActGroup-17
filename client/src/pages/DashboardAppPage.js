@@ -78,7 +78,7 @@ const base64string = "PD94bWwgdmVyc2lvbj0iMS4wIiBzdGFuZGFsb25lPSJubyI/Pgo8IURPQ1
       //  console.log(friends_list.data[i].username);
       //}
     }
-       
+    console.log(user)   
     setChildAvatar(user.avatarImage);
     setChildId(user.username);
     setTotalSession(user.totalSession);

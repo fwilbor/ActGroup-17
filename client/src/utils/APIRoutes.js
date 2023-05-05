@@ -17,4 +17,8 @@ export const checkIfUsernameExists = `${host}/api/user/checkusername/:username`;
 export const checkIfPasswordMatch = `${host}/api/user/checkpasswordmatch/:username/:password`;
 export const getSessionTime = `${host}/api/user/getsession/:id`;
 export const deleteMessage = `${host}/api/messages/deleteMsg`;
-export const recentMessages = `${host}/api/user/recentmessages/:id`;
+export const childTimeLimit = `${host}/api/user/timelimit/:id`;
+export const checkIfUserLogin = `${host}/api/user/checkuserlogin/:username`;
+export const continueSession = `${host}/api/user/continuesession`;
+export const getUserInfo = `${host}/api/user/userinfo/:id`;
+

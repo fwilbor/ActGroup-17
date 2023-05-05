@@ -32,6 +32,10 @@ header a {
   margin: 0 auto;
 }
 
+.popup {
+  background-color: #f2a1f1;
+}
+
 /* homepage */
 .home {
   display: grid;

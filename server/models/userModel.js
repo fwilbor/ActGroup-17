@@ -55,9 +55,20 @@ const userSchema = mongoose.Schema({
         type: Array,
         default: [],
         },
-      recentMessages: {
+      timeLimit: {
             type: Number,
-            default: 10
+            default: 60000
+            },
+      dailyTimeLimit: {
+            type: Number,
+            },
+      isLogin: {
+            type: Boolean,
+            default: false,
+            },
+      isLock: {
+            type: Boolean,
+            default: false,
             },
 
 })
@@ -133,9 +144,8 @@ userSchema.statics.login = async function (username, password) {
 
     const user = await this.findOne({username})
     
-
     if (!user) {
-        throw Error("Invalid Username")
+        throw Error("Invalid Username9")
     }
 
     const match = await bcrypt.compare(password, user.password)

@@ -74,7 +74,7 @@ export default function DashboardAppPage() {
                     <AppSettingSummary
                       username={child.username}
                       avatarimage={`data:image/svg+xml;base64,${child.avatarImage ? child.avatarImage : base64string}`}
-                      currentnummsg={child.recentMessages}
+                      currentnummsg={child.timeLimit}
                       updatenummsg={(event) => handleChangeRecentMessages(event, child._id)}
                       onClick={(event) => handleClick(child._id, event)}
                       childId={child._id} // pass the childId as a prop

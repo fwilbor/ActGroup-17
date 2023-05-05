@@ -4,35 +4,105 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { io } from "socket.io-client";
 import styled from "styled-components";
-import { getAllFriends, host, logoutRoute } from "../utils/APIRoutes";
+import { getAllFriends, host, logoutRoute, getUserInfo } from "../utils/APIRoutes";
 import ChatContainer from "../components/ChatContainer";
 import Contacts from "../components/Contacts";
 import Welcome from "../components/Welcome";
 import Header from '../layouts/dashboard/header';
 import Logo from '../components/logo';
 import { Box } from '@mui/material';
+import LogoutListener from "../components/LogoutListener"
+import { ToastContainer, toast } from "react-toastify";
 
-export default function Chat() {
+export default function ChatPage() {
+  return <Chat />;
+}
+
+function Chat() {
   const navigate = useNavigate();
   const socket = useRef();
   const [contacts, setContacts] = useState([]);
   const [currentChat, setCurrentChat] = useState(undefined);
   const [currentUser, setCurrentUser] = useState(undefined);
+  const [timeRemaining, setTimeRemaining] = useState(null);
+  //const timeLimitRef = useRef(null);
+  const [showTimeRemainingToast, setShowTimeRemainingToast] = useState(false);
+  const [signInTime, setSignInTime] = useState(null); // new state variable for sign-in time
 
-   useEffect(() => {
+  const toastOptions = {
+    position: "bottom-right",
+    autoClose: 8000,
+    pauseOnHover: true,
+    draggable: true,
+    theme: "dark",
+  };
+
+  useEffect(() => {
     const fetchData = async () => {
       if (!localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)) {
         navigate("/login");
       } else {
-        setCurrentUser(
-          await JSON.parse(
-            localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)
-          )
-        );
+        const user = await JSON.parse(localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY));
+        console.log(`Current user time limit: ${user.timeLimit}`);
+        
+        // Retrieve the updated user object from the server
+        const response = await fetch(`${getUserInfo.replace(':id', user._id)}`);
+        const data = await response.json();
+        const updatedUser = data;
+        console.log(updatedUser.timeLimit);
+    
+        if (updatedUser.timeLimit < user.timeLimit) {
+          console.log('ran update')
+          console.log(updatedUser.timeLimit);
+          const userObj = JSON.parse(localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY));
+          userObj.timeLimit = updatedUser.timeLimit;
+          setCurrentUser(userObj);
+          localStorage.setItem(process.env.REACT_APP_LOCALHOST_KEY, JSON.stringify(userObj));
+          setTimeRemaining(updatedUser.timeLimit);
+          console.log(timeRemaining)
+        } else {
+          console.log('no update')
+          setCurrentUser(user);
+          setTimeRemaining(prevTimeRemaining => prevTimeRemaining === null ? user.timeLimit : prevTimeRemaining);
+        }
       }
-    }
+    };
     fetchData();
   }, [navigate]);
+
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     const user = await JSON.parse(localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY));
+  // // Retrieve the updated user object from the server
+  // const response = await fetch(`${getUserInfo.replace(':id', user._id)}`);
+  // const data = await response.json();
+  // console.log(data);
+  // const updatedUser = data;
+  // console.log(updatedUser.timeLimit); // Log the updated timeLimit value
+  //   };
+  //   fetchData();
+  // }, [navigate]);
+ 
+  // useEffect(() => {
+  //   // listen for changes to localStorage
+  //   const handleStorageChange = (event) => {
+  //     console.log('localStorage changed!');
+  //     if (event.key === process.env.REACT_APP_LOCALHOST_KEY) {
+  //       const user = JSON.parse(event.newValue);
+  //       console.log(`Current user time limit: ${user.timeLimit}`);
+  //       setCurrentUser(user);
+  //       timeLimitRef.current = user.timeLimit;
+  //       setTimeRemaining(user.timeLimit);
+  //     }
+  //   };
+
+  //   window.addEventListener('storage', handleStorageChange);
+
+  //   return () => {
+  //     window.removeEventListener('storage', handleStorageChange);
+  //   };
+  // }, []);
+
   useEffect(() => {
     if (currentUser) {
       socket.current = io(host);
@@ -50,9 +120,10 @@ export default function Chat() {
           navigate("/setAvatar");
         }
       }
-    }
+    };
     fetchData();
   }, [currentUser, navigate]);
+
   const handleChatChange = (chat) => {
     setCurrentChat(chat);
     navigate("/chat");
@@ -67,37 +138,86 @@ export default function Chat() {
       return;
     }
 
-    console.log(event.currentTarget.performance.navigation.type)
+    if (socket.current) {
+      socket.current.disconnect();
+    }
 
-    if (event.currentTarget.performance.navigation.type !== 1) {
-      event.preventDefault();
-      event.returnValue = "";
-      if (socket.current) {
-        socket.current.disconnect();
+    try {
+      if (typeof timeRemaining === 'number') { // check if timeRemaining is a number
+        console.log(timeRemaining)
+        await axios.get(`${logoutRoute}/${logout_user._id}?timeLimit=${timeRemaining}`);
+        sessionStorage.setItem("logout", "true");
+      } else {
+        console.error('timeRemaining is not a number'); // log an error message to the console
       }
-      try {
-        console.log(logout_user._id)
-        if (!logout_user._id) return;
-        console.log('if statement in handle read')
-        axios.get(`${logoutRoute}/${logout_user._id}`);
-      } catch (ex) {
-        console.log(ex);
-      }
+    } catch (ex) {
+      console.error(ex);
     }
   };
-  
+
+  // useEffect(() => {
+  //   console.log("Adding event listener for beforeunload");
+  //   window.addEventListener("beforeunload", handleBeforeUnload);
+
+  //   return () => {
+  //     console.log("Removing event listener for beforeunload");
+  //     window.removeEventListener("beforeunload", handleBeforeUnload);
+  //   };
+  // }, []);
+
   useEffect(() => {
-    console.log("Adding event listener for beforeunload");
-    window.addEventListener("beforeunload", handleBeforeUnload);
-  
-    return () => {
-      console.log("Removing event listener for beforeunload");
-      window.removeEventListener("beforeunload", handleBeforeUnload);
-    };
-  }, []);
+    if (timeRemaining !== null) {
+      const timer = setInterval(() => {
+        setTimeRemaining((time) => time - 1000);
+        setSignInTime((time) => time + 1000); // update sign-in time
+      }, 1000);
+      return () => clearInterval(timer);
+    }
+  }, [timeRemaining]);
+
+  useEffect(() => {
+    if (currentUser) {
+      if (timeRemaining === 0) {
+        toast.info(`Your time limit has expired. Please logout.`);
+        handleBeforeUnload();
+      } else if (timeRemaining === Math.floor(currentUser.timeLimit / 2)) {
+        toast.info(`You have used half of your time. (${Math.floor(timeRemaining / 60000)} minutes ${Math.floor((timeRemaining % 60000) / 1000)} seconds left)`);
+      } else if (timeRemaining === 120000) {
+        toast.info(`You have 2 minutes left.`);
+      } else if (timeRemaining > 0 && !showTimeRemainingToast) {
+        setShowTimeRemainingToast(true);
+        console.log(Math.floor(currentUser.timeLimit / 2))
+        const minutes = Math.floor(currentUser.timeLimit / 60000);
+        const seconds = Math.floor((currentUser.timeLimit % 60000) / 1000);
+        toast.info(`You have (${minutes} minutes ${seconds} seconds left)`);
+      }
+    }
+  }, [timeRemaining, currentUser, showTimeRemainingToast]);
+
+  // useEffect(() => {
+  //   // listen for changes to localStorage
+  //   const handleStorageChange = (event) => {
+  //     console.log('localStorage changed!');
+  //     if (event.key === process.env.REACT_APP_LOCALHOST_KEY) {
+  //       const user = JSON.parse(event.newValue);
+  //       console.log(`Current user time limit: ${user.timeLimit}`);
+  //       setCurrentUser(user);
+  //       timeLimitRef.current = user.timeLimit;
+  //       setTimeRemaining(user.timeLimit);
+  //     }
+  //   };
+
+  //   window.addEventListener('storage', handleStorageChange);
+
+  //   return () => {
+  //     window.removeEventListener('storage', handleStorageChange);
+  //   };
+  // }, []);
 
   return (
     <>
+      <LogoutListener timeoutInMinutes={1} />
+      <ToastContainer />
       <Helmet>
         <title> Chat Room | KidzSnap.com </title>
       </Helmet>

@@ -36,7 +36,7 @@ function GetSession(props) {
 
   return (
     <Grid item xs={12} md={6} lg={6} style = {{ paddingTop : '24px', paddingLeft : '10px'}}>
-      <AppWebsiteVisits title="Child Session Data" chartData={sessionData} chartLabels={sessionData.map((value) => value.login)} />
+      <AppWebsiteVisits title="Child Session Data (Last 7 days)" chartData={sessionData} chartLabels={sessionData.map((value) => value.login)} />
     </Grid>
   );
 }
