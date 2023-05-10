@@ -24,6 +24,7 @@ import Settings from "./pages/Settings"
 import AddFriend from "./pages/AddFriend"
 import SetAvatar from "./pages/SetAvatarPage";
 import WebcamCapture from './components/WebcamCapture';
+import MessageForm from './components/MessageForm';
 import Splash from './components/Splash';
 //
 
@@ -83,6 +84,10 @@ export default function Router() {
     {
       path: "/addImage",
       element: <WebcamCapture />,
+    },
+    {
+      path: "/addChild",
+      element: <MessageForm />,
     },
     {
       path: "/settings",

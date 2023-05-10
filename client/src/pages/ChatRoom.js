@@ -180,7 +180,7 @@ function Chat() {
       if (timeRemaining === 0) {
         toast.info(`Your time limit has expired. Please logout.`);
         handleBeforeUnload();
-      } else if (timeRemaining === Math.floor(currentUser.timeLimit / 2)) {
+      } else if (timeRemaining === Math.floor(currentUser.timeLimit / 2) + 500) {
         toast.info(`You have used half of your time. (${Math.floor(timeRemaining / 60000)} minutes ${Math.floor((timeRemaining % 60000) / 1000)} seconds left)`);
       } else if (timeRemaining === 120000) {
         toast.info(`You have 2 minutes left.`);

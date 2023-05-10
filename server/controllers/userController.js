@@ -18,6 +18,7 @@ const loginUser = async (req, res) => {
 
     try {
       const user = await userModel.login(username, password)
+      console.log(user)
       
       // if (user.isLogin === true) {
       //   // User is already logged in
@@ -26,7 +27,7 @@ const loginUser = async (req, res) => {
       
       // Check if it's a new day
       const today = new Date().toDateString();
-      const lastLoginDate = user.totalSession[user.totalSession.length - 1].login;
+      const lastLoginDate = user.totalSession.length > 0 ? user.totalSession[user.totalSession.length - 1].login : null;
       if (!lastLoginDate || new Date(lastLoginDate).toDateString() !== today) {
        // Reset timeLimit to original value
       user.timeLimit = user.dailyTimeLimit;
@@ -45,9 +46,11 @@ const loginUser = async (req, res) => {
         //console.log(login_date)
         start_time = new Date(login_date)
         sessionTimes.push({login: start_time, logout: null, duration: null, lastSessionDuration: null}) // add new login/logout event to array
+        console.log('array', sessionTimes)
 
   } catch (error) {
-      res.status(400).json({error: error.message})
+    console.error(error);
+      res.status(403).json({error: error.message})
   }
 
 }
@@ -61,10 +64,19 @@ const signupUser = async (req, res) => {
         const user = await userModel.signup(username, email, password)
         //console.log(user)
 
+        // set user as logged in
+        user.isLogin = true;
+        await user.save();
+
         // create a token
         const token = createToken(user._id)
         // passing back token and not _id here
         res.status(200).json({ status: true, user, token})
+        let currentTimestamp = Date.now()
+        console.log(currentTimestamp); // get current timestamp
+        let login_date = new Intl.DateTimeFormat('en-US', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit' }).format(currentTimestamp)
+        start_time = new Date(login_date)
+        sessionTimes.push({login: start_time, logout: null, duration: null, lastSessionDuration: null}) // add new login/logout event to array
     } catch (error) {
         res.status(401).json({error: error.message})
     }
@@ -73,15 +85,21 @@ const signupUser = async (req, res) => {
 
 // signup user
 const childsignup = async (req, res) => {
-  const {username, password, parentLink} = req.body
+  const {username, password, parentLink, timeLimit, dailyTimeLimit} = req.body
+  console.log(typeof req.body.dailyTimeLimit, req.body.dailyTimeLimit);
 
   try {
-    const user = await userModel.childsignup(username, password, parentLink);
+    const user = await userModel.childsignup(username, password, parentLink, timeLimit, dailyTimeLimit);
 
     // create a token
     //const token = createToken(user._id)
     // passing back token and not _id here
     res.status(200).json({ status: true, user });
+    let currentTimestamp = Date.now()
+        console.log(currentTimestamp); // get current timestamp
+        let login_date = new Intl.DateTimeFormat('en-US', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit' }).format(currentTimestamp)
+        start_time = new Date(login_date)
+        sessionTimes.push({login: start_time, logout: null, duration: null, lastSessionDuration: null}) // add new login/logout event to array
   } catch (error) {
     if (error.message === "Username already exists Signup") {
       // Display toast message for invalid username
@@ -162,8 +180,10 @@ const getAllFriends = async (req, res, next) => {
     const { timeLimit } = req.query; // get timeLimit query parameter
 
     const user = await userModel.findById(id)
+    console.log('confirm dashboard logout route')
     
     if (!user.isLogin) {
+      console.log('this is running')
       return res.json({ msg: "User is already logged out" });
     }
 
@@ -175,8 +195,8 @@ const getAllFriends = async (req, res, next) => {
       const logout_date = new Intl.DateTimeFormat('en-US', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit' }).format(currentTimestamp)
       const end_time = new Date(logout_date)
   
-      const lastSession = sessionTimes[sessionTimes.length-1]; // get the last login/logout event from array
-      //console.log(lastSession.login)
+      const lastSession = sessionTimes.length > 0 ? sessionTimes[sessionTimes.length - 1] : { login: start_time }; // get the last login/logout event from array, or use start_time if there are no events
+      console.log('start time', lastSession.login)
       lastSession.logout = end_time; // update the logout time
       lastSession.duration = (lastSession.logout - lastSession.login) / 1000; // calculate session duration
 
@@ -198,7 +218,7 @@ const getAllFriends = async (req, res, next) => {
 if (sessionTimes.length > 0) {
   if (user.totalSession && user.totalSession.length > 0) {
     const lastLogin = new Date(user.totalSession[user.totalSession.length - 1].login);
-    //console.log(lastLogin);
+    console.log('last login', lastLogin);
     if (lastLogin && lastLogin.getMinutes() === lastSession.logout.getMinutes() && lastLogin.getHours() === lastSession.logout.getHours() && lastLogin.getDate() === lastSession.logout.getDate() && lastLogin.getMonth() === lastSession.logout.getMonth()) {
       //console.log(lastSession.login);
       lastSession.login.setMinutes(lastSession.login.getMinutes() + 1); // add a minute to login time
@@ -206,9 +226,30 @@ if (sessionTimes.length > 0) {
       //console.log(lastSession.loginStr);
     } else {
       lastSession.loginStr = new Intl.DateTimeFormat('en-US', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true }).format(lastSession.login); // create readable login date string
+      console.log('lastSession.loginStr', lastSession.loginStr);
     }
   }
-  
+    
+}
+console.log('what is it', lastSession.loginStr)
+if (lastSession.loginStr === undefined) {
+  console.log('confirm this run once')
+  const loginTime = new Date(lastSession.login);
+  const loginStr = new Intl.DateTimeFormat('en-US', {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit',
+    hour12: true
+  }).format(loginTime);
+
+  newSession.push({
+    login: loginStr,
+    duration: lastSession.duration
+  });
+} else {
   newSession.push({
     login: lastSession.loginStr,
     duration: lastSession.duration

@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom'
 // @mui
 import { useTheme } from '@mui/material/styles';
 import { Grid, Container, Typography } from '@mui/material';
-import { getAllChildren, getChildMessages, getSessionTime, getAllFriends } from 'src/utils/APIRoutes';
+import { getAllChildren, getChildMessages, getSessionTime, getAllFriends, logoutRoute } from 'src/utils/APIRoutes';
 import MessageForm from '../components/MessageForm';
 import GetPieChart from "../components/GetPieChart.js"
 import GetRecentMessages from "../components/GetRecentMessages.js"
@@ -48,6 +48,30 @@ const base64string = "PD94bWwgdmVyc2lvbj0iMS4wIiBzdGFuZGFsb25lPSJubyI/Pgo8IURPQ1
     pauseOnHover: true,
     draggable: true,
     theme: "dark",
+  };
+
+  useEffect(() => {
+    window.addEventListener("beforeunload", handleBeforeUnload);
+
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+    };
+  }, []);
+
+  const handleBeforeUnload = async () => {
+    const logout_user = await JSON.parse(
+      localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)
+    );
+
+    // Might need a if statement to check user.isLogin
+    try {
+      await axios.get(`${logoutRoute}/${logout_user._id}`);
+      localStorage.removeItem(process.env.REACT_APP_LOCALHOST_KEY);
+      navigate("/login");
+      window.location.reload();
+    } catch (ex) {
+      console.log(ex);
+    }
   };
 
   const adult_or_child = JSON.parse(

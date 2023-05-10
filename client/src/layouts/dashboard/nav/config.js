@@ -34,7 +34,9 @@ const LogoutButton = () => {
       const id = JSON.parse(
         localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)
       )._id;
-      const response = await axios.get(`${logoutRoute}/${id}`);
+      console.log('ID:', id);
+    const response = await axios.get(`${logoutRoute}/${id}`);
+    console.log('Response:', response);
       if (response.status === 200) {
         localStorage.clear();
         navigate("/login");
@@ -76,6 +78,11 @@ const navConfig = [
     title: "add friend",
     path: "/addfriend",
     icon: icon("ic_blog"),
+  },
+  {
+    title: "create child account",
+    path: "/addChild",
+    icon: icon("ic_user"),
   },
   // {
   //   title: 'add Image',

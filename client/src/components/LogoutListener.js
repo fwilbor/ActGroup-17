@@ -140,11 +140,13 @@ const LogoutTimer = ({ timeoutInMinutes }) => {
   };
 
   const startTimer = () => {
-    const user = JSON.parse(localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY));
-    //console.log(user.timeLimit)
-    if (!user.isLogin) {
-      return
-    }
+    
+  //   const currentLocation = window.location.pathname;
+
+  // if (!user.isLogin || currentLocation !== "/chat") {
+  //   return;
+  // }
+
     if (startInactiveTimer) {
       setStartTime(Date.now());
       let timerId = null;
@@ -165,9 +167,14 @@ const LogoutTimer = ({ timeoutInMinutes }) => {
   };
 
   const handleSessionExpiration = () => {
+    const user = JSON.parse(localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY));
+    if (user && user.isLogin) {
     console.log('Confirm handleSessionExpiration')
     root.render(<SessionExpirationHandler onContinue={handleContinueSession} onLogout={handleLogout} isLogoutCalled={isLogoutCalled} startTime={startTime}/>);
     startLogoutTimer()
+  } else {
+    console.log('User is not logged in');
+  }
   };
 
   

@@ -57,7 +57,6 @@ const userSchema = mongoose.Schema({
         },
       timeLimit: {
             type: Number,
-            default: 60000
             },
       dailyTimeLimit: {
             type: Number,
@@ -102,7 +101,7 @@ userSchema.statics.signup = async function (username, email, password) {
 
 
 // child signup method
-userSchema.statics.childsignup = async function (username, password, parentLink) {
+userSchema.statics.childsignup = async function (username, password, parentLink, timeLimit, dailyTimeLimit) {
 
     let error = null;
 
@@ -130,7 +129,7 @@ userSchema.statics.childsignup = async function (username, password, parentLink)
     const hash = await bcrypt.hash(password, salt)
 
     // creates new user with hashed password
-    const user = await this.create({ username, parentLink, password: hash })
+    const user = await this.create({ username, parentLink, password: hash, timeLimit, dailyTimeLimit })
 
     return user
 }

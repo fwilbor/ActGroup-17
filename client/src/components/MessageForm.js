@@ -38,8 +38,11 @@ const MessageForm = () => {
 
   // useEffect and navigate are routing and re-rendering page (likely needs to be changed)
   useEffect(() => {
-    if (localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)) {
-      navigate("/dashboard/app");
+    let parent_or_child = JSON.parse(
+      localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)
+    ).parentLink;
+    if (parent_or_child !== undefined) {
+      navigate("/chat");
     }
   }, [navigate]);
 
@@ -105,12 +108,16 @@ const MessageForm = () => {
           localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)
         );
         const parentLink = parent_data._id;
+        const timeLimit = 150000
+        const dailyTimeLimit = 150000
         const { username, password } = values;
         
         const { data } = await axios.post(registerChild, {
           username,
           password,
           parentLink,
+          timeLimit,
+          dailyTimeLimit: Number(dailyTimeLimit),
         });
         console.log(data.status)
         if (data.status === false) {
