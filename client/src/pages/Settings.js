@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom'
 // @mui
 import { useTheme } from '@mui/material/styles';
 import { Box, Grid, Container } from '@mui/material';
-import { getAllChildren } from 'src/utils/APIRoutes';
+import { getAllChildren, logoutRoute } from 'src/utils/APIRoutes';
 import axios from 'axios';
 import React from 'react';
 import AppSettingSummary from 'src/sections/@dashboard/app/AppSettingSummary';
@@ -24,6 +24,30 @@ export default function DashboardAppPage() {
   const parent_username = JSON.parse(
     localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)
   ).username;
+
+  useEffect(() => {
+    window.addEventListener("beforeunload", handleBeforeUnload);
+
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+    };
+  }, []);
+
+  const handleBeforeUnload = async () => {
+    const logout_user = await JSON.parse(
+      localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)
+    );
+
+    // Might need a if statement to check user.isLogin
+    try {
+      await axios.get(`${logoutRoute}/${logout_user._id}`);
+      localStorage.removeItem(process.env.REACT_APP_LOCALHOST_KEY);
+      navigate("/login");
+      window.location.reload();
+    } catch (ex) {
+      console.log(ex);
+    }
+  };
 
   
   const handleChangeRecentMessages = (event) => {

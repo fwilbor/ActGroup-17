@@ -101,8 +101,8 @@ const navConfig = [
     icon: icon("ic_gear"),
   },*/
   {
-    title: "Logout",
-    path: "/logout",
+    // title: "Logout",
+    // path: "/login",
     icon: <LogoutButton />,
   },
 ];

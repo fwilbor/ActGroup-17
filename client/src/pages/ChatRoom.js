@@ -28,6 +28,7 @@ function Chat() {
   //const timeLimitRef = useRef(null);
   const [showTimeRemainingToast, setShowTimeRemainingToast] = useState(false);
   const [signInTime, setSignInTime] = useState(null); // new state variable for sign-in time
+  const timerIdRef = useRef(null);
 
   const toastOptions = {
     position: "bottom-right",
@@ -129,7 +130,7 @@ function Chat() {
     navigate("/chat");
   };
 
-  const handleBeforeUnload = async (event) => {
+  const handleBeforeUnload = async (event, timerId) => {
     const logout_user = await JSON.parse(
       localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)
     );
@@ -147,6 +148,12 @@ function Chat() {
         console.log(timeRemaining)
         await axios.get(`${logoutRoute}/${logout_user._id}?timeLimit=${timeRemaining}`);
         sessionStorage.setItem("logout", "true");
+        window.location.reload();
+        return (
+          <>
+            <LogoutListener timerIdRef={timerIdRef} />
+          </>
+        );
       } else {
         console.error('timeRemaining is not a number'); // log an error message to the console
       }
