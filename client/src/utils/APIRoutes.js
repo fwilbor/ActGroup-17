@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-export const host ="http://kidzsnap-heroku.herokuapp.com";
-=======
 export const host ="http://localhost:4000";
->>>>>>> main
 export const loginRoute = `${host}/api/user/login`;
 export const registerRoute = `${host}/api/user/signup`;
 export const getAllChildren = `${host}/api/user/children`;

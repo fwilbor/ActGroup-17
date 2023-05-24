@@ -1,9 +1,5 @@
 {
-<<<<<<< HEAD
-  "proxy": "http://kidzsnap-heroku.herokuapp.com",
-=======
   "proxy": "http://localhost:4000",
->>>>>>> main
   "name": "client",
   "version": "0.1.0",
   "private": true,

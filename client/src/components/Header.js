@@ -19,11 +19,7 @@ export default function Header({ socket, userId, setUserId }) {
 
   useEffect(() => {
     async function fetchRooms() {
-<<<<<<< HEAD
-      const res = await fetch("http://kidzsnap-heroku.herokuapp.com/rooms");
-=======
       const res = await fetch("http://localhost:4000/rooms");
->>>>>>> main
       const { rooms } = await res.json();
       setRooms(rooms);
     }

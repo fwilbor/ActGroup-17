@@ -29,11 +29,7 @@ function GetPieChart(props) {
                     }
                 }
 
-<<<<<<< HEAD
-                const response = await fetch('http://kidzsnap-heroku.herokuapp.com/api/messages/getmsg?parentLink=${props.p_id}');
-=======
                 const response = await fetch('http://localhost:4000/api/messages/getmsg?parentLink=${props.p_id}');
->>>>>>> main
                 const data = await response.json();
                 data.forEach(message => {
                     let messageText = message.message.text.toString();
