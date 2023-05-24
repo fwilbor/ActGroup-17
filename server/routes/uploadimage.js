@@ -1,6 +1,6 @@
 import express from "express";
 // Controller functions
-import { getImage, createImage} from "../controllers/imageController.js";
+import { getImage, createImage } from "../controllers/imageController.js";
 
 const userRouter = express.Router()
 
@@ -8,7 +8,7 @@ const userRouter = express.Router()
 userRouter.get("/", getImage)
 
 // Post image route
-userRouter.post("/uploads", createImage)
+userRouter.post("/addimage", createImage)
 
 
 

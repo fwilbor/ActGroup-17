@@ -3,6 +3,27 @@ import styled from "styled-components";
 import { addFriend } from "../utils/APIRoutes";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
+
+const ButtonContainer = styled.div`
+display: flex;
+gap: 1rem;
+
+  button {
+    background-color: #080420;
+    color: red;
+    padding: 1rem 2rem;
+    border: none;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 0.4rem;
+    font-size: 1rem;
+    text-transform: uppercase;
+    &:hover {
+      background-color: #4e0eff;
+    }
+  }
+`;
+
 function FriendForm() {
 
   const toastOptions = {
@@ -48,6 +69,10 @@ function FriendForm() {
     setUsername(event.target.value);
   };
 
+  const handleRefreshPage = () => {
+    window.location.reload();
+  }
+
   return (
     <FormContainer>
       <ToastContainer />
@@ -62,8 +87,10 @@ function FriendForm() {
           onChange={(e) => handleChange(e)}
           min="3"
         />
-
+        <ButtonContainer>
         <button>Add Friend</button>
+        <button onClick={handleRefreshPage}>Return to Main Page</button>
+        </ButtonContainer>
 
       </form>
     </FormContainer>
@@ -79,7 +106,7 @@ const FormContainer = styled.div`
   justify-content: center;
   gap: 1rem;
   align-items: center;
-  background-color: #FFF;
+  background-color: #000;
   .brand {
     display: flex;
     align-items: center;
@@ -114,20 +141,6 @@ const FormContainer = styled.div`
     &:focus {
       border: 0.1rem solid #997af0;
       outline: none;
-    }
-  }
-  button {
-    background-color: #080420;
-    color: white;
-    padding: 1rem 2rem;
-    border: none;
-    font-weight: bold;
-    cursor: pointer;
-    border-radius: 0.4rem;
-    font-size: 1rem;
-    text-transform: uppercase;
-    &:hover {
-      background-color: #4e0eff;
     }
   }
   span {

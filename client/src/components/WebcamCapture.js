@@ -49,7 +49,7 @@ import { addImage } from 'src/utils/APIRoutes';
 import axios from "axios";
 import { Buffer } from "buffer";
 
-function WebcamCapture() {
+function WebcamCapture({ onCapture }) {
     
     const videoRef = useRef(null);
     const photoRef = useRef(null);
@@ -58,7 +58,7 @@ function WebcamCapture() {
     var [image, setImage] = useState([]);
  
     const getVideo = () => {
-        navigator.mediaDevices.getUserMedia({video: {width: 1920, height: 1080}})
+        navigator.mediaDevices.getUserMedia({video: {width: 640, height: 480}})
         .then(stream => {
             let video = videoRef.current;
             video.srcObject = stream;
@@ -82,7 +82,7 @@ function WebcamCapture() {
 
         let video = videoRef.current;
         let photo = photoRef.current;
-        var canvas = document.getElementById('canvas');
+        var canvas = document.createElement('canvas');
 
         canvas.width = 250;
         canvas.height = canvas.width / (16/9)
@@ -91,7 +91,7 @@ function WebcamCapture() {
         photo.height = height;
 
         canvas.getContext('2d').drawImage(video, 0, 0, width, height);
-        document.getElementById("printresult").innerHTML = canvas.toDataURL().split(';base64,')[1];
+        photo.innerHTML = canvas.toDataURL().split(';base64,')[1];
 
         let ctx = photo.getContext("2d");
         ctx.drawImage(video, 0, 0, width, height);
@@ -101,13 +101,18 @@ function WebcamCapture() {
     const split = image.split(',');
     const base64string = split[1];
     const buffer = Buffer.from(base64string, 'base64');
+    if (typeof onCapture === "function") {
+      console.log('ChatInput calling WebcamCapture')
+      onCapture(buffer);
+      console.log(buffer);
+    }
+    
     console.log(buffer);
 
 
-        if (buffer) {
-            setImage = buffer;
-
-        }
+    if (buffer) {
+      setImage(buffer);
+    }
 
         const bodyFormData = new FormData();
         const blob = new Blob([buffer], {type: 'image/jpeg'});
@@ -134,7 +139,7 @@ function WebcamCapture() {
       
             console.log("Image in database")
             console.log(data)
-                 
+            console.log(hasPhoto)
           }
        
     }
@@ -156,9 +161,12 @@ function WebcamCapture() {
     <video ref={videoRef}></video>
     <button onClick={takePhoto}>SNAP!</button><br></br>
 
-    <canvas id="canvas"></canvas>
-    <p> Image Converted to String: </p>
-    <p id="printresult"></p>
+    {hasPhoto && (
+          <>
+            <canvas id="canvas"></canvas>
+            <p id="printresult"></p>
+          </>
+        )}
     
    
     </div>

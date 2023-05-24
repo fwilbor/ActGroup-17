@@ -6,13 +6,14 @@ import mongoose from "mongoose";
 const messageSchema = mongoose.Schema({
    email: String,
    message: {
-      text: { type: String, required: true },
+      text: { type: String, },
+      image: { type: String },
     },
    //creator: String,
    //sendTo: String,
-   user_id: {
-      type: String,
-   },
+  //  user_id: {
+  //     type: String,
+  //  },
    users: Array,
     sender: {
       type: String,

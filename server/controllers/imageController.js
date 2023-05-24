@@ -219,7 +219,7 @@ const createImage = app.post = async (req, res) => {
                 .save()
                 .then(() => res.send("successfully uploaded"))
                 .catch((err) => console.log(err));
-        console.log(newImage.image)
+        //console.log(newImage.image)
             }
     });
 }

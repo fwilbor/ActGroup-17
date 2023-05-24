@@ -211,6 +211,10 @@ form.signup, form.login {
   position: relative;
 }
 
+.canvas-container {
+  width: 500px;
+}
+
 .result {
   position: fixed;
   top: 0;

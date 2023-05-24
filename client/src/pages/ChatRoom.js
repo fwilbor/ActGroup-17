@@ -44,31 +44,41 @@ function Chat() {
         navigate("/login");
       } else {
         const user = await JSON.parse(localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY));
-        console.log(`Current user time limit: ${user.timeLimit}`);
+        console.log("Current user:", user);
+      if (!user || !user._id) {
+        console.log("User or user._id is undefined:", user);
+        return; // Return early if user or user._id is undefined
+      }
         
-        // Retrieve the updated user object from the server
-        const response = await fetch(`${getUserInfo.replace(':id', user._id)}`);
-        const data = await response.json();
-        const updatedUser = data;
-        console.log(updatedUser.timeLimit);
-    
-        if (updatedUser.timeLimit < user.timeLimit) {
-          console.log('ran update')
+        try {
+          const response = await fetch(`${getUserInfo.replace(':id', user._id)}`);
+          const data = await response.json();
+          const updatedUser = data;
           console.log(updatedUser.timeLimit);
-          const userObj = JSON.parse(localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY));
-          userObj.timeLimit = updatedUser.timeLimit;
-          setCurrentUser(userObj);
-          localStorage.setItem(process.env.REACT_APP_LOCALHOST_KEY, JSON.stringify(userObj));
-          setTimeRemaining(updatedUser.timeLimit);
-          console.log(timeRemaining)
-        } else {
-          console.log('no update')
-          setCurrentUser(user);
-          setTimeRemaining(prevTimeRemaining => prevTimeRemaining === null ? user.timeLimit : prevTimeRemaining);
+  
+          if (updatedUser.timeLimit < user.timeLimit) {
+            console.log('ran update')
+            console.log(updatedUser.timeLimit);
+            const userObj = JSON.parse(localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY));
+            userObj.timeLimit = updatedUser.timeLimit;
+            setCurrentUser(userObj);
+            localStorage.setItem(process.env.REACT_APP_LOCALHOST_KEY, JSON.stringify(userObj));
+            setTimeRemaining(updatedUser.timeLimit);
+            console.log(timeRemaining)
+          } else {
+            console.log('no update')
+            setCurrentUser(user);
+            setTimeRemaining(prevTimeRemaining => prevTimeRemaining === null ? user.timeLimit : prevTimeRemaining);
+          }
+        } catch (error) {
+          console.error("Error in fetchData:", error);
         }
       }
     };
-    fetchData();
+  
+    fetchData().catch(error => {
+      console.error("Error in fetchData:", error);
+    });
   }, [navigate]);
 
   // useEffect(() => {
@@ -241,7 +251,7 @@ function Chat() {
           {currentChat === undefined ? (
             <Welcome />
           ) : (
-          <ChatContainer currentChat={currentChat} socket={socket} />
+          <ChatContainer currentChat={currentChat || {}} socket={socket} />
           )}
         </div>
       </Container>

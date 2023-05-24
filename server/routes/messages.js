@@ -14,7 +14,7 @@ router.get("/:creator", getMessage)
 
 
 // POST a new message
-    router.post("/", createMessage)
+    router.post("/addmsg", createMessage)
     
     
 // DELETE a message

@@ -1,14 +1,17 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 //import { deleteAfter } from "src/utils/APIRoutes";
 import { BsEmojiSmileFill } from "react-icons/bs";
 import { IoMdSend } from "react-icons/io";
 import styled from "styled-components";
 import Picker from 'emoji-picker-react';
+import WebcamCapture from "./WebcamCapture";
 
 export default function ChatInput({ handleSendMsg }) {
   const [msg, setMsg] = useState("");
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
   const [deleteAfter, setDeleteAfter] = useState(30); // set the initial value of deleteAfter to "30"
+  const [capturedImage, setCapturedImage] = useState(null);
+  const [showWebcamCapture, setShowWebcamCapture] = useState(false);
   
   const handleEmojiPickerhideShow = () => {
     setShowEmojiPicker(!showEmojiPicker);
@@ -28,20 +31,37 @@ export default function ChatInput({ handleSendMsg }) {
 
   };
 
+  const toggleWebcamCapture = () => {
+    setShowWebcamCapture(!showWebcamCapture);
+  };
+
+  const handleCaptureImage = (imageData) => {
+    const reader = new FileReader();
+  reader.onloadend = () => {
+    const base64String = reader.result.split(",")[1];
+    setCapturedImage(base64String);
+  };
+  reader.readAsDataURL(new Blob([imageData]));
+  };
+
   const handleDeleteAfterChange = (event) => {
     setDeleteAfter(event.target.value); // Update the deleteAfter state variable when the selected option changes
   };
 
-  const sendChat = (event) => {
+  const sendChat = async (event) => {
     event.preventDefault();
-    if (msg.length > 0) {
+  if (msg.length > 0) {
+    if (capturedImage !== null) {
+      handleSendMsg(msg, deleteAfter, capturedImage);
+    } else {
       handleSendMsg(msg, deleteAfter);
-      //console.log(deleteAfter)
-      setMsg("");
     }
+    setMsg("");
+    setCapturedImage(null);
+  }
   };
 
-  return (
+ return (
     <Container>
       <div className="button-container">
         <div className="emoji">
@@ -49,6 +69,7 @@ export default function ChatInput({ handleSendMsg }) {
           { showEmojiPicker && <Picker onEmojiClick={handleEmojiClick} /> }
         </div>
       </div>
+      
       <form className="input-container" onSubmit={(event) => sendChat(event)}>
         <input
           type="text"
@@ -56,6 +77,7 @@ export default function ChatInput({ handleSendMsg }) {
           onChange={(e) => setMsg(e.target.value)}
           value={msg}
         />
+        <button type="button" onClick={toggleWebcamCapture}>Open Webcam</button>
         <select
           value={deleteAfter} // Set the value of the select element to the deleteAfter state variable
           onChange={handleDeleteAfterChange} // Call handleDeleteAfterChange when the selected option changes
@@ -68,6 +90,17 @@ export default function ChatInput({ handleSendMsg }) {
           <IoMdSend />
         </button>
       </form>
+      {showWebcamCapture && (
+        <div className="webcam-capture-container">
+        <WebcamCapture onCapture={handleCaptureImage} />
+      </div>
+      )}
+      
+      {capturedImage && (
+        <div className="captured-image">
+          <img src={capturedImage} alt="Captured" />
+        </div>
+      )}
     </Container>
   );
 }
@@ -133,6 +166,21 @@ const Container = styled.div`
         }
       }
     }
+  }
+  .webcam-capture-container video {
+    max-width: 100%;
+    max-height: 100%;
+  }
+  .webcam-capture-container {
+    position: absolute;
+    top: 50px; /* Adjust the top position as needed */
+    width: 700px;
+    height: 500px;
+    background-color: white;
+    z-index: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
   .input-container {
     width: 100%;

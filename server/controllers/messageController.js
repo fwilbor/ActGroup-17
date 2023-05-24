@@ -38,12 +38,18 @@ const getChats = async (req, res, next) => {
     try {
 
       const { from, to, message, deleteAfter } = req.body;
+      const { text, images } = message;
+
+      if (!text && !images) {
+        return res.status(400).json({ msg: "Message must have text or images." });
+      }
       const data = await PostMessage.create({
-        message: { text: message, to },
+        message: { text, images },
         users: [from, to],
         sender: from,
         deleteAfter: deleteAfter,
         });
+        console.log(data)
   
       if (data) return res.json({ msg: "Message added successfully." });
       else return res.json({ msg: "Failed to add message to the database" });

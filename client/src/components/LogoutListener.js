@@ -162,7 +162,7 @@ const startTimer = () => {
     if (startInactiveTimer) {
       setStartTime(Date.now());
       clearTimeout(timerIdRef.current); // clear timerId from previous call
-      console.log('startTimer');
+      //console.log('startTimer');
       timerIdRef.current = setTimeout(() => {
         handleSessionExpiration();
       }, 1 * 60 * 1000);
@@ -202,11 +202,11 @@ const startTimer = () => {
 
   useEffect(() => {
     startTimer();
-    console.log('Interaction called: ', timerIdRef.current)
+    //console.log('Interaction called: ', timerIdRef.current)
 
     
     const handleInteraction = () => {
-      console.log('Interaction called: 239234678217')
+      //console.log('Interaction called: 239234678217')
       clearTimeout(timerIdRef.current);
       setStartInactiveTimer(true);
       startTimer();
