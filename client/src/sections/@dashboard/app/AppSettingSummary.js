@@ -4,7 +4,7 @@ import { alpha, styled } from '@mui/material/styles';
 import { Card, Typography, Select, MenuItem, Button } from '@mui/material';
 import Iconify from '../../../components/iconify';
 import axios from 'axios';
-import { recentMessages } from 'src/utils/APIRoutes';
+import { childTimeLimit } from 'src/utils/APIRoutes';
 
 const StyledIcon = styled('div')(({ theme }) => ({
   margin: 'auto',
@@ -48,8 +48,8 @@ export default function AppSettingSummary({ title, username, avatarimage, curren
     updatenummsg(numRecentMessages);
     // Make the PATCH request to update the recentMessages field
     const response = await axios.patch(
-      `${recentMessages.replace(':id', childId)}`,
-      { recentMessages: numRecentMessages }
+      `${childTimeLimit.replace(':id', childId)}`,
+      { timeLimit: numRecentMessages }
     );
     console.log(updatenummsg); // log the numRecentMessages value
   };
@@ -60,6 +60,8 @@ export default function AppSettingSummary({ title, username, avatarimage, curren
         py: 5,
         boxShadow: 0,
         textAlign: 'center',
+        paddingTop: '10px',
+        paddingBottom: '10px',
         color: (theme) => theme.palette[color].darker,
         bgcolor: (theme) => theme.palette[color].lighter,
         ...sx,
@@ -83,21 +85,24 @@ export default function AppSettingSummary({ title, username, avatarimage, curren
         )}
       </StyledIcon>
 
-      <Typography variant="h3">{(username)}</Typography>
-      <Typography variant="h3">{(numRecentMessages)}</Typography>
+      <Typography variant="h4">{(username)}</Typography>
+      <Typography variant="strong">Daily Time Limit: <br></br>{Math.floor(numRecentMessages / 60000)} minutes {Math.round((numRecentMessages % 60000) / 1000)} seconds</Typography>
+      
+
 
       <Typography variant="subtitle2" sx={{ opacity: 0.72 }}>
         {title}
       </Typography>
 
-      <Select value={numRecentMessages} onChange={(event) => handleChange(event)} sx={{ mt: 2 }}>
-        <MenuItem value={5}>5</MenuItem>
-        <MenuItem value={10}>10</MenuItem>
-        <MenuItem value={15}>15</MenuItem>
+      {/* Change value to correct millseconds */}
+      <Select value={numRecentMessages} onChange={(event) => handleChange(event)} sx={{ mt: 1 }}>
+        <MenuItem value={30000}>10 minutes</MenuItem>
+        <MenuItem value={60000}>20 minutes</MenuItem>
+        <MenuItem value={200000}>30 minutes</MenuItem>
       </Select>
-
-      <Button variant="contained" color="primary" onClick={handleApplyMsg} sx={{ mt: 2 }}>
-        Apply
+<br />
+      <Button variant="contained" color="primary" onClick={handleApplyMsg} sx={{  mt: 1 }}>
+        Set/Reset Time Limit
       </Button>
     </Card>
   );

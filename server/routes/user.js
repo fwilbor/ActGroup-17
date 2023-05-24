@@ -1,7 +1,7 @@
 import express from "express";
 
 //controller functions
-import { loginUser, signupUser, childsignup, getAllUsers, setAvatar, logOut, getAllChildren, addFriend, getAllFriends, checkIfEmailExists, checkIfUsernameExists, checkIfPasswordMatch, getSessionTime, recentMessages } from "../controllers/userController.js";
+import { loginUser, signupUser, childsignup, getAllUsers, setAvatar, logOut, getAllChildren, addFriend, getAllFriends, checkIfEmailExists, checkIfUsernameExists, checkIfPasswordMatch, getSessionTime, childTimeLimit, checkIfUserLogin, continueSession, getUserInfo } from "../controllers/userController.js";
 
 
 const urouter = express.Router()
@@ -30,8 +30,18 @@ urouter.get("/checkpasswordmatch/:username/:password", checkIfPasswordMatch);
 // get child session time
 urouter.get("/getsession/:id", getSessionTime);
 
-// update number of recent child messages
-urouter.patch("/recentmessages/:id", recentMessages);
+// update time limit for child
+urouter.patch("/timelimit/:id", childTimeLimit);
+
+// check if username login
+urouter.get("/checkuserlogin/:username", checkIfUserLogin);
+
+// calculate new time limit
+urouter.get("/continuesession/:id", continueSession);
+
+// get user info
+urouter.get("/userinfo/:id", getUserInfo);
+
 
 
 

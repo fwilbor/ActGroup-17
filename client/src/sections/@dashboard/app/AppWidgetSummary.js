@@ -1,7 +1,7 @@
 // @mui
 import PropTypes from 'prop-types';
 import { alpha, styled } from '@mui/material/styles';
-import { Card, Typography } from '@mui/material';
+import { Card, Typography, Button } from '@mui/material';
 // utils
 // import { fShortenNumber } from '../../../utils/formatNumber';
 // components
@@ -14,10 +14,10 @@ const StyledIcon = styled('div')(({ theme }) => ({
   display: 'flex',
   borderRadius: '50%',
   alignItems: 'center',
-  width: theme.spacing(8),
-  height: theme.spacing(8),
+  width: theme.spacing(6),
+  height: theme.spacing(6),
   justifyContent: 'center',
-  marginBottom: theme.spacing(3),
+  marginBottom: theme.spacing(0.5),
 }));
 
 // ----------------------------------------------------------------------
@@ -38,8 +38,11 @@ export default function AppWidgetSummary({ title, username, avatarimage, current
       sx={{
         py: 5,
         boxShadow: 0,
-        width: 150,
         textAlign: 'center',
+        //paddingTop: '10px',
+        //paddingBottom: '10px',
+        padding: '5px',
+        cursor: 'pointer',
         color: (theme) => theme.palette[color].darker,
         bgcolor: (theme) => theme.palette[color].lighter,
         ...sx,
@@ -64,15 +67,15 @@ export default function AppWidgetSummary({ title, username, avatarimage, current
 )}
       </StyledIcon>
 
-      <Typography variant="h3">{(username)}</Typography>
+      <Typography variant="h5" style={{ fontSize: '12px' }} onClick={onClick}>{(username)}</Typography>
       <Typography variant="h3">{(currentnummsg)}</Typography>
 
       <Typography variant="subtitle2" sx={{ opacity: 0.72 }}>
         {title}
       </Typography>
-      <button style={{ width: '75px', height: '35px' }} onClick={onClick}>
-      Details
-    </button>
+      <Button variant="contained" style={{ fontSize: '12px', width: '50px', height: '20px', cursor: 'pointer' }} color="primary" onClick={onClick} >
+      Info
+    </Button>
     </Card>
   );
 }

@@ -51,9 +51,23 @@ const userSchema = mongoose.Schema({
         type: Number,
         default: 0
         },
-      recentMessages: {
+       totalSession: {
+        type: Array,
+        default: [],
+        },
+      timeLimit: {
             type: Number,
-            default: 10
+            },
+      dailyTimeLimit: {
+            type: Number,
+            },
+      isLogin: {
+            type: Boolean,
+            default: false,
+            },
+      isLock: {
+            type: Boolean,
+            default: false,
             },
 
 })
@@ -87,7 +101,7 @@ userSchema.statics.signup = async function (username, email, password) {
 
 
 // child signup method
-userSchema.statics.childsignup = async function (username, password, parentLink) {
+userSchema.statics.childsignup = async function (username, password, parentLink, timeLimit, dailyTimeLimit) {
 
     let error = null;
 
@@ -115,7 +129,7 @@ userSchema.statics.childsignup = async function (username, password, parentLink)
     const hash = await bcrypt.hash(password, salt)
 
     // creates new user with hashed password
-    const user = await this.create({ username, parentLink, password: hash })
+    const user = await this.create({ username, parentLink, password: hash, timeLimit, dailyTimeLimit })
 
     return user
 }
@@ -129,9 +143,8 @@ userSchema.statics.login = async function (username, password) {
 
     const user = await this.findOne({username})
     
-
     if (!user) {
-        throw Error("Invalid Username")
+        throw Error("Invalid Username9")
     }
 
     const match = await bcrypt.compare(password, user.password)

@@ -38,8 +38,11 @@ const MessageForm = () => {
 
   // useEffect and navigate are routing and re-rendering page (likely needs to be changed)
   useEffect(() => {
-    if (localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)) {
-      navigate("/dashboard/app");
+    let parent_or_child = JSON.parse(
+      localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)
+    ).parentLink;
+    if (parent_or_child !== undefined) {
+      navigate("/chat");
     }
   }, [navigate]);
 
@@ -99,24 +102,29 @@ const MessageForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault()
     try {
-      if (validateForm()) {
+      const formValid = await validateForm();
+    if (formValid) {
         const parent_data = await JSON.parse(
           localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)
         );
         const parentLink = parent_data._id;
+        const timeLimit = 150000
+        const dailyTimeLimit = 150000
         const { username, password } = values;
         
         const { data } = await axios.post(registerChild, {
           username,
           password,
           parentLink,
+          timeLimit,
+          dailyTimeLimit: Number(dailyTimeLimit),
         });
-        console.log(data)
+        console.log(data.status)
         if (data.status === false) {
           throw new Error("Error making child account", toastOptions);
         }
         if (data.status === true) {
-          console.log("Child added")
+          toast.success("You have added a child!", toastOptions);
         }
       }
     } catch (error) {

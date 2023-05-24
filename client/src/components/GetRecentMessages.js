@@ -27,7 +27,11 @@ function GetRecentMessages(props) {
                 //console.log(props.childs);
                 //console.log(avatarimages);
 
+<<<<<<< HEAD
                 const response = await fetch('http://kidzsnap-heroku.herokuapp.com/api/messages/getmsg?parentLink=${props.p_id}');
+=======
+                const response = await fetch('http://localhost:4000/api/messages/getmsg?parentLink=${props.p_id}');
+>>>>>>> main
                 const data = await response.json();
                 setMessages(data.map(message => {
                     if (usernames.includes(message.sender)) {
@@ -56,7 +60,7 @@ if (messages.length > 5) {
   A = messages.length;
 }
     return (
-        <Grid item xs={12} md={6} lg={8}>
+        <Grid item xs={12} md={6} lg={6} style = {{ paddingTop : '10px', paddingLeft : '10px'}}>
             <AppNewsUpdate
                 title="Recent Messages"
                 list={[...Array(A)].map((_, index) => ({

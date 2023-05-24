@@ -29,7 +29,11 @@ function GetPieChart(props) {
                     }
                 }
 
+<<<<<<< HEAD
                 const response = await fetch('http://kidzsnap-heroku.herokuapp.com/api/messages/getmsg?parentLink=${props.p_id}');
+=======
+                const response = await fetch('http://localhost:4000/api/messages/getmsg?parentLink=${props.p_id}');
+>>>>>>> main
                 const data = await response.json();
                 data.forEach(message => {
                     let messageText = message.message.text.toString();
@@ -49,7 +53,7 @@ function GetPieChart(props) {
     }, [props]);
 
     return (
-        <Grid item xs={12} md={6} lg={4}>
+        <Grid item xs={12} md={6} lg={6} style = {{ paddingTop : '24px', paddingLeft : '10px'}}>
             <AppCurrentVisits
                 title="Flagged Messages"
                 chartData={[

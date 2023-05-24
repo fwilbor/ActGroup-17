@@ -8,7 +8,7 @@ import Page404 from './pages/Page404';
 import DashboardAppPage from './pages/DashboardAppPage';
 
 //
-import SetAvatar from "./components/SetAvatar";
+//import SetAvatar from "./components/SetAvatar";
 //import { useAuthContext } from "./hooks/useAuthContext";
 
 
@@ -21,8 +21,10 @@ import Signup from "./pages/Signup";
 import Chat from "./pages/ChatRoom";
 import Messenger from "./pages/Messenger";
 import Settings from "./pages/Settings"
-import FriendForm from './components/FriendForm';
+import AddFriend from "./pages/AddFriend"
+import SetAvatar from "./pages/SetAvatarPage";
 import WebcamCapture from './components/WebcamCapture';
+import MessageForm from './components/MessageForm';
 import Splash from './components/Splash';
 //
 
@@ -42,7 +44,7 @@ export default function Router() {
 
     {
       path: '*',
-      element: <Navigate to="/login" replace />,
+      element: <Navigate to="/splash" replace />,
     },
     {
       path: "/setAvatar",
@@ -77,11 +79,15 @@ export default function Router() {
     },
     {
       path: "/addfriend",
-      element: <FriendForm />,
+      element: <AddFriend />,
     },
     {
       path: "/addImage",
       element: <WebcamCapture />,
+    },
+    {
+      path: "/addChild",
+      element: <MessageForm />,
     },
     {
       path: "/settings",

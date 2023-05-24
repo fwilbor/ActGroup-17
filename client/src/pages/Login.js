@@ -1,3 +1,4 @@
+import { Helmet } from 'react-helmet-async';
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import styled from "styled-components";
@@ -5,12 +6,13 @@ import { useNavigate, Link } from "react-router-dom";
 import Logo from "../assets/logo.png";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { loginRoute, checkIfUsernameExists, checkIfPasswordMatch, deleteMessage } from "../utils/APIRoutes";
+import { loginRoute, checkIfUsernameExists, checkIfPasswordMatch, deleteMessage, checkIfUserLogin } from "../utils/APIRoutes";
 
 
 export default function Login() {
   const navigate = useNavigate();
   const [values, setValues] = useState({ username: "", password: "" });
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const toastOptions = {
     position: "top-center",
     autoClose: 8000,
@@ -19,10 +21,24 @@ export default function Login() {
     theme: "dark",
   };
   useEffect(() => {
-    if (localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)) {
-      navigate("/login");
+    if (isLoggedIn && localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)) {
+      console.log('is this running')
+      console.log(isLoggedIn)
+      setIsLoggedIn(true);
     }
-  }, [navigate]);
+    if (!isLoggedIn) {
+      navigate("/login");
+    } else {
+      let parent_or_child = JSON.parse(
+        localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)
+      ).parentLink;
+      if (parent_or_child === undefined) {
+        navigate("/dashboard/app");
+      } else {
+        navigate("/chat");
+      }
+    }
+  }, [isLoggedIn, navigate]);
 
   const handleChange = (event) => {
     setValues({ ...values, [event.target.name]: event.target.value });
@@ -30,20 +46,22 @@ export default function Login() {
 
   const validateForm  = async () => {
     const { username, password } = values;
-    if (username === "") {
+    console.log(values)
+     if (username === "") {
       toast.error("Username and Password is required.", toastOptions);
       return false;
     } else if (password === "") {
       toast.error("Username and Password is required.", toastOptions);
       return false;
     }
+    
     // check if username exists
     try {
       const usernameResponse = await fetch (`${checkIfUsernameExists.replace(':username', username)}`);
       //const usernameResponse = await axios.get(`${checkIfUsernameExists}/${username}`);
-      console.log("usernameResponse:", usernameResponse);
+      //console.log("usernameResponse:", usernameResponse);
       const usernameExists = (await usernameResponse.json());
-      console.log("usernameExists:", usernameExists);
+      //console.log("usernameExists:", usernameExists);
       
       
       //console.log("usernameExists:", usernameExists);
@@ -59,11 +77,11 @@ export default function Login() {
 
     // check if password match
     try {
-      console.log(username)
+      //console.log(username)
       const passwordResponse = await fetch (`${checkIfPasswordMatch.replace(':username', username).replace(':password', password)}`);
-      console.log("passwordResponse:", passwordResponse);
+      //console.log("passwordResponse:", passwordResponse);
       const passwordMatch = (await passwordResponse.json());
-      console.log("passwordMatch:", passwordMatch);
+      //console.log("passwordMatch:", passwordMatch);
       
 
       if (passwordMatch === false) {
@@ -82,8 +100,22 @@ export default function Login() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    if (validateForm()) {
+    if (await validateForm()) {
       const { username, password } = values;
+      
+      // check if user is already logged in
+      try {
+        const usernameResponse = await fetch (`${checkIfUserLogin.replace(':username', username)}`);
+        const usernameLogin = (await usernameResponse.json());
+        
+        if (usernameLogin === true) {
+          toast.error("You are already logged in", toastOptions);
+          return;
+        }
+      } catch (error) {
+        console.error(error);
+        return;
+      }
       const { data } = await axios.post(loginRoute, {
         username,
         password,
@@ -92,9 +124,10 @@ export default function Login() {
         toast.error(data.msg, toastOptions);
       }
       if (data.status === true) {
+        setIsLoggedIn(true);
         localStorage.setItem(
           process.env.REACT_APP_LOCALHOST_KEY,
-          JSON.stringify(data.user)
+          JSON.stringify({...data.user, isLoggedIn: true})
         );
 
         await axios.delete(deleteMessage, {
@@ -103,36 +136,39 @@ export default function Login() {
           },
         })
           .then((response) => {
-            console.log(response.data);
+            //console.log(response.data);
           })
           .catch((error) => {
             console.log(error);
           });
 
-        let parent_or_child = await JSON.parse(
-          localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)
-        ).parentLink;
-        console.log(parent_or_child)
+        // let parent_or_child = await JSON.parse(
+        //   localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)
+        // ).parentLink;
+        // //console.log(parent_or_child)
 
-        if (parent_or_child === undefined) {
-          navigate("/dashboard/app");
-        } else {
-          navigate("/chat");
+        // if (parent_or_child === undefined) {
+        //   navigate("/dashboard/app");
+        // } else {
+        //   navigate("/chat");
           // let currentTimestamp = Date.now()
           // console.log(currentTimestamp); // get current timestamp
           // let login_date = new Intl.DateTimeFormat('en-US', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit' }).format(currentTimestamp)
           // console.log(login_date)
-        }
+        //}
 
         
       }
     }
   };
-
+  
   return (
     <>
+    <Helmet>
+        <title> Login | KidzSnap.com </title>
+      </Helmet>
       <FormContainer>
-        <form action="" onSubmit={(event) => handleSubmit(event)}>
+        <form action="" onSubmit={(event) => handleSubmit(event)} autoComplete="off">
           <div className="brand">
             <img src={Logo} alt="logo" />
             <h1>KIDZSNAP</h1>
@@ -169,7 +205,7 @@ const FormContainer = styled.div`
   justify-content: center;
   gap: 1rem;
   align-items: center;
-  background-color: #131324;
+  background-color: #FFF;
   .brand {
     display: flex;
     align-items: center;
@@ -189,14 +225,14 @@ const FormContainer = styled.div`
     display: flex;
     flex-direction: column;
     gap: 2rem;
-    background-color: #00000076;
+    background-color: #FFDB58;
     border-radius: 2rem;
     padding: 5rem;
   }
   input {
     background-color: transparent;
     padding: 1rem;
-    border: 0.1rem solid #4e0eff;
+    border: 0.1rem solid #080420;
     border-radius: 0.4rem;
     color: white;
     width: 100%;
@@ -207,7 +243,7 @@ const FormContainer = styled.div`
     }
   }
   button {
-    background-color: #4e0eff;
+    background-color: #080420;
     color: white;
     padding: 1rem 2rem;
     border: none;
@@ -224,7 +260,7 @@ const FormContainer = styled.div`
     color: white;
     text-transform: uppercase;
     a {
-      color: #4e0eff;
+      color: #080420;
       text-decoration: none;
       font-weight: bold;
     }
