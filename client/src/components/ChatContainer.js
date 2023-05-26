@@ -15,67 +15,75 @@ export default function ChatContainer({ currentChat, socket }) {
     return new Promise((resolve) => {
       const localStorageData = localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY);
       if (!localStorageData) {
-        console.log('localStorageData is null or undefined');
+        // console.log('localStorageData is null or undefined');
         resolve(null);
         return;
       }
   
       const data = JSON.parse(localStorageData);
       if (!data || !data._id) {
-        console.log('data or data._id is null or undefined');
+        // console.log('data or data._id is null or undefined');
         resolve(null);
         return;
       }
   
-      console.log('getCurrentChatId resolved:', data._id);
+      // console.log('getCurrentChatId resolved:', data._id);
       resolve(data._id);
     });
   };
-  
-  
-  useEffect(() => {
-    getCurrentChat().then((chatId) => {
-      console.log("chatId:", chatId);
-    });
-  }, [currentChat]);
 
   useEffect(() => {
     const fetchData = async () => {
       if (!currentChat || !currentChat.username) {
-        console.log('currentChat or currentChat.username is undefined');
+        // console.log('currentChat or currentChat.username is undefined');
         return;
       }
-  
+
       const currentChatId = await getCurrentChat(); // Await the result of getCurrentChatId
+      console.log(currentChatId);
+      console.log(currentChat);
   
-      try {
-        const response = await axios.post(recieveMessageRoute, {
-          from: currentChatId, // Use currentChatId instead of data.username
-          to: currentChat.username,
-        });
-        setMessages(response.data);
-        console.log(currentChat.username);
-      } catch (error) {
-        console.log('Error occurred during API call:', error);
-        console.log('Error code 402:', error.message);
-      }
+      const data = await JSON.parse(
+        localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)
+      );
+      //console.log(data.username)
+      //console.log(currentChat.username)
+      const response = await axios.post(recieveMessageRoute, {
+        from: data.username,
+        to: currentChat.username,
+        parentLink: data.parentLink,
+      });
+      setMessages(response.data);
+      console.log(response.data)
+
     };
   
     fetchData();
   }, [currentChat]);
 
-  console.log('currentChat:', currentChat);
-  console.log('currentChat.username:', currentChat.username);
+  // console.log('currentChat:', currentChat);
+  // console.log('currentChat.username:', currentChat.username);
  
   const handleSendMsg = async (msg, deleteAfter, capturedImage) => {
-    console.log("Message:", msg);
-  console.log("Delete after:", deleteAfter);
-  console.log("Captured image:", capturedImage);
 
-    if (!currentChat || !currentChat.username) {
-      console.log('currentChat or currentChat.username is undefined');
-      return;
-    }    
+    if (typeof capturedImage !== 'undefined' && capturedImage !== null) {
+      // currentChat is set, perform actions
+      // ...
+      console.log('capturedImage is set:', msg);
+  
+      // Continue with the rest of the function
+      // ...
+    } else {
+      // currentChat is not set
+      console.log('currentChat is not set');
+      // Handle the situation accordingly
+      // ...
+    }
+  //   console.log("Message:", msg);
+  // console.log("Delete after:", deleteAfter);
+  // console.log("Captured image:", capturedImage);
+
+    
     // if (!currentChat) {
     //   console.log('Proof that this is not working 129469237', currentChat)
     //   return; // Return early if currentChat is undefined
@@ -84,27 +92,33 @@ export default function ChatContainer({ currentChat, socket }) {
     const localStorageData = localStorage.getItem(
       process.env.REACT_APP_LOCALHOST_KEY
     );
-    console.log('localStorageData:', localStorageData); // Add this line
+    console.debug('localStorageData:', localStorageData); // Add this line
     if (!localStorageData) {
-      console.log('localStorageData is null or undefined');
+      // console.log('localStorageData is null or undefined');
       return;
     }
   
     const data = JSON.parse(localStorageData);
-    console.log('data:', data);
+    console.debug('data:', data);
     if (!data || !data._id) {
-      console.log('data or data._id is null or undefined');
+      // console.log('data or data._id is null or undefined');
       return;
     }
+
+    if (!currentChat || !currentChat.username) {
+      // console.log('currentChat or currentChat.username is undefined');
+      return;
+    }    
+
     if (!currentChat.username) {
-      console.log('currentChat username is undefined:', currentChat);
+      // console.log('currentChat username is undefined:', currentChat);
       return; // Return early if currentChat.username is undefined
     }
     
 
     const messageData = {
       text: msg,
-      images: capturedImage ? [capturedImage] : [],
+      image: capturedImage ? capturedImage : '',
     };
 
     socket.current.emit("send-msg", {
@@ -114,29 +128,19 @@ export default function ChatContainer({ currentChat, socket }) {
       deleteAfter
     });
     try {
-      console.log('currentChat:', currentChat);
-  console.log('currentChat.username:', currentChat.username);
-  console.log('data:', data);
-  console.log('data._id:', data._id); // Add this line
+      console.debug("msg:", msg);
+      console.debug(capturedImage);
+console.debug("currentChat._id:", currentChat._id);
+  console.log('from:', data.username, 'to:', currentChat.username, 'message:', messageData, 'deleteAfter:', deleteAfter); // Add this line
       await axios.post(sendMessageRoute, {
         from: data.username,
         to: currentChat.username,
         message: messageData,
         deleteAfter: deleteAfter
       });
-      console.log('axios.post request successful');
+
     } catch (error) {
-      if (error.response) {
-        // The request was made and the server responded with a status code
-        console.log('Response status:', error.response.status);
-        console.log('Response data:', error.response.data);
-      } else if (error.request) {
-        // The request was made but no response was received
-        console.log('No response received:', error.request);
-      } else {
-        // Something happened in setting up the request that triggered an Error
-        console.log('Error occurred during request setup:', error.message);
-      }
+     console.error(error);
     }
 
     const msgs = [...messages];
@@ -183,7 +187,7 @@ export default function ChatContainer({ currentChat, socket }) {
 
       <div className="chat-messages" style={{ height: "78%" }}>
         {messages.map((message) => {
-          const flag = SwearWordCheck(message.message.text)
+          const flag = SwearWordCheck(message.message)
           return (
             <div ref={scrollRef} key={uuidv4()}>
               <div
@@ -192,13 +196,13 @@ export default function ChatContainer({ currentChat, socket }) {
                 }`}
               >
                 <div className="content ">
-                {message.message.text && (
+                {message.message && (
             <p style={flag === "Yes" ? { background: '#f06f6f', border: '1px solid red'} : {}}>
-              {message.message.text}
+              {message.message}
             </p>
           )}
-          {message.message.images &&
-            message.message.images.map((image, index) => (
+          {message.images &&
+  message.images.map((image, index) => (
               <div className="image" key={index}>
                 <img src={image} alt="Image" />
               </div>
@@ -291,6 +295,12 @@ const Container = styled.div`
       justify-content: flex-start;
       .content {
         background-color: #9900ff20;
+      }
+      .image {
+        max-width: 250px;
+        max-height: 190px;
+        width: auto;
+        height: auto;
       }
     }
   }

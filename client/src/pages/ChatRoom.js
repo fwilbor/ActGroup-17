@@ -23,7 +23,7 @@ function Chat() {
   const socket = useRef();
   const [contacts, setContacts] = useState([]);
   const [currentChat, setCurrentChat] = useState(undefined);
-  const [currentUser, setCurrentUser] = useState(undefined);
+  const [currentUser, setCurrentUser] = useState(null);
   const [timeRemaining, setTimeRemaining] = useState(null);
   //const timeLimitRef = useRef(null);
   const [showTimeRemainingToast, setShowTimeRemainingToast] = useState(false);
@@ -54,7 +54,7 @@ function Chat() {
           const response = await fetch(`${getUserInfo.replace(':id', user._id)}`);
           const data = await response.json();
           const updatedUser = data;
-          console.log(updatedUser.timeLimit);
+          console.log(updatedUser._id);
   
           if (updatedUser.timeLimit < user.timeLimit) {
             console.log('ran update')
@@ -251,7 +251,7 @@ function Chat() {
           {currentChat === undefined ? (
             <Welcome />
           ) : (
-          <ChatContainer currentChat={currentChat || {}} socket={socket} />
+          <ChatContainer currentChat={currentChat} socket={socket} />
           )}
         </div>
       </Container>

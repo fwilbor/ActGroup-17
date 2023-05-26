@@ -39,7 +39,7 @@ export default function ChatInput({ handleSendMsg }) {
     const reader = new FileReader();
   reader.onloadend = () => {
     const base64String = reader.result.split(",")[1];
-    setCapturedImage(base64String);
+    setCapturedImage(`data:image/png;base64,${base64String}`);
   };
   reader.readAsDataURL(new Blob([imageData]));
   };

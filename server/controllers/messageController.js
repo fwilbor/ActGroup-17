@@ -12,6 +12,7 @@ const getChats = async (req, res, next) => {
 
 
      const { from, to } = req.body;
+     console.log(req.body)
 
 //       let child_id = userModel.parentChildLink = req.params;
 // console.log(child_id.children)
@@ -26,7 +27,10 @@ const getChats = async (req, res, next) => {
         return {
           fromSelf: msg.sender.toString() === from,
           message: msg.message.text,
+          image: msg.message.image,
         };
+      });
+      projectedMessages.forEach((msg) => {
       });
       res.json(projectedMessages);
     } catch (ex) {
@@ -39,6 +43,7 @@ const getChats = async (req, res, next) => {
 
       const { from, to, message, deleteAfter } = req.body;
       const { text, images } = message;
+      console.log(req.body)
 
       if (!text && !images) {
         return res.status(400).json({ msg: "Message must have text or images." });
