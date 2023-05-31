@@ -10,7 +10,7 @@ export default function ChatInput({ handleSendMsg }) {
   const [msg, setMsg] = useState("");
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
   const [deleteAfter, setDeleteAfter] = useState(30); // set the initial value of deleteAfter to "30"
-  const [capturedImage, setCapturedImage] = useState(null);
+  const [capturedImage, setCapturedImage] = useState("");
   const [showWebcamCapture, setShowWebcamCapture] = useState(false);
   
   const handleEmojiPickerhideShow = () => {
@@ -35,30 +35,42 @@ export default function ChatInput({ handleSendMsg }) {
     setShowWebcamCapture(!showWebcamCapture);
   };
 
-  const handleCaptureImage = (imageData) => {
-    const reader = new FileReader();
-  reader.onloadend = () => {
-    const base64String = reader.result.split(",")[1];
-    setCapturedImage(`data:image/png;base64,${base64String}`);
-  };
-  reader.readAsDataURL(new Blob([imageData]));
+  const handleCaptureImage = async (imageData) => {
+    try {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        const base64String = reader.result.split(",")[1];
+        setCapturedImage(`data:image/png;base64,${base64String}`);
+      };
+      reader.readAsDataURL(new Blob([imageData]));
+    } catch (error) {
+      console.error('Error in handleCaptureImage:', error);
+      // Handle the error (e.g., show an error message to the user)
+    }
   };
 
   const handleDeleteAfterChange = (event) => {
     setDeleteAfter(event.target.value); // Update the deleteAfter state variable when the selected option changes
   };
 
-  const sendChat = async (event) => {
+  const sendChat = (event) => {
     event.preventDefault();
-  if (msg.length > 0) {
-    if (capturedImage !== null) {
-      handleSendMsg(msg, deleteAfter, capturedImage);
-    } else {
-      handleSendMsg(msg, deleteAfter);
+    try {
+      if (msg.length > 0 || capturedImage) {
+        if (capturedImage !== "") {
+          console.log('capturedImage:', capturedImage, 'message:', msg, 'deleteAfter:', deleteAfter);
+          handleSendMsg(msg, deleteAfter, capturedImage);
+        } else {
+          console.log('capturedImage:', capturedImage, 'message:', msg, 'deleteAfter:', deleteAfter);
+          handleSendMsg(msg, deleteAfter);
+        }
+        setMsg("");
+        setCapturedImage("");
+      }
+    } catch (error) {
+      console.error('Error in sendChat:', error);
+      // Handle the error (e.g., show an error message to the user)
     }
-    setMsg("");
-    setCapturedImage(null);
-  }
   };
 
  return (
@@ -82,9 +94,9 @@ export default function ChatInput({ handleSendMsg }) {
           value={deleteAfter} // Set the value of the select element to the deleteAfter state variable
           onChange={handleDeleteAfterChange} // Call handleDeleteAfterChange when the selected option changes
         >
-          <option value="7">Delete after 7 days</option>
-          <option value="14">Delete after 14 days</option>
-          <option value="30">Delete after 30 days</option>
+          <option value={7}>Delete after 7 days</option>
+          <option value={14}>Delete after 14 days</option>
+          <option value={30}>Delete after 30 days</option>
         </select>
         <button type="submit">
           <IoMdSend />

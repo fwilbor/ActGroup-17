@@ -1,5 +1,5 @@
 import express from "express";
-import {createMessage, getMessage, getMessages, deleteMessage, updateMessage, addMessage, getChats, getChildMessages} from "../controllers/messageController.js";
+import { getMessage, getMessages, deleteMessage, updateMessage, addMessage, getChats, getChildMessages} from "../controllers/messageController.js";
 //import requireAuth from "../middleware/requireauth";
 
 const router = express.Router()
@@ -14,7 +14,7 @@ router.get("/:creator", getMessage)
 
 
 // POST a new message
-    router.post("/addmsg", createMessage)
+    //router.post("/addmsg", createMessage)
     
     
 // DELETE a message

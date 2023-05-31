@@ -6,9 +6,8 @@ import mongoose from "mongoose";
 const messageSchema = mongoose.Schema({
    email: String,
    message: {
-      text: { type: String, },
-      image: { type: String },
-    },
+    type: String,
+  },
    //creator: String,
    //sendTo: String,
   //  user_id: {
@@ -23,6 +22,9 @@ const messageSchema = mongoose.Schema({
     deleteAfter: {
       type: Number,
       default: 30 // Default to deleting messages after 30 days if no value is provided
+    },
+    capturedImage: {
+      type: String
     }
 
     

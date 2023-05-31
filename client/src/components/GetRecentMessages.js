@@ -31,10 +31,11 @@ function GetRecentMessages(props) {
                 const data = await response.json();
                 setMessages(data.map(message => {
                     if (usernames.includes(message.sender)) {
-                        flag = SwearWordCheck(message.message.text);
+                        flag = SwearWordCheck(message);
+                        console.log(flag)
                         const usernameKey = usernames.findIndex(username => username === message.sender);
                         return {
-                            text: message.message.text, 
+                            text: message, 
                             sender: message.sender,
                             msg: " From: " + message.users[0] + " To: " + message.users[1] + " - Flag: " + flag,
                             date: message.createdAt,

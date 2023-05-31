@@ -11,38 +11,8 @@ export default function ChatContainer({ currentChat, socket }) {
   const scrollRef = useRef();
   const [arrivalMessage, setArrivalMessage] = useState(null);
 
-  const getCurrentChat = async () => {
-    return new Promise((resolve) => {
-      const localStorageData = localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY);
-      if (!localStorageData) {
-        // console.log('localStorageData is null or undefined');
-        resolve(null);
-        return;
-      }
-  
-      const data = JSON.parse(localStorageData);
-      if (!data || !data._id) {
-        // console.log('data or data._id is null or undefined');
-        resolve(null);
-        return;
-      }
-  
-      // console.log('getCurrentChatId resolved:', data._id);
-      resolve(data._id);
-    });
-  };
-
   useEffect(() => {
     const fetchData = async () => {
-      if (!currentChat || !currentChat.username) {
-        // console.log('currentChat or currentChat.username is undefined');
-        return;
-      }
-
-      const currentChatId = await getCurrentChat(); // Await the result of getCurrentChatId
-      console.log(currentChatId);
-      console.log(currentChat);
-  
       const data = await JSON.parse(
         localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)
       );
@@ -53,99 +23,54 @@ export default function ChatContainer({ currentChat, socket }) {
         to: currentChat.username,
         parentLink: data.parentLink,
       });
-      setMessages(response.data);
       console.log(response.data)
-
+      setMessages(response.data);
     };
-  
     fetchData();
   }, [currentChat]);
 
-  // console.log('currentChat:', currentChat);
-  // console.log('currentChat.username:', currentChat.username);
- 
-  const handleSendMsg = async (msg, deleteAfter, capturedImage) => {
-
-    if (typeof capturedImage !== 'undefined' && capturedImage !== null) {
-      // currentChat is set, perform actions
-      // ...
-      console.log('capturedImage is set:', msg);
-  
-      // Continue with the rest of the function
-      // ...
-    } else {
-      // currentChat is not set
-      console.log('currentChat is not set');
-      // Handle the situation accordingly
-      // ...
-    }
-  //   console.log("Message:", msg);
-  // console.log("Delete after:", deleteAfter);
-  // console.log("Captured image:", capturedImage);
-
-    
-    // if (!currentChat) {
-    //   console.log('Proof that this is not working 129469237', currentChat)
-    //   return; // Return early if currentChat is undefined
-    // }
-
-    const localStorageData = localStorage.getItem(
-      process.env.REACT_APP_LOCALHOST_KEY
-    );
-    console.debug('localStorageData:', localStorageData); // Add this line
-    if (!localStorageData) {
-      // console.log('localStorageData is null or undefined');
-      return;
-    }
-  
-    const data = JSON.parse(localStorageData);
-    console.debug('data:', data);
-    if (!data || !data._id) {
-      // console.log('data or data._id is null or undefined');
-      return;
-    }
-
-    if (!currentChat || !currentChat.username) {
-      // console.log('currentChat or currentChat.username is undefined');
-      return;
-    }    
-
-    if (!currentChat.username) {
-      // console.log('currentChat username is undefined:', currentChat);
-      return; // Return early if currentChat.username is undefined
-    }
-    
-
-    const messageData = {
-      text: msg,
-      image: capturedImage ? capturedImage : '',
+  useEffect(() => {
+    const getCurrentChat = async () => {
+      if (currentChat) {
+        await JSON.parse(
+          localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)
+        )._id;
+      }
     };
+    getCurrentChat();
+  }, [currentChat]);
 
-    socket.current.emit("send-msg", {
-      to: currentChat.username,
-      from: data.username,
-      msg: messageData,
-      deleteAfter
-    });
+  const handleSendMsg = async (msg, deleteAfter, capturedImage = "") => {
+    const data = await JSON.parse(
+      localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)
+    );
+
     try {
-      console.debug("msg:", msg);
-      console.debug(capturedImage);
-console.debug("currentChat._id:", currentChat._id);
-  console.log('from:', data.username, 'to:', currentChat.username, 'message:', messageData, 'deleteAfter:', deleteAfter); // Add this line
+
+      socket.current.emit("send-msg", {
+        to: currentChat.username,
+        from: data.username,
+        msg,
+        deleteAfter,
+        capturedImage
+      });
+
       await axios.post(sendMessageRoute, {
         from: data.username,
         to: currentChat.username,
-        message: messageData,
-        deleteAfter: deleteAfter
+        message: msg,
+        deleteAfter: deleteAfter,
+        capturedImage: capturedImage
       });
-
+    
+      const msgs = [...messages];
+      msgs.push({ fromSelf: true, message: msg, capturedImage: capturedImage });
+      console.log(msgs)
+      setMessages(msgs);
     } catch (error) {
-     console.error(error);
+      console.log('Error occurred while sending the message:', error);
+      // Handle the error or display an error message to the user
     }
-
-    const msgs = [...messages];
-    msgs.push({ fromSelf: true, message: messageData });
-    setMessages(msgs);
   };
 
   //different then template
@@ -187,7 +112,8 @@ console.debug("currentChat._id:", currentChat._id);
 
       <div className="chat-messages" style={{ height: "78%" }}>
         {messages.map((message) => {
-          const flag = SwearWordCheck(message.message)
+          console.log("Message:", message);
+          const flag = SwearWordCheck(message?.message)
           return (
             <div ref={scrollRef} key={uuidv4()}>
               <div
@@ -195,19 +121,16 @@ console.debug("currentChat._id:", currentChat._id);
                   message.fromSelf ? "sended" : "recieved"
                 }`}
               >
-                <div className="content ">
-                {message.message && (
-            <p style={flag === "Yes" ? { background: '#f06f6f', border: '1px solid red'} : {}}>
-              {message.message}
-            </p>
-          )}
-          {message.images &&
-  message.images.map((image, index) => (
-              <div className="image" key={index}>
-                <img src={image} alt="Image" />
-              </div>
-            ))}
-                </div>
+                <div className="content">
+  {message?.message && (
+    <p style={flag === "Yes" ? { background: '#f06f6f', border: '1px solid red'} : {}}>
+      {message.message}
+    </p>
+  )}
+  {message?.capturedImage && (
+    <img src={message.capturedImage} alt="Message Image" />
+  )}
+</div>
               </div>
             </div>
           );
@@ -295,12 +218,6 @@ const Container = styled.div`
       justify-content: flex-start;
       .content {
         background-color: #9900ff20;
-      }
-      .image {
-        max-width: 250px;
-        max-height: 190px;
-        width: auto;
-        height: auto;
       }
     }
   }

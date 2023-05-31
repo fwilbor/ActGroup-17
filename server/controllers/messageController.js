@@ -22,12 +22,14 @@ const getChats = async (req, res, next) => {
           $all: [from, to],
         },
       }).sort({ updatedAt: 1 });
+
+      console.log(messages)
   
       const projectedMessages = messages.map((msg) => {
         return {
           fromSelf: msg.sender.toString() === from,
-          message: msg.message.text,
-          image: msg.message.image,
+          message: msg.message,
+          capturedImage: msg.capturedImage,
         };
       });
       projectedMessages.forEach((msg) => {
@@ -41,19 +43,19 @@ const getChats = async (req, res, next) => {
   const addMessage = async (req, res, next) => {
     try {
 
-      const { from, to, message, deleteAfter } = req.body;
-      const { text, images } = message;
+      const { from, to, message, deleteAfter, capturedImage } = req.body;
       console.log(req.body)
 
-      if (!text && !images) {
+      if (!message && !capturedImage) {
         return res.status(400).json({ msg: "Message must have text or images." });
       }
       const data = await PostMessage.create({
-        message: { text, images },
+        message: message,
+        capturedImage: capturedImage,
         users: [from, to],
         sender: from,
         deleteAfter: deleteAfter,
-        });
+      });
         console.log(data)
   
       if (data) return res.json({ msg: "Message added successfully." });
@@ -173,18 +175,18 @@ const getMessage = async (req, res) => {
 
 
 // create a new message
-const createMessage = async (req, res) => {
+// const createMessage = async (req, res) => {
    
-    const {title, message, creator} = req.body
-// *adds message to data-base
-    try {
-        const user_id = req.user._id
-        const newMessage = await PostMessage.create({title, message, creator, user_id})
-        res.status(200).json(newMessage)
-    } catch (error) {
-        res.status(400).json({error: error.message})
+//     const {title, message, creator} = req.body
+// // *adds message to data-base
+//     try {
+//         const user_id = req.user._id
+//         const newMessage = await PostMessage.create({title, message, creator, user_id})
+//         res.status(200).json(newMessage)
+//     } catch (error) {
+//         res.status(400).json({error: error.message})
 
-    }
+//     }
     
 //     const {message, creator, sendTo} = req.body
 
@@ -205,7 +207,7 @@ const createMessage = async (req, res) => {
 //         res.status(400).json({error: error.message})
 
 //     }
-}
+//}
 
 // delete a message
 
@@ -260,4 +262,4 @@ const updateMessage = async (req, res) => {
 
 
 
-export  {createMessage, getMessage, getMessages, deleteMessage, updateMessage, getChats, addMessage, getChildMessages} 
+export  { getMessage, getMessages, deleteMessage, updateMessage, getChats, addMessage, getChildMessages} 
