@@ -112,8 +112,8 @@ export default function ChatContainer({ currentChat, socket }) {
 
       <div className="chat-messages" style={{ height: "78%" }}>
         {messages.map((message) => {
-          console.log("Message:", message);
-          const flag = SwearWordCheck(message?.message)
+          console.log("Message:", message.message);
+          const flag = SwearWordCheck(message.message)
           return (
             <div ref={scrollRef} key={uuidv4()}>
               <div
@@ -122,7 +122,7 @@ export default function ChatContainer({ currentChat, socket }) {
                 }`}
               >
                 <div className="content">
-  {message?.message && (
+  {message.message && (
     <p style={flag === "Yes" ? { background: '#f06f6f', border: '1px solid red'} : {}}>
       {message.message}
     </p>

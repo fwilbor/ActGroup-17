@@ -77,7 +77,7 @@ const getChats = async (req, res, next) => {
       const projectedMessages = messages.map((msg) => {
         return {
           fromSelf: msg.sender === req.params.username,
-          message: msg.message.text,
+          message: msg.message,
           users: msg.users
         };
       });
