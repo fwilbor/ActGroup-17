@@ -158,6 +158,7 @@ function Chat() {
         console.log(timeRemaining)
         await axios.get(`${logoutRoute}/${logout_user._id}?timeLimit=${timeRemaining}`);
         sessionStorage.setItem("logout", "true");
+        navigate("/login");
         window.location.reload();
         return (
           <>

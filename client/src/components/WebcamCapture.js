@@ -56,10 +56,12 @@ function WebcamCapture({ onCapture }) {
 
     const [hasPhoto, setHasPhoto] = useState(false);
     var [image, setImage] = useState([]);
+    const [mediaStream, setMediaStream] = useState(null);
  
     const getVideo = () => {
         navigator.mediaDevices.getUserMedia({video: {width: 640, height: 480}})
         .then(stream => {
+          setMediaStream(stream);
             let video = videoRef.current;
             video.srcObject = stream;
             var playPromise =video.play();
@@ -141,10 +143,22 @@ function WebcamCapture({ onCapture }) {
             console.log(data)
             console.log(hasPhoto)
           }
-       
+          stopCamera();
     }
 
+    const stopCamera = () => {
+      if (mediaStream) {
+        const tracks = mediaStream.getTracks();
+        tracks.forEach((track) => track.stop());
+        setMediaStream(null);
+      }
+    };
+
     const closePhoto = () => {
+      if (mediaStream) {
+        const tracks = mediaStream.getTracks();
+        tracks.forEach(track => track.stop());
+      }
         let photo = photoRef.current;
         let ctx = photo.getContext("2d");
         ctx.clearRect(0, 0, photo.width, photo.height);
@@ -153,7 +167,12 @@ function WebcamCapture({ onCapture }) {
 
     useEffect(()=> {
         getVideo();
-    }, [videoRef])
+        return () => {
+          if (mediaStream) {
+            mediaStream.getTracks().forEach((track) => track.stop());
+          }
+        };
+      }, []);
 
   return (
     <div className='WebcamCapture'>

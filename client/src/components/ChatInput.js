@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 //import { deleteAfter } from "src/utils/APIRoutes";
 import { BsEmojiSmileFill } from "react-icons/bs";
 import { IoMdSend } from "react-icons/io";
@@ -12,6 +12,7 @@ export default function ChatInput({ handleSendMsg }) {
   const [deleteAfter, setDeleteAfter] = useState(30); // set the initial value of deleteAfter to "30"
   const [capturedImage, setCapturedImage] = useState("");
   const [showWebcamCapture, setShowWebcamCapture] = useState(false);
+  const webcamCaptureRef = useRef(null);
   
   const handleEmojiPickerhideShow = () => {
     setShowEmojiPicker(!showEmojiPicker);
@@ -41,6 +42,11 @@ export default function ChatInput({ handleSendMsg }) {
       reader.onloadend = () => {
         const base64String = reader.result.split(",")[1];
         setCapturedImage(`data:image/png;base64,${base64String}`);
+        setShowWebcamCapture(false);
+
+        if (webcamCaptureRef.current) {
+          webcamCaptureRef.current.stopCamera(); // Stop the camera by calling the stopCamera method on the ref
+        }
       };
       reader.readAsDataURL(new Blob([imageData]));
     } catch (error) {
@@ -49,7 +55,13 @@ export default function ChatInput({ handleSendMsg }) {
     }
   };
 
-  const handleDeleteAfterChange = (event) => {
+  const stopCamera = () => {
+    if (webcamCaptureRef.current) {
+      webcamCaptureRef.current.stopCamera();
+    }
+  };
+
+   const handleDeleteAfterChange = (event) => {
     setDeleteAfter(event.target.value); // Update the deleteAfter state variable when the selected option changes
   };
 
@@ -104,7 +116,7 @@ export default function ChatInput({ handleSendMsg }) {
       </form>
       {showWebcamCapture && (
         <div className="webcam-capture-container">
-        <WebcamCapture onCapture={handleCaptureImage} />
+        <WebcamCapture ref={webcamCaptureRef} onCapture={handleCaptureImage} stopCamera={stopCamera} />
       </div>
       )}
       
