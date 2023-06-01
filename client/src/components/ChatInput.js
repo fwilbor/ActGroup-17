@@ -95,6 +95,7 @@ export default function ChatInput({ handleSendMsg }) {
       </div>
       
       <form className="input-container" onSubmit={(event) => sendChat(event)}>
+      <div className="photoAdded">{capturedImage && "Photo added"}</div>
         <input
           type="text"
           placeholder="Type your message here..."
@@ -121,10 +122,11 @@ export default function ChatInput({ handleSendMsg }) {
       )}
       
       {capturedImage && (
-        <div className="captured-image">
-          <img src={capturedImage} alt="Captured" />
-        </div>
-      )}
+      <div className="captured-image">
+        <img src={capturedImage} alt="Captured" />
+        <div className="photoAdded">Photo added 2387569238659837r890526</div> {/* Add the div to display the message */}
+      </div>
+    )}
     </Container>
   );
 }
@@ -205,6 +207,12 @@ const Container = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
+  }
+  .photoAdded {
+    color: white;
+    font-size: 0.9rem;
+    margin-top: 0.5rem;
+    margin-left: 10px;
   }
   .input-container {
     width: 100%;
