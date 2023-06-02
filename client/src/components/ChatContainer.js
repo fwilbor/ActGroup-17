@@ -62,6 +62,7 @@ export default function ChatContainer({ currentChat, socket }) {
         deleteAfter: deleteAfter,
         capturedImage: capturedImage
       });
+      
     
       const msgs = [...messages];
       msgs.push({ fromSelf: true, message: msg, capturedImage: capturedImage });
@@ -77,14 +78,13 @@ export default function ChatContainer({ currentChat, socket }) {
   useEffect(() => {
     if (socket.current) {
       socket.current.on("msg-recieve", (msg) => {
-        setArrivalMessage({ fromSelf: false, message: msg });
+        setMessages((prev) => [
+          ...prev,
+          { fromSelf: false, message: msg, capturedImage: "" },
+        ]);
       });
     }
   }, [socket]);
-
-  useEffect(() => {
-    arrivalMessage && setMessages((prev) => [...prev, arrivalMessage]);
-  }, [arrivalMessage]);
 
   useEffect(() => {
     if (scrollRef.current) {
@@ -112,7 +112,6 @@ export default function ChatContainer({ currentChat, socket }) {
 
       <div className="chat-messages" style={{ height: "78%" }}>
         {messages.map((message) => {
-          console.log("Message:", message.message);
           const flag = SwearWordCheck(message.message)
           return (
             <div ref={scrollRef} key={uuidv4()}>
