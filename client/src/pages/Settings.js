@@ -89,11 +89,11 @@ export default function DashboardAppPage() {
       <Box sx={{ px: 2.5, py: 3, display: 'inline-flex' }}>
         <Logo />
       </Box>
-      <Header onOpenNav={() => setOpen(true)} />
-      <Nav openNav={open} onCloseNav={() => setOpen(false)} />
+
       <Container maxWidth="xl">
         <Grid container spacing={3}>
-          
+        <Header onOpenNav={() => setOpen(true)} />
+        <Nav openNav={open} onCloseNav={() => setOpen(false)} css={{ '@media (min-width: 768px)': { display: 'none' } }} />
               {children.map((child, index) => (
                 <React.Fragment key={index}>
                   <Grid item xs={12} sm={6} md={2}>

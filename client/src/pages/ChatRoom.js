@@ -9,6 +9,7 @@ import ChatContainer from "../components/ChatContainer";
 import Contacts from "../components/Contacts";
 import Welcome from "../components/Welcome";
 import Header from '../layouts/dashboard/header';
+import Nav from '../layouts/dashboard/nav'
 import Logo from '../components/logo';
 import { Box } from '@mui/material';
 import LogoutListener from "../components/LogoutListener"
@@ -29,6 +30,7 @@ function Chat() {
   const [showTimeRemainingToast, setShowTimeRemainingToast] = useState(false);
   const [signInTime, setSignInTime] = useState(null); // new state variable for sign-in time
   const timerIdRef = useRef(null);
+  const [open, setOpen] = useState(false);
 
   const toastOptions = {
     position: "bottom-right",
@@ -243,9 +245,11 @@ function Chat() {
         <Logo />
       </Box>
       {currentUser && currentUser.parentLink === undefined ? (
-        <Header />
-
-      ) : null}
+      <>
+        <Header onOpenNav={() => setOpen(true)} />
+        <Nav openNav={open} onCloseNav={() => setOpen(false)} />
+      </>
+    ) : null}
       <Container>
         <div className="container">
         <Contacts contacts={contacts} changeChat={handleChatChange} />

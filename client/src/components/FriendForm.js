@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { addFriend } from "../utils/APIRoutes";
 import axios from "axios";
+import Header from '../layouts/dashboard/header'
+import Nav from '../layouts/dashboard/nav'
 import { ToastContainer, toast } from "react-toastify";
 
 const ButtonContainer = styled.div`
@@ -35,6 +37,10 @@ function FriendForm() {
   };
 
   const [username, setUsername] = useState("");
+  const [open, setOpen] = useState(false);
+
+  const adult_or_child = JSON.parse(
+    localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY))
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -75,6 +81,12 @@ function FriendForm() {
 
   return (
     <FormContainer>
+      {adult_or_child && adult_or_child.parentLink === undefined ? (
+      <>
+        <Header onOpenNav={() => setOpen(true)} />
+        <Nav openNav={open} onCloseNav={() => setOpen(false)} />
+      </>
+    ) : null}
       <ToastContainer />
       <form className="brand" onSubmit={handleSubmit}>
         <h3>Add Friend</h3>
