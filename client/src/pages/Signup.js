@@ -63,6 +63,7 @@ import Logo from "../assets/logo.png";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { registerRoute, checkIfEmailExists, checkIfUsernameExists } from "../utils/APIRoutes";
+import validator from "validator"
 
 export default function Register() {
   const navigate = useNavigate();
@@ -98,6 +99,11 @@ export default function Register() {
         toastOptions
       );
       return false;
+      } else if (!validator.isStrongPassword(password)) {
+      toast.error("Password is too weak. Please choose a stronger password. A strong password should have:\n- At least 8 characters\n- A combination of uppercase and lowercase letters\n- Numbers and special characters",
+      toastOptions
+    );
+    return false;
     } else if (username.length < 3) {
       toast.error(
         "Username should be greater than 3 characters.",
