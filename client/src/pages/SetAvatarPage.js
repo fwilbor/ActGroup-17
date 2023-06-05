@@ -18,7 +18,7 @@ export default function SetAvatarPage() {
             <Box sx={{ px: 2.5, py: 0, display: 'inline-flex' }}>
                 <Logo />
             </Box>
-            <Header/>
+            <Header onOpenNav={() => setOpen(true)} />
             <Nav openNav={open} onCloseNav={() => setOpen(false)} css={{ '@media (min-width: 768px)': { display: 'none' } }} />
             <SetAvatar />
         </>
