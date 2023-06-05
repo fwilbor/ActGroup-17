@@ -49,6 +49,7 @@ const httpServer = http.createServer(app);
 const io = new Server(httpServer, {
     cors: {
         origin:["http://localhost:3000"],
+        credentials: true,
     },
 });
   
@@ -57,12 +58,20 @@ const io = new Server(httpServer, {
     global.chatSocket = socket;
     socket.on("add-user", (userId) => {
       onlineUsers.set(userId, socket.id);
+      console.log("User added:", userId, "Socket ID:", socket.id);
+      console.log("Online Users Map:", onlineUsers);
     });
   
     socket.on("send-msg", (data) => {
       const sendUserSocket = onlineUsers.get(data.to);
+      console.log("Recipient User:", data.to);
+      console.log("Online Users Map:", onlineUsers);
+  
       if (sendUserSocket) {
         socket.to(sendUserSocket).emit("msg-recieve", data.msg);
+        console.log("Message sent to recipient:", data.msg);
+      } else {
+        console.log("Recipient user not found in onlineUsers map");
       }
     });
   });

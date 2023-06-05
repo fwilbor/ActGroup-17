@@ -47,9 +47,10 @@ export default function ChatContainer({ currentChat, socket }) {
 
     try {
 
+      console.log("Sending message:", msg);
       socket.current.emit("send-msg", {
-        to: currentChat.username,
-        from: data.username,
+        to: currentChat._id,
+        from: data._id,
         msg,
         deleteAfter,
         capturedImage
@@ -78,13 +79,14 @@ export default function ChatContainer({ currentChat, socket }) {
   useEffect(() => {
     if (socket.current) {
       socket.current.on("msg-recieve", (msg) => {
+        console.log("Received message from server:", msg);
         setMessages((prev) => [
           ...prev,
           { fromSelf: false, message: msg, capturedImage: "" },
         ]);
       });
     }
-  }, [socket]);
+  }, []);
 
   useEffect(() => {
     if (scrollRef.current) {
