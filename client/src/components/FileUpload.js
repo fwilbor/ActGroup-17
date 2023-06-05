@@ -31,7 +31,6 @@ return (
     <div className="FileUpload">
       <h1>Image uploading react</h1>
       {data.map((singleData) => {
-        //console.log(data)
         const uniqueKey = singleData._id
         let data = singleData.image.data.data
         //console.log(singleData.data.data)
