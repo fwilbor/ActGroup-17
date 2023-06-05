@@ -84,18 +84,20 @@ function FriendForm() {
 
   useEffect(() => {
     // Add event listener for beforeunload
-    const handleBeforeUnload = (event) => {
-      event.preventDefault();
-      event.returnValue = "";
-      handleLogout();
-    };
+    if (adult_or_child && adult_or_child.parentLink === undefined) {
+      const handleBeforeUnload = (event) => {
+        event.preventDefault();
+        event.returnValue = "";
+        handleLogout();
+      };
 
-    window.addEventListener("beforeunload", handleBeforeUnload);
+      window.addEventListener("beforeunload", handleBeforeUnload);
 
-    return () => {
-      window.removeEventListener("beforeunload", handleBeforeUnload);
-    };
-  }, []);
+      return () => {
+        window.removeEventListener("beforeunload", handleBeforeUnload);
+      };
+    }
+  }, [adult_or_child]);
 
   const handleLogout = async () => {
     const logout_user = await JSON.parse(
