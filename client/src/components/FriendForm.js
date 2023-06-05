@@ -9,21 +9,20 @@ import { ToastContainer, toast } from "react-toastify";
 const ButtonContainer = styled.div`
 display: flex;
 gap: 1rem;
-
-  button {
-    background-color: #080420;
-    color: red;
-    padding: 1rem 2rem;
-    border: none;
-    font-weight: bold;
-    cursor: pointer;
-    border-radius: 0.4rem;
-    font-size: 1rem;
-    text-transform: uppercase;
-    &:hover {
-      background-color: #4e0eff;
-    }
+button {
+  background-color: #080420;
+  color: white;
+  padding: 1rem 2rem;
+  border: none;
+  font-weight: bold;
+  cursor: pointer;
+  border-radius: 0.4rem;
+  font-size: 1rem;
+  text-transform: uppercase;
+  &:hover {
+    background-color: #4e0eff;
   }
+}
 `;
 
 function FriendForm() {
@@ -118,7 +117,7 @@ const FormContainer = styled.div`
   justify-content: center;
   gap: 1rem;
   align-items: center;
-  background-color: #000;
+  background-color: #FFF;
   .brand {
     display: flex;
     align-items: center;
@@ -155,11 +154,10 @@ const FormContainer = styled.div`
       outline: none;
     }
   }
+  
   span {
-    color: white;
-    text-transform: uppercase;
     a {
-      color: #4e0eff;
+      color: #080420;
       text-decoration: none;
       font-weight: bold;
     }
