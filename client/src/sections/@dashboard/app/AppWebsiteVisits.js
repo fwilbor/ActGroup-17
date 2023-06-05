@@ -151,7 +151,7 @@ for (let i = 0; i < 7; i++) {
     <Box sx={{ width: '100%' }}>
     <Card {...other}>
       <CardHeader title={title} subheader={subheader} />
-    <ReactApexChart type="bar" series={[{ name: '', data: totalDurationByDay }]} options={chartOptions} width={432} height={296} />
+    <ReactApexChart type="bar" series={[{ name: '', data: totalDurationByDay }]} options={chartOptions} width={432} height={295} />
     </Card>
     </Box>
   );
