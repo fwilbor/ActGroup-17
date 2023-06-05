@@ -97,7 +97,7 @@ export default function ChatContainer({ currentChat, socket }) {
   //put swearwordcheck in message.message
   return (
     <Container>
-      <div className="chat-header">
+      <div className="chat-header" style={{ width: "100%" }}>
         <div className="user-details">
           <div className="avatar">
             <img
@@ -109,10 +109,9 @@ export default function ChatContainer({ currentChat, socket }) {
             <h3>{currentChat.username}</h3>
           </div>
         </div>
-
       </div>
 
-      <div className="chat-messages" style={{ height: "78%" }}>
+      <div className="chat-messages" style={{ height: "72%" }}>
         {messages.map((message) => {
           const flag = SwearWordCheck(message.message)
           return (

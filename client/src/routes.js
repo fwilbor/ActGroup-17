@@ -46,19 +46,6 @@ export default function Router() {
       element: <Navigate to="/splash" replace />,
     },
     {
-      path: "/setAvatar",
-      // element={!user ? <Navigate to = "/" />: <Messenger /> }
-      element: <SetAvatar />,
-    },
-    {
-      path: "/uploads",
-      element: <FileUpload />,
-    },
-    {
-      path: "/login",
-      element: <Login />,
-    },
-    {
       path: "/chat",
       // element={!user ? <Navigate to = "/" />: <Messenger /> }
       element: <Chat />,
@@ -69,10 +56,6 @@ export default function Router() {
       element: <Messenger />,
     },
     {
-      path: "/signup",
-      element: <Signup />,
-    },
-    {
       path: "/addfriend",
       element: <AddFriend />,
     },
@@ -81,12 +64,29 @@ export default function Router() {
       element: <CreateChild />,
     },
     {
-      path: "/addImage",
-      element: <WebcamCapture />,
+      path: "/setAvatar",
+      // element={!user ? <Navigate to = "/" />: <Messenger /> }
+      element: <SetAvatar />,
     },
     {
       path: "/settings",
       element: <Settings />,
+    },
+    {
+      path: "/uploads",
+      element: <FileUpload />,
+    },
+    {
+      path: "/addImage",
+      element: <WebcamCapture />,
+    },
+    {
+      path: "/login",
+      element: <Login />,
+    },
+    {
+      path: "/signup",
+      element: <Signup />,
     },
     {
       path: "/splash",
