@@ -86,7 +86,7 @@ const base64string = "PD94bWwgdmVyc2lvbj0iMS4wIiBzdGFuZGFsb25lPSJubyI/Pgo8IURPQ1
   const parent_id = JSON.parse(
     localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)
   )._id;
-  console.log(parent_id)
+  //console.log(parent_id)
   const parent_username = JSON.parse(
     localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)
   ).username;
@@ -102,7 +102,7 @@ const base64string = "PD94bWwgdmVyc2lvbj0iMS4wIiBzdGFuZGFsb25lPSJubyI/Pgo8IURPQ1
       //  console.log(friends_list.data[i].username);
       //}
     }
-    console.log(user)   
+    //console.log(user)   
     setChildAvatar(user.avatarImage);
     setChildId(user.username);
     setTotalSession(user.totalSession);
@@ -144,7 +144,7 @@ const base64string = "PD94bWwgdmVyc2lvbj0iMS4wIiBzdGFuZGFsb25lPSJubyI/Pgo8IURPQ1
     fetchData();
   }, []);
 
-  console.log(childId)
+  //console.log(childId)
 
   const theme = useTheme();
   return (

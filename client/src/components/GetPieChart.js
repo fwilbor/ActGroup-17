@@ -32,7 +32,7 @@ function GetPieChart(props) {
                 const response = await fetch('http://localhost:4000/api/messages/getmsg?parentLink=${props.p_id}');
                 const data = await response.json();
                 data.forEach(message => {
-                    let messageText = message.toString();
+                    let messageText = message.message.toString();
                     if (usernames.includes(message.sender)) {
                         //console.log(messageText);
                         if (SwearWordCheck(messageText) === "Yes") {

@@ -29,7 +29,7 @@ export default function AppWebsiteVisits({ title, subheader, chartLabels, chartD
 
     // Filter the chartData to get only data that is within the last 7 days
     const filteredData = chartData.filter((data) => new Date(data.login) >= sevenDaysAgo);
-    console.log(filteredData)
+    //console.log(filteredData)
 
     // Sort data by date
     filteredData.sort((a, b) => new Date(a.login) - new Date(b.login));
@@ -52,7 +52,7 @@ for (let i = 0; i < 7; i++) {
   totalDurationByDay[i] = totalDurationForDay;
 }
   
-      console.log(totalDurationByDay);
+      //console.log(totalDurationByDay);
       setTotalDurationByDay(totalDurationByDay);
     }
   }, [chartData]);
@@ -151,7 +151,7 @@ for (let i = 0; i < 7; i++) {
     <Box sx={{ width: '100%' }}>
     <Card {...other}>
       <CardHeader title={title} subheader={subheader} />
-    <ReactApexChart type="bar" series={[{ name: '', data: totalDurationByDay }]} options={chartOptions} width={432} height={264} />
+    <ReactApexChart type="bar" series={[{ name: '', data: totalDurationByDay }]} options={chartOptions} width={432} height={296} />
     </Card>
     </Box>
   );
