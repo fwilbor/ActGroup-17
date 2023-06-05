@@ -247,7 +247,7 @@ function Chat() {
       {currentUser && currentUser.parentLink === undefined ? (
       <>
         <Header onOpenNav={() => setOpen(true)} />
-        <Nav openNav={open} onCloseNav={() => setOpen(false)} />
+        {/* <Nav openNav={open} onCloseNav={() => setOpen(false)} /> */}
       </>
     ) : null}
       <Container>
@@ -256,7 +256,7 @@ function Chat() {
           {currentChat === undefined ? (
             <Welcome />
           ) : (
-          <ChatContainer currentChat={currentChat} socket={socket} />
+            <ChatContainer currentChat={currentChat} socket={socket} />
           )}
         </div>
       </Container>
@@ -278,12 +278,12 @@ const Container = styled.div`
     width: 99vw;
     background-color: #080420;
     display: grid;
-    grid-template-columns: 25% 75%;
+    grid-template-columns: 20% 80%;
     @media screen and (min-width: 720px) and (max-width: 1080px) {
-      grid-template-columns: 35% 65%;
+      grid-template-columns: 30% 70%;
     }
     @media screen and (min-width: 390px) and (max-width: 720px) {
-      grid-template-columns:40% 60%;
+      grid-template-columns:30% 70%;
     }
   }
 `;
