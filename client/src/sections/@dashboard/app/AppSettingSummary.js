@@ -96,9 +96,9 @@ export default function AppSettingSummary({ title, username, avatarimage, curren
 
       {/* Change value to correct millseconds */}
       <Select value={numRecentMessages} onChange={(event) => handleChange(event)} sx={{ mt: 1 }}>
-        <MenuItem value={30000}>10 minutes</MenuItem>
-        <MenuItem value={60000}>20 minutes</MenuItem>
-        <MenuItem value={200000}>30 minutes</MenuItem>
+        <MenuItem value={600000}>10 minutes</MenuItem>
+        <MenuItem value={1200000}>20 minutes</MenuItem>
+        <MenuItem value={1800000}>30 minutes</MenuItem>
       </Select>
 <br />
       <Button variant="contained" color="primary" onClick={handleApplyMsg} sx={{  mt: 1 }}>

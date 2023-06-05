@@ -114,8 +114,8 @@ const CreateChildform = () => {
           localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)
         );
         const parentLink = parent_data._id;
-        const timeLimit = 150000
-        const dailyTimeLimit = 150000
+        const timeLimit = 1200000
+        const dailyTimeLimit = 1200000
         const { username, password } = values;
         
         const { data } = await axios.post(registerChild, {
