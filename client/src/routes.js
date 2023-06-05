@@ -15,7 +15,7 @@ import DashboardAppPage from './pages/DashboardAppPage';
 // pages & components
 
 import FileUpload from "./components/FileUpload";
-import Home from "./pages/Home";
+import CreateChild from "./pages/CreateChild";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import Chat from "./pages/ChatRoom";
@@ -24,7 +24,6 @@ import Settings from "./pages/Settings"
 import AddFriend from "./pages/AddFriend"
 import SetAvatar from "./pages/SetAvatarPage";
 import WebcamCapture from './components/WebcamCapture';
-import MessageForm from './components/MessageForm';
 import Splash from './components/Splash';
 //
 
@@ -50,10 +49,6 @@ export default function Router() {
       path: "/setAvatar",
       // element={!user ? <Navigate to = "/" />: <Messenger /> }
       element: <SetAvatar />,
-    },
-    {
-      path: "/addchild",
-      element: <Home />,
     },
     {
       path: "/uploads",
@@ -82,12 +77,12 @@ export default function Router() {
       element: <AddFriend />,
     },
     {
-      path: "/addImage",
-      element: <WebcamCapture />,
+      path: "/addchild",
+      element: <CreateChild />,
     },
     {
-      path: "/addChild",
-      element: <MessageForm />,
+      path: "/addImage",
+      element: <WebcamCapture />,
     },
     {
       path: "/settings",

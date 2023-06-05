@@ -1,14 +1,20 @@
 import React, { useState, useEffect } from "react";
-// import { useMessagesContext } from "../hooks/useMessagesContext"
-// import { useAuthContext } from '../hooks/useAuthContext'
+import styled from "styled-components";
+import { addFriend } from "../utils/APIRoutes";
+import axios from "axios";
+import Header from '../layouts/dashboard/header'
+import Nav from '../layouts/dashboard/nav'
+import { ToastContainer, toast } from "react-toastify";
+
+
 import { useNavigate } from "react-router-dom";
-import { toast, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+
+//import "react-toastify/dist/ReactToastify.css";
 import validator from "validator"
 import { getAllChildren, registerChild, checkIfUsernameExists } from "../utils/APIRoutes";
-import axios from "axios";
 
-const MessageForm = () => {
+
+const CreateChildform = () => {
     // const { dispatch } = useMessagesContext()
     // const { user } = useAuthContext();
   
@@ -133,7 +139,8 @@ const MessageForm = () => {
   };
 
   return (
-    <div>
+    <FormContainer>
+            
     <ToastContainer />
     <form className="create" onSubmit={handleSubmit}> 
       <h3>Add Child</h3>
@@ -155,9 +162,75 @@ const MessageForm = () => {
       <button>Add child</button>
       
     </form>
-    </div>
+    </FormContainer>
   );
 
 };
 
-export default MessageForm
+const FormContainer = styled.div`
+  
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1rem;
+  align-items: center;
+  background-color: #FFF;
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    justify-content: center;
+    img {
+      height: 5rem;
+      border-radius:20px;
+    }
+    h1 {
+      color: white;
+      text-transform: uppercase;
+    }
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    background-color: #FFDB58;
+    border-radius: 2rem;
+    padding: 5rem;
+  }
+  input {
+    background-color: transparent;
+    padding: 1rem;
+    border: 0.1rem solid #080420;
+    border-radius: 0.4rem;
+    color: white;
+    width: 100%;
+    font-size: 1rem;
+    &:focus {
+      border: 0.1rem solid #997af0;
+      outline: none;
+    }
+  }
+  button {
+    background-color: #080420;
+    color: white;
+    padding: 1rem 2rem;
+    border: none;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 0.4rem;
+    font-size: 1rem;
+    text-transform: uppercase;
+    &:hover {
+      background-color: #4e0eff;
+    }
+  }
+  span {
+    a {
+      color: #080420;
+      text-decoration: none;
+      font-weight: bold;
+    }
+  }
+`;
+export default CreateChildform

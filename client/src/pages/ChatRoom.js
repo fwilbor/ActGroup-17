@@ -241,7 +241,7 @@ function Chat() {
       <Helmet>
         <title> Chat Room | KidzSnap.com </title>
       </Helmet>
-      <Box sx={{ px: 2.5, py: 3, display: 'inline-flex' }}>
+      <Box sx={{ px: 2.5, py: 0, display: 'inline-flex' }}>
         <Logo />
       </Box>
       {currentUser && currentUser.parentLink === undefined ? (

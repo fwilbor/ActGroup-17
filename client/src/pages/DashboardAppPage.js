@@ -6,7 +6,6 @@ import { useNavigate } from 'react-router-dom'
 import { useTheme } from '@mui/material/styles';
 import { Grid, Container, Typography } from '@mui/material';
 import { getAllChildren, getChildMessages, getSessionTime, getAllFriends, logoutRoute } from 'src/utils/APIRoutes';
-import MessageForm from '../components/MessageForm';
 import GetPieChart from "../components/GetPieChart.js"
 import GetRecentMessages from "../components/GetRecentMessages.js"
 import GetFriends from "../components/GetFriends.js"
@@ -172,7 +171,6 @@ const base64string = "PD94bWwgdmVyc2lvbj0iMS4wIiBzdGFuZGFsb25lPSJubyI/Pgo8IURPQ1
             <GetRecentMessages childNameID={childId} childAvatarId={childAvatar} childs={children} />
             <GetFriends childNameID={childId} friends={friendsList} />
           </Grid>
-        
       </Container>
     </>
   );

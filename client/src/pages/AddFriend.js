@@ -13,9 +13,8 @@ export default function AddFriend() {
                 <title> Add Friends | KidzSnap.com </title>
             </Helmet>
             <Box sx={{ px: 2.5, py: 3, display: 'inline-flex' }}>
-            <Logo />
+                
             </Box>
-            <Header />
             <FriendForm />
         </>
     );
