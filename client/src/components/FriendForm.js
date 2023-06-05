@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import { addFriend } from "../utils/APIRoutes";
+import { addFriend, logoutRoute } from "../utils/APIRoutes";
 import axios from "axios";
 import Header from '../layouts/dashboard/header'
 import Nav from '../layouts/dashboard/nav'
 import { ToastContainer, toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 const ButtonContainer = styled.div`
 display: flex;
@@ -35,8 +36,11 @@ function FriendForm() {
     theme: "dark",
   };
 
+  const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [open, setOpen] = useState(false);
+  // Add a state for user login status
+  const [isUserLoggedIn, setIsUserLoggedIn] = useState(true);
 
   const adult_or_child = JSON.parse(
     localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY))
@@ -77,6 +81,41 @@ function FriendForm() {
   const handleRefreshPage = () => {
     window.location.reload();
   }
+
+  useEffect(() => {
+    // Add event listener for beforeunload
+    const handleBeforeUnload = (event) => {
+      event.preventDefault();
+      event.returnValue = "";
+      handleLogout();
+    };
+
+    window.addEventListener("beforeunload", handleBeforeUnload);
+
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+    };
+  }, []);
+
+  const handleLogout = async () => {
+    const logout_user = await JSON.parse(
+      localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)
+    );
+    // Might need a if statement to check user.isLogin
+    // This code must clear startTimer do I need to call startTimer and if yes add if statement
+    // to startTimer to return nothing. If startTimer doesn't need to be call then figure out why
+    // setStartInactiveTimer(true); and clearTimeout(timerIdRef.current); doesn't clear old timer
+    try {
+      await axios.get(`${logoutRoute}/${logout_user._id}`);
+      localStorage.removeItem(process.env.REACT_APP_LOCALHOST_KEY);
+      setIsUserLoggedIn(false);      
+      navigate("/login");
+      window.location.reload();
+  } catch (ex) {
+    console.log(ex);
+  }
+   
+  };
 
   return (
     <FormContainer>
