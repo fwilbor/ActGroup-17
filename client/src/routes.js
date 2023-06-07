@@ -43,7 +43,7 @@ export default function Router() {
     },
     {
       path: '/chat',
-      element: isChild ? <Chat /> : <Navigate to="/splash" />,
+      element: adult_or_child ? <Chat /> : <Navigate to="/splash" />,
     },
     // {
     //   path: "/messenger",
@@ -52,20 +52,20 @@ export default function Router() {
     // },
     {
       path: "/addfriend",
-      element: <AddFriend />,
+      element: adult_or_child ? <AddFriend /> : <Navigate to="/splash" />,
     },
     {
       path: "/addchild",
-      element: <CreateChild />,
+      element: adult_or_child ? <CreateChild /> : <Navigate to="/splash" />,
     },
     {
       path: "/setAvatar",
       // element={!user ? <Navigate to = "/" />: <Messenger /> }
-      element: <SetAvatar />,
+      element: adult_or_child ? <SetAvatar /> : <Navigate to="/splash" />,
     },
     {
       path: "/settings",
-      element: <Settings />,
+      element: adult_or_child ? <Settings /> : <Navigate to="/splash" />,
     },
     // {
     //   path: "/uploads",
