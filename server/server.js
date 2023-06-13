@@ -68,8 +68,8 @@ const io = new Server(httpServer, {
       console.log("Online Users Map:", onlineUsers);
   
       if (sendUserSocket) {
-        socket.to(sendUserSocket).emit("msg-recieve", data.msg);
-        console.log("Message sent to recipient:", data.msg);
+        socket.to(sendUserSocket).emit("msg-recieve", data.msg, data.capturedImage);
+      console.log("Message sent to recipient:", data.msg, data.capturedImage);
       } else {
         console.log("Recipient user not found in onlineUsers map");
       }
