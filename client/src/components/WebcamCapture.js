@@ -170,6 +170,7 @@ function WebcamCapture({ onCapture }) {
         return () => {
           if (mediaStream) {
             mediaStream.getTracks().forEach((track) => track.stop());
+            stopCamera();
           }
         };
       }, []);

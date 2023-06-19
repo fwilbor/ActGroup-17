@@ -180,7 +180,7 @@ const getAllFriends = async (req, res, next) => {
     const { timeLimit } = req.query; // get timeLimit query parameter
 
     const user = await userModel.findById(id)
-    console.log('confirm dashboard logout route')
+    console.log('isLogin:', user.isLogin);
     
     if (!user.isLogin) {
       console.log('this is running')
@@ -207,6 +207,7 @@ const getAllFriends = async (req, res, next) => {
       
       // Set user isLogin field to false
     user.isLogin = false;
+    console.log('isLogin:', user.isLogin);
 
     // Calculate remaining time and put it in user.timeLimit
     const remainingTime = Math.max(0, user.timeLimit + lastSession.lastSessionDuration - userTimeIn);
@@ -270,6 +271,7 @@ const updatedUser = { ...user.toObject(), totalSession: user.totalSession };
 userModel.findByIdAndUpdate(req.params.id, updatedUser, { new: true }, function(err, user) {
   if (err) return next(err);
   onlineUsers.delete(req.params.id);
+  console.log('onlineUsers.delete:', req.params.id);
   return res.status(200).send();
 });
     } catch (ex) {

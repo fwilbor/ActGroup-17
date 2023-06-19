@@ -1,4 +1,5 @@
 import { Navigate, useRoutes, useNavigate } from 'react-router-dom';
+import React, { useEffect } from "react";
 // layouts
 import DashboardLayout from './layouts/dashboard';
 import SimpleLayout from './layouts/simple';
@@ -25,13 +26,15 @@ export default function Router() {
 
   const isParent = adult_or_child && !adult_or_child.parentLink;
   const isChild = adult_or_child && adult_or_child.parentLink;
+  const isLogin = adult_or_child?.isLogin;
+  console.log("Login user is", isLogin)
 
   const navigate = useNavigate();
 
   const routes = useRoutes([
     {
       path: '/dashboard',
-      element: isParent ? <DashboardLayout /> : <Navigate to="/chat" />,
+      element: isParent && isLogin === true ? <DashboardLayout /> : (isChild && isLogin === true ) ? <Navigate to="/chat" /> : <Navigate to="/splash" />,
       children: [
         { element: <Navigate to="/dashboard/app" />, index: true },
         { path: 'app', element: <DashboardAppPage /> },
@@ -39,11 +42,23 @@ export default function Router() {
     },
     {
       path: '*',
-      element: isParent ? <Navigate to="/dashboard" /> : <Navigate to="/chat" />,
+      element: adult_or_child !== null ? (
+        isParent && isLogin ? (
+          <Navigate to="/dashboard" />
+        ) : (
+          isChild && isLogin ? (
+            <Navigate to="/chat" />
+          ) : (
+            <Navigate to="/splash" />
+          )
+        )
+      ) : (
+        <Navigate to="/splash" />
+      ),
     },
     {
       path: '/chat',
-      element: adult_or_child ? <Chat /> : <Navigate to="/splash" />,
+      element: adult_or_child && isLogin ? <Chat /> : <Navigate to="/splash" />,
     },
     // {
     //   path: "/messenger",
@@ -52,20 +67,20 @@ export default function Router() {
     // },
     {
       path: "/addfriend",
-      element: adult_or_child ? <AddFriend /> : <Navigate to="/splash" />,
+      element: adult_or_child && isLogin ? <AddFriend /> : <Navigate to="/splash" />,
     },
     {
       path: "/addchild",
-      element: adult_or_child ? <CreateChild /> : <Navigate to="/splash" />,
+      element: isParent && isLogin ? <CreateChild /> : <Navigate to="/splash" />,
     },
     {
       path: "/setAvatar",
       // element={!user ? <Navigate to = "/" />: <Messenger /> }
-      element: adult_or_child ? <SetAvatar /> : <Navigate to="/splash" />,
+      element: adult_or_child && isLogin ? <SetAvatar /> : <Navigate to="/splash" />,
     },
     {
       path: "/settings",
-      element: adult_or_child ? <Settings /> : <Navigate to="/splash" />,
+      element: isParent && isLogin ? <Settings /> : <Navigate to="/splash" />,
     },
     // {
     //   path: "/uploads",
