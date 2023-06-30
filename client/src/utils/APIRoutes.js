@@ -1,5 +1,4 @@
-//export const host ="http://localhost:4000";
-export const host ="https://www.kidzsnap.com";
+export const host ="http://localhost:4000";
 export const loginRoute = `${host}/api/user/login`;
 export const registerRoute = `${host}/api/user/signup`;
 export const getAllChildren = `${host}/api/user/children`;
