@@ -268,12 +268,14 @@ const updatedUser = { ...user.toObject(), totalSession: user.totalSession };
 
 //console.log(user.totalSession)
 
-userModel.findByIdAndUpdate(req.params.id, updatedUser, { new: true }, function(err, user) {
-  if (err) return next(err);
+try {
+  const updatedResult = await userModel.findByIdAndUpdate(req.params.id, updatedUser, { new: true });
   onlineUsers.delete(req.params.id);
   console.log('onlineUsers.delete:', req.params.id);
   return res.status(200).send();
-});
+} catch (err) {
+  return next(err);
+}
     } catch (ex) {
       next(ex);
     }
